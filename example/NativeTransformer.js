@@ -46,12 +46,10 @@ const warnNativeModuleNameNotFound = (language, example, filename) => {
 function createTemplate(moduleName, hasViewManager, options) {
   return [
     template(moduleName, options),
-    `module.exports = { `,
-    `  Module,`,
+    `export { Module }`,
     // Optionally append the view manager to the exports
     hasViewManager &&
-      `  View: require('expo-modules-core').requireNativeViewManager("${moduleName}"),`,
-    `}`,
+      `export const View = require('expo-modules-core').requireNativeViewManager("${moduleName}")`,
   ]
     .filter(Boolean)
     .join("\n");
@@ -60,6 +58,15 @@ function createTemplate(moduleName, hasViewManager, options) {
 const fs = require("fs");
 const path = require("path");
 
+function collectModuleExports({ src }) {
+  return [
+    "initial: any;",
+    "getInitial(): Promise<any>;",
+    "isSupported(): Promise<boolean>;",
+    "setItems(items?: any[]): Promise<void>;",
+  ];
+}
+
 function generateTypes(moduleName, { src, filename, options }) {
   const { projectRoot } = options;
 
@@ -67,15 +74,16 @@ function generateTypes(moduleName, { src, filename, options }) {
 
   fs.mkdirSync(expoGenerated, { recursive: true });
 
-  const contents = `declare module 'react-native/Libraries/NewAppScreen' {
-    export const Header: any;
-    export const LearnMoreLinks: any;
-    export const Colors: any;
-    export const DebugInstructions: any;
-    export const ReloadInstructions: any;
-}`;
+  const contents = `
+  export const Module: {
+    ${collectModuleExports({ src }).join("\n  ")}
+  };
 
-  fs.writeFileSync(path.join(expoGenerated, "index.d.ts"), contents, "utf8");
+  export const View = null;`;
+
+  // TODO: Put this in the generated folder.
+  const output = path.join(projectRoot, filename + ".d.ts");
+  fs.writeFileSync(output, contents, "utf8");
 }
 
 function getProcessedSource({ src, filename, options }) {
