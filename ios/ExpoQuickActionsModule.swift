@@ -6,7 +6,7 @@ struct ActionObject: Record {
   @Field var id: String? = nil
   @Field var title: String? = nil
   @Field var subtitle: String? = nil
-  @Field var icon: String? = nil
+  // @Field var icon: String? = nil
   @Field var userInfo: [String : NSSecureCoding]? = nil
 }
 
@@ -17,7 +17,7 @@ func toActionObject(item: UIApplicationShortcutItem?) -> ActionObject? {
       id: item.type ,
       title: item.localizedTitle ,
       subtitle: item.localizedSubtitle,
-      icon: UIApplicationShortcutIcon.init(type: UIApplicationShortcutIcon.IconType.pause) "",
+      // icon: UIApplicationShortcutIcon.init(type: UIApplicationShortcutIcon.IconType.pause) "",
       userInfo: item.userInfo);
   }
   return nil
