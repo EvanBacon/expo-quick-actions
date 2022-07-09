@@ -30,7 +30,7 @@ public class ExpoQuickActionsModule: Module {
   public func definition() -> ModuleDefinition {
     // This names the module in JavaScript
     // ex: NativeModulesProxy.ExpoQuickActions
-    Name("ExpoQuickAcons")
+    Name("ExpoQuickActions")
 
     Constants([
       "initial": toActionObject(item: initialAction)?.toDictionary()
