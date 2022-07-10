@@ -21,7 +21,8 @@
   "devDependencies": {
     "@babel/core": "^7.12.9",
     "@types/react": "~17.0.21",
-    "@types/react-native": "~0.67.6"
+    "@types/react-native": "~0.67.6",
+    "ts-node": "^10.8.2"
   },
   "private": true
 }

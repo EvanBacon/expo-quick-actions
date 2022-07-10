@@ -2,13 +2,14 @@ import * as QuickActions from "expo-quick-actions";
 import React from "react";
 import { Text, View, Platform } from "react-native";
 
-import * as NativeQuickActions from "../ios/ExpoQuickActionsModule.swift";
 // const NativeModule = Platform.select({
 //   ios: require("../ios/ExpoQuickActionsModule.swift"),
 //   android: require("../android/src/main/java/expo/modules.quickactions/ExpoQuickActionsModule.kt"),
 // });
 
-console.log("yolo:", NativeQuickActions.Module.isSupported());
+import * as NativeQuickActions from "../ios/ExpoQuickActionsModule.swift";
+
+console.log("yolo:", NativeQuickActions.Module);
 
 function useQuickAction() {
   console.log("foobar:", QuickActions.initial);
