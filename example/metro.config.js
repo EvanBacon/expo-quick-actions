@@ -37,4 +37,28 @@ config.resolver = {
   sourceExts: [...config.resolver.sourceExts, "swift", "kt"],
 };
 
+const { sync } = require("glob");
+
+config.server = {
+  ...config.server,
+  rewriteRequestUrl: (url) => {
+    try {
+      const parsed = new URL(url);
+      if (parsed.pathname.endsWith(".bundle")) {
+        // Try resolving up
+        const resolveName =
+          parsed.pathname.substring(1).split(".").slice(0, -1).join(".") + ".*";
+        const found = sync(resolveName, { cwd: path.join(__dirname, "..") });
+        if (found.length) {
+          parsed.pathname = "/.." + parsed.pathname;
+          const nextUrl =
+            parsed.origin + "/.." + parsed.pathname + parsed.search;
+          console.log("redirected ->", nextUrl);
+          return nextUrl;
+        }
+      }
+    } catch {}
+    return url;
+  },
+};
 module.exports = config;
