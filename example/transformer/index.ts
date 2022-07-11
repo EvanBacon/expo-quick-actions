@@ -3,6 +3,13 @@ import { createTemplate, EMPTY_TEMPLATE } from "./templates";
 import { Options } from "./transformer.types";
 import { warnExpoSupport, warnNativeModuleNameNotFound } from "./warnings";
 
+export function matchNameSwift(src) {
+  return src.match(/^\s+Name\("([a-zA-Z0-9_-]+)"\)$/m);
+}
+export function matchNameKotlin(src) {
+  return src.match(/^\s+name\("([a-zA-Z0-9_-]+)"\)$/m);
+}
+
 function getProcessedSource({ src, filename, options }: Options) {
   if (filename.endsWith(".swift")) {
     // Shim on Android and web
@@ -14,7 +21,7 @@ function getProcessedSource({ src, filename, options }: Options) {
       warnExpoSupport("Swift", filename);
       return EMPTY_TEMPLATE;
     }
-    const matches = src.match(/^\s+Name\("([a-zA-Z0-9_-]+)"\)$/m);
+    const matches = matchNameSwift(src);
     if (matches && matches.length > 1) {
       const moduleName = matches[1];
       // generateTypes(moduleName, {src, filename, options})
@@ -35,7 +42,7 @@ function getProcessedSource({ src, filename, options }: Options) {
       return EMPTY_TEMPLATE;
     }
 
-    const matches = src.match(/^\s+name\("([a-zA-Z0-9_-]+)"\)$/m);
+    const matches = matchNameKotlin(src);
     if (matches && matches.length > 1) {
       const moduleName = matches[1];
       return createTemplate(moduleName, !!/viewManager\s{/.test(src), options);
