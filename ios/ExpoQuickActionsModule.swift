@@ -80,7 +80,8 @@ public class ExpoQuickActionsModule: Module {
     }
 
     OnStopObserving {
-      NotificationCenter.default.removeObserver(self, name: UIPasteboard.changedNotification, object: nil)
+      let name = Notification.Name(onQuickAction)
+      NotificationCenter.default.removeObserver(self, name: name, object: nil)
     }
   }
 

@@ -7,9 +7,9 @@ import { Text, View, Platform } from "react-native";
 //   android: require("../android/src/main/java/expo/modules.quickactions/ExpoQuickActionsModule.kt"),
 // });
 
-import * as NativeQuickActions from "../ios/ExpoQuickActionsModule.swift";
+// import * as NativeQuickActions from "../ios/ExpoQuickActionsModule.swift";
 
-console.log("yolo:", NativeQuickActions.Module);
+// console.log("yolo:", NativeQuickActions.Module);
 
 function useQuickAction() {
   console.log("foobar:", QuickActions.initial);

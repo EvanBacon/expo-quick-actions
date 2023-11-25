@@ -1,16 +1,23 @@
-import {
-  EventEmitter,
-  Subscription,
-  NativeModulesProxy,
-} from "expo-modules-core";
-const { ExpoQuickActions } = NativeModulesProxy;
+import { EventEmitter, NativeModulesProxy } from "expo-modules-core";
+
+const ExpoQuickActions = NativeModulesProxy.ExpoQuickActions as {
+  __expo_module_name__?: string;
+  startObserving?: () => void;
+  stopObserving?: () => void;
+  addListener: (eventName: string) => void;
+  removeListeners: (count: number) => void;
+
+  initial?: Action;
+  setItems(data?: Action[]): Promise<void>;
+  getInitial(): Promise<Action>;
+  isSupported(): Promise<boolean>;
+};
 
 const emitter = new EventEmitter(ExpoQuickActions);
 
-const onEventName = "onQuickAction";
-
 type Event = {};
-type Action = {
+
+export type Action = {
   icon?: unknown;
   id: string;
   subtitle?: string | null;
@@ -18,14 +25,8 @@ type Action = {
   userInfo?: Record<string, any> | null;
 };
 
-export const initial: Action | undefined = ExpoQuickActions.initial;
+export const { initial, setItems, isSupported, getInitial } = ExpoQuickActions;
 
-export const setItems: (data?: Action[]) => Promise<void> =
-  ExpoQuickActions.setItems;
-
-export const getInitial: () => Promise<Action> = ExpoQuickActions.getInitial;
-export const isSupported: () => Promise<boolean> = ExpoQuickActions.isSupported;
-
-export function addListener(listener: (event: Event) => void): Subscription {
-  return emitter.addListener<Event>(onEventName, listener);
+export function addListener(listener: (event: Event) => void) {
+  return emitter.addListener<Event>("onQuickAction", listener);
 }
