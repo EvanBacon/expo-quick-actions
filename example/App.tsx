@@ -45,7 +45,15 @@ function useQuickAction() {
   return action;
 }
 
+import { EventEmitter, NativeModulesProxy } from "expo-modules-core";
+
 export default function App() {
+  console.log(
+    "QuickActions",
+    QuickActions,
+    NativeModulesProxy.ExpoQuickActions
+  );
+  // return <Text>Hey</Text>;
   const action = useQuickAction();
   console.log("action", action);
 
