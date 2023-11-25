@@ -68,8 +68,8 @@ class ExpoQuickActionsModule : Module() {
         }
     }
 
-  @RequiresApi(Build.VERSION_CODES.N_MR1)
-  private fun setShortcuts(items: List<ActionObject>) {
+    @RequiresApi(Build.VERSION_CODES.N_MR1)
+    private fun setShortcuts(items: List<ActionObject>) {
         val shortcutManager = context.getSystemService(Context.SHORTCUT_SERVICE) as ShortcutManager
 
         val shortcuts = items.mapNotNull {
@@ -99,7 +99,6 @@ class ExpoQuickActionsModule : Module() {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             shortcutManager.isRequestPinShortcutSupported
         } else {
-            TODO("VERSION.SDK_INT < O")
             true
         }
     }
