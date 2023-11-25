@@ -3,37 +3,6 @@ import UIKit
 
 let onQuickAction = "onQuickAction"
 
-struct ActionObject: Record {
-  @Field var id: String? = nil
-  @Field var title: String? = nil
-  @Field var subtitle: String? = nil
-  @Field var icon: String? = nil
-  // @Field var icon: String? = nil
-  @Field var userInfo: [String : NSSecureCoding]? = nil
-}
-
-func createShortcutIcon(from typeName: String?) -> UIApplicationShortcutIcon? {
-    guard let typeName = typeName else { return nil }
-    
-    // If image starts with "symbol:" then use SFSymbols
-    if typeName.starts(with: "symbol:") {
-        return UIApplicationShortcutIcon(systemImageName: String(typeName.dropFirst("symbol:".count)))
-    }
-    if typeName.starts(with: "asset:") {
-        return UIApplicationShortcutIcon(templateImageName: String(typeName.dropFirst("asset:".count)))
-    }
-    
-    guard let iconType = iconTypeMap[typeName] else { 
-      return UIApplicationShortcutIcon(systemImageName: typeName)
-    }
-    return UIApplicationShortcutIcon(type: iconType)
-}
-
-//func createNameFromIcon(from: UIApplicationShortcutIcon) -> String? {
-//    return iconTypeMap.first(where: { $0.value == from. })?.key
-//}
-
-
 let iconTypeMap: [String: UIApplicationShortcutIcon.IconType] = [
     "compose": .compose,
     "play": .play,
@@ -64,89 +33,100 @@ let iconTypeMap: [String: UIApplicationShortcutIcon.IconType] = [
     "shuffle": .shuffle,
     "audio": .audio,
     "update": .update
-    // Add all other icon types you need here
 ]
 
-func toActionObject(item: UIApplicationShortcutItem?) -> ActionObject? {
-  if let item = item {
-    // TODO: item.icon
-    return ActionObject(
-      id: item.type ,
-      title: item.localizedTitle ,
-      subtitle: item.localizedSubtitle,
-//      icon: createShortcutIcon(from: item.icon),
-      userInfo: item.userInfo);
-  }
-  return nil
+struct ActionObject: Record {
+    @Field var id: String? = nil
+    @Field var title: String? = nil
+    @Field var subtitle: String? = nil
+    @Field var icon: String? = nil
+    @Field var userInfo: [String: NSSecureCoding]? = nil
 }
 
-var initialAction: UIApplicationShortcutItem? = nil;
+func createShortcutIcon(from typeName: String?) -> UIApplicationShortcutIcon? {
+    guard let typeName = typeName else { return nil }
+    
+    let prefixToIconType: [(String, (String) -> UIApplicationShortcutIcon)] = [
+        ("symbol:", UIApplicationShortcutIcon.init(systemImageName:)),
+        ("asset:", UIApplicationShortcutIcon.init(templateImageName:))
+    ]
+    
+    for (prefix, iconInitializer) in prefixToIconType {
+        if typeName.starts(with: prefix) {
+            return iconInitializer(String(typeName.dropFirst(prefix.count)))
+        }
+    }
+    
+    return iconTypeMap[typeName].map(UIApplicationShortcutIcon.init(type:)) ??
+    UIApplicationShortcutIcon(systemImageName: typeName)
+}
+
+func toActionObject(item: UIApplicationShortcutItem?) -> ActionObject? {
+    guard let item = item else { return nil }
+    return ActionObject(
+        id: item.type,
+        title: item.localizedTitle,
+        subtitle: item.localizedSubtitle,
+        userInfo: item.userInfo
+    )
+}
+
+var initialAction: UIApplicationShortcutItem?
 
 public class ExpoQuickActionsModule: Module {
-
-  public func definition() -> ModuleDefinition {
-  
-    Name("ExpoQuickActions")
-
-    Constants([
-      "initial": toActionObject(item: initialAction)?.toDictionary()
-    ])
-
-    AsyncFunction("getInitial") { () -> ActionObject? in
-      return toActionObject(item: initialAction)
-    }
-
-    AsyncFunction("setItems") { (items: [ActionObject]?) in
-      if let items = items {
-        UIApplication.shared.shortcutItems = []
-        for item in items {
-          UIApplication.shared.shortcutItems?.append(UIApplicationShortcutItem.init(
-            type: item.id ?? "id",
-            localizedTitle: item.title ?? "title",
-            localizedSubtitle: item.subtitle,
-            // TODO: item.icon
-            icon: createShortcutIcon(from: item.icon),
-            userInfo: item.userInfo))
+    
+    public func definition() -> ModuleDefinition {
+        Name("ExpoQuickActions")
+        
+        Constants([
+            "initial": toActionObject(item: initialAction)?.toDictionary()
+        ])
+        
+        AsyncFunction("getInitial") {
+            toActionObject(item: initialAction)
         }
-      } else {
-        UIApplication.shared.shortcutItems = nil
-      }
-
-    }.runOnQueue(.main)
-
-    AsyncFunction("isSupported") { () -> Bool in
-      if let window = UIApplication.shared.delegate?.window as? UIWindow {
-        return window.rootViewController?.traitCollection.forceTouchCapability == .available
-      }
-
-      return false;
-    }.runOnQueue(.main)
-
-    Events(onQuickAction)
-
-    OnStartObserving {
-      let name = Notification.Name(onQuickAction)
-      NotificationCenter.default.removeObserver(self, name: name, object: nil)
-      NotificationCenter.default.addObserver(
-        self,
-        selector: #selector(self.quickActionListener),
-        name: name,
-        object: nil
-      )
+        
+        AsyncFunction("setItems") { (items: [ActionObject]?) in
+            UIApplication.shared.shortcutItems = items?.map { item in
+                UIApplicationShortcutItem(
+                    type: item.id ?? "id",
+                    localizedTitle: item.title ?? "title",
+                    localizedSubtitle: item.subtitle,
+                    icon: createShortcutIcon(from: item.icon),
+                    userInfo: item.userInfo
+                )
+            }
+        }.runOnQueue(.main)
+        
+        AsyncFunction("isSupported") { () -> Bool in
+            UIApplication.shared.delegate?.window??
+                .rootViewController?.traitCollection.forceTouchCapability == .available
+        }.runOnQueue(.main)
+        
+        Events(onQuickAction)
+        
+        OnStartObserving {
+            NotificationCenter.default.addObserver(
+                self,
+                selector: #selector(self.quickActionListener),
+                name: Notification.Name(onQuickAction),
+                object: nil
+            )
+        }
+        
+        OnStopObserving {
+            NotificationCenter.default.removeObserver(
+                self,
+                name: Notification.Name(onQuickAction),
+                object: nil
+            )
+        }
     }
-
-    OnStopObserving {
-      let name = Notification.Name(onQuickAction)
-      NotificationCenter.default.removeObserver(self, name: name, object: nil)
-    }
-  }
-
-  @objc
-  func quickActionListener(notifications: Notification) {
-    if let item = notifications.object as? UIApplicationShortcutItem {
-      if let action = toActionObject(item: item) {
+    
+    @objc
+    func quickActionListener(notifications: Notification) {
+        guard let item = notifications.object as? UIApplicationShortcutItem,
+              let action = toActionObject(item: item) else { return }
         sendEvent(onQuickAction, action.toDictionary())
-      }
     }
-  }
 }

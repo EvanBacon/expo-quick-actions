@@ -10,15 +10,5 @@ class ExpoQuickActionsModule : Module() {
     function("helloAsync") { options: Map<String, String> ->
       println("Hello 👋")
     }
-
-    viewManager {
-      view { context -> 
-        ExpoQuickActionsView(context) 
-      }
-
-      prop("name") { view: ExpoQuickActionsView, prop: String ->
-        println(prop)
-      }
-    }
   }
 }
