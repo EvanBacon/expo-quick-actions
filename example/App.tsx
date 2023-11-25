@@ -40,8 +40,8 @@ export default function App() {
       {
         title: "Play Song",
         // subtitle: "NDA - Billie Eilish",
-        // icon: "Play",
-        type: "alpha",
+        icon: "play",
+        id: "alpha",
       },
       // {
       //   title: "Shuffle",
