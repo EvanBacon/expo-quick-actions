@@ -1,5 +1,4 @@
-import { EventEmitter } from "expo-modules-core";
-import { requireNativeModule } from "expo-modules-core";
+import { EventEmitter, requireNativeModule } from "expo-modules-core";
 const ExpoQuickActions = requireNativeModule("ExpoQuickActions");
 export const { initial, setItems, isSupported, getInitial } = ExpoQuickActions;
 const emitter = new EventEmitter(ExpoQuickActions);

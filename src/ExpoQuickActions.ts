@@ -1,6 +1,4 @@
-import { EventEmitter } from "expo-modules-core";
-
-import { requireNativeModule } from "expo-modules-core";
+import { EventEmitter, requireNativeModule } from "expo-modules-core";
 
 type ConstructorParametersType<T extends abstract new (...args: any) => any> =
   T extends abstract new (...args: infer P) => any ? P : never;
