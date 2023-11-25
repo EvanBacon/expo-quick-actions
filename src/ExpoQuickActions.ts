@@ -1,17 +1,20 @@
-import { EventEmitter, NativeModulesProxy } from "expo-modules-core";
+import { EventEmitter } from "expo-modules-core";
+
+import { requireNativeModule } from "expo-modules-core";
 
 type ConstructorParametersType<T extends abstract new (...args: any) => any> =
   T extends abstract new (...args: infer P) => any ? P : never;
 
 type PrivateNativeModule = ConstructorParametersType<typeof EventEmitter>[0];
 
-const ExpoQuickActions =
-  NativeModulesProxy.ExpoQuickActions as PrivateNativeModule & {
-    initial?: Action;
-    setItems(data?: Action[]): Promise<void>;
-    getInitial(): Promise<Action>;
-    isSupported(): Promise<boolean>;
-  };
+const ExpoQuickActions = requireNativeModule(
+  "ExpoQuickActions"
+) as PrivateNativeModule & {
+  initial?: Action;
+  setItems(data?: Action[]): Promise<void>;
+  getInitial(): Promise<Action>;
+  isSupported(): Promise<boolean>;
+};
 
 export type Action = {
   icon?: string | null;

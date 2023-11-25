@@ -8,6 +8,9 @@
     "build": "tsc",
     "lint": "eslint ."
   },
+  "files": [
+    "build"
+  ],
   "keywords": [
     "react-native",
     "expo",

@@ -81,11 +81,7 @@ public class ExpoQuickActionsModule: Module {
         Constants([
             "initial": toActionObject(item: initialAction)?.toDictionary()
         ])
-        
-        AsyncFunction("getInitial") {
-            toActionObject(item: initialAction)
-        }
-        
+                
         AsyncFunction("setItems") { (items: [ActionObject]?) in
             UIApplication.shared.shortcutItems = items?.map { item in
                 UIApplicationShortcutItem(

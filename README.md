@@ -1,6 +1,8 @@
 # expo-quick-actions
 
-Playing with the expo-modules-core API
+A React Native library for home screen quick actions.
+
+## API documentation
 
 ## Icons
 

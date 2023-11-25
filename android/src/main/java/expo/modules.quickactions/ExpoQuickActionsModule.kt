@@ -11,14 +11,24 @@ import androidx.annotation.RequiresApi
 import expo.modules.kotlin.modules.Module
 import expo.modules.kotlin.modules.ModuleDefinition
 import expo.modules.kotlin.exception.Exceptions
+import expo.modules.kotlin.records.Field
+import expo.modules.kotlin.records.Record
 
-data class ActionObject(
-    val id: String,
-    val title: String,
-    val subtitle: String?,
-    val icon: String?,
-    val userInfo: Map<String, Any>?
-)
+class ActionObject : Record {
+    @Field
+    val id: String = ""
+    @Field
+    val title: String = ""
+
+    @Field
+    val subtitle: String? = null
+
+    @Field
+    val icon: String? = null
+
+    @Field
+    val userInfo: Map<String, Any>? = null
+}
 
 class ExpoQuickActionsModule : Module() {
   private val context: Context
@@ -39,11 +49,11 @@ class ExpoQuickActionsModule : Module() {
     override fun definition() = ModuleDefinition {
         Name("ExpoQuickActions")
 
-        Function("setItems") { items: List<ActionObject> ->
+        AsyncFunction("setItems") { items: List<ActionObject> ->
           setItems(items)
         }
 
-        Function("isSupported") {
+        AsyncFunction("isSupported") {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
                 isSupported(context)
             } else {
@@ -78,7 +88,7 @@ class ExpoQuickActionsModule : Module() {
             intent.putExtra("shortcutId", it.id)
             ShortcutInfo.Builder(context, it.id)
                     .setShortLabel(it.title)
-                    .setLongLabel(it.subtitle ?: "")
+                    .setLongLabel(it.subtitle ?: it.title)
                 .setIcon(Icon.createWithResource(context, getResourceIdForIcon(it.icon)))
                 .setIntent(intent)
                 .build()
