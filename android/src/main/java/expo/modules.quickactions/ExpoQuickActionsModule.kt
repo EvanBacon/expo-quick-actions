@@ -5,10 +5,11 @@ import expo.modules.kotlin.modules.ModuleDefinition
 
 class ExpoQuickActionsModule : Module() {
   override fun definition() = ModuleDefinition {
-    name("ExpoQuickActions")
+    Name("ExpoQuickActions")
 
-    function("helloAsync") { options: Map<String, String> ->
-      println("Hello 👋")
+    // Defines a JavaScript synchronous function that runs the native code on the JavaScript thread.
+    Function("hello") {
+      "Hello world! 👋"
     }
   }
 }
