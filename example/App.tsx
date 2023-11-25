@@ -2,38 +2,52 @@ import * as QuickActions from "expo-quick-actions";
 import React from "react";
 import { Text, View, Platform } from "react-native";
 
-// const NativeModule = Platform.select({
-//   ios: require("../ios/ExpoQuickActionsModule.swift"),
-//   android: require("../android/src/main/java/expo/modules.quickactions/ExpoQuickActionsModule.kt"),
-// });
-
-// import * as NativeQuickActions from "../ios/ExpoQuickActionsModule.swift";
-
-// console.log("yolo:", NativeQuickActions.Module);
-
-function useQuickAction() {
-  console.log("foobar:", QuickActions.initial);
-  const [item, setItem] = React.useState(QuickActions.initial);
-  const isMounted = React.useRef(true);
+function useQuickActionCallback(
+  callback?: (data: QuickActions.Action) => void | Promise<void>
+) {
   React.useEffect(() => {
+    let isMounted = true;
+
+    if (QuickActions.initial) {
+      callback?.(QuickActions.initial);
+    }
+
     const sub = QuickActions.addListener((event) => {
-      console.log("Got:", event);
-      if (isMounted.current) {
-        // setItem(data);
+      if (isMounted) {
+        callback?.(event);
       }
     });
     return () => {
-      isMounted.current = false;
+      isMounted = false;
+      sub.remove();
+    };
+  }, [QuickActions.initial, callback]);
+}
+
+function useQuickAction() {
+  const [action, setAction] = React.useState<QuickActions.Action | null>(
+    QuickActions.initial ?? null
+  );
+
+  React.useEffect(() => {
+    let isMounted = true;
+    const sub = QuickActions.addListener((event) => {
+      if (isMounted) {
+        setAction(event);
+      }
+    });
+    return () => {
+      isMounted = false;
       sub.remove();
     };
   }, []);
-  return item;
+
+  return action;
 }
 
 export default function App() {
-  QuickActions.getInitial().then(console.log);
-
   const action = useQuickAction();
+  console.log("action", action);
 
   React.useEffect(() => {
     QuickActions.setItems([
