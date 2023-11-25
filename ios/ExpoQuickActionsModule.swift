@@ -1,4 +1,5 @@
 import ExpoModulesCore
+import UIKit
 
 let onQuickAction = "onQuickAction"
 
@@ -13,7 +14,18 @@ struct ActionObject: Record {
 
 func createShortcutIcon(from typeName: String?) -> UIApplicationShortcutIcon? {
     guard let typeName = typeName else { return nil }
-    guard let iconType = iconTypeMap[typeName] else { return nil }
+    
+    // If image starts with "symbol:" then use SFSymbols
+    if typeName.starts(with: "symbol:") {
+        return UIApplicationShortcutIcon(systemImageName: String(typeName.dropFirst("symbol:".count)))
+    }
+    if typeName.starts(with: "asset:") {
+        return UIApplicationShortcutIcon(templateImageName: String(typeName.dropFirst("asset:".count)))
+    }
+    
+    guard let iconType = iconTypeMap[typeName] else { 
+      return UIApplicationShortcutIcon(systemImageName: typeName)
+    }
     return UIApplicationShortcutIcon(type: iconType)
 }
 

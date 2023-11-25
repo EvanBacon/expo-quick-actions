@@ -40,7 +40,7 @@ export default function App() {
       {
         title: "Play Song",
         // subtitle: "NDA - Billie Eilish",
-        icon: "play",
+        icon: "symbol:gauge.open.with.lines.needle.84percent.exclamation",
         id: "alpha",
       },
       // {
