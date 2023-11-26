@@ -1,6 +1,8 @@
 # expo-quick-actions
 
-A React Native library for home screen quick actions.
+> This is not (currently) an official Expo SDK package. Subject to breaking changes.
+
+A comprehensive React Native library for home screen quick actions.
 
 ## API documentation
 
@@ -46,7 +48,7 @@ const maxCount = QuickActions.maxCount;
 
 > `(items: Action[]) => Promise<void>`
 
-An async function that sets the quick action items for the app.
+An async function that sets the quick action items for the app. Both Apple and Android recommend a max of 4 items.
 
 ```ts
 QuickActions.setItems([
@@ -175,5 +177,53 @@ const action = useQuickAction();
 
 if (action) {
   router.push(action.params?.href);
+}
+```
+
+## Config Plugin
+
+There's an optional config plugin that you can use to add images and static iOS actions. Static Android actions are not currently supported because they don't support complex intent.
+
+- `androidIcons`: An object of Android icons. The key is the `icon` property of the action. The value can be a string or an object with `foregroundImage` and `backgroundColor` properties. This generates very similar to `android.adaptiveIcon` as the underlying API is very similar. For simple icons, you can use a string value.
+- `iosIcons`: An object of iOS icons. The key is the `icon` property of the action. The value can be a string or an object with `1x`, `2x`, and `3x` properties.
+- `iosActions`: An array of iOS actions. These are static actions that will be available unless you clear them with the dynamic API. The `icon` property resolves the same as in the dynamic API, using `symbol:` and `asset:` prefixes.
+
+```json
+{
+  "plugins": [
+    [
+      "expo-quick-actions",
+      {
+        "androidIcons": {
+          "shortcut_one": {
+            "foregroundImage": "./assets/adaptive-icon.png",
+            "backgroundColor": "#282A35"
+          },
+          "shortcut_two": {
+            "foregroundImage": "./assets/adaptive-star.png",
+            "backgroundColor": "#ff0000"
+          },
+          "shortcut_three": "https://evanbacon.dev/pfp.png"
+        },
+        "iosIcons": {
+          "shortcut_one": "./assets/adaptive-icon.png",
+          "shortcut_two": {
+            "1x": "./assets/adaptive-icon.png"
+          }
+        },
+        "iosActions": [
+          {
+            "id": "1",
+            "title": "Shortcut One",
+            "subtitle": "Subtitle One",
+            "icon": "shortcut_one",
+            "params": {
+              "url": "https://baconbrix.com"
+            }
+          }
+        ]
+      }
+    ]
+  ]
 }
 ```

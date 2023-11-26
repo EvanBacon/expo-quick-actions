@@ -62,7 +62,7 @@
           <key>url</key>
           <string>https://baconbrix.com</string>
         </dict>
-        <key>UIApplicationShortcutItemIconSymbolName</key>
+        <key>UIApplicationShortcutItemIconFile</key>
         <string>shortcut_one</string>
       </dict>
     </array>

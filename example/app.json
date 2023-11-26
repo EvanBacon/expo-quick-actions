@@ -39,10 +39,13 @@
               "foregroundImage": "./assets/adaptive-star.png",
               "backgroundColor": "#ff0000"
             },
-            "shortcut_three": "https://cdn0.iconfinder.com/data/icons/ui-16px-perfect-megapack-line/16/82_Add-512.png"
+            "shortcut_three": "https://evanbacon.dev/pfp.png"
           },
           "iosIcons": {
-            "shortcut_one": "./assets/adaptive-icon.png"
+            "shortcut_one": "./assets/adaptive-icon.png",
+            "shortcut_two": {
+              "1x": "./assets/adaptive-icon.png"
+            }
           },
           "iosActions": [
             {

@@ -5,12 +5,20 @@ import {
   withIosStaticQuickActions,
   IosStaticQuickActionProps,
 } from "./withIosStaticActions";
+// import { withShortcutsXMLBaseMod } from "./withShortcutsXML";
+// import { withAndroidStaticActions } from "./withAndroidStaticActions";
+import { validate } from "schema-utils";
+
+import schema from "./options.json";
 
 const withQuickActions: ConfigPlugin<{
+  // androidActions?: IosStaticQuickActionProps[];
   androidIcons?: Record<string, AndroidImageProps["src"]>;
   iosIcons?: Record<string, IosImageProps["src"]>;
   iosActions?: IosStaticQuickActionProps[];
 }> = (config, props) => {
+  validate(schema as any, props);
+
   if (props.androidIcons) {
     Object.entries(props.androidIcons).forEach(([name, image]) => {
       config = withAndroidAppIcon(config, {
@@ -32,6 +40,12 @@ const withQuickActions: ConfigPlugin<{
   if (props.iosActions) {
     config = withIosStaticQuickActions(config, props.iosActions);
   }
+
+  //   if (props.androidActions) {
+  //       withAndroidStaticActions(config, props.androidActions);
+  //       // Run last
+  //       withShortcutsXMLBaseMod(config);
+  //   }
 
   return config;
 };

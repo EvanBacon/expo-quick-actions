@@ -116,6 +116,9 @@ fun bundleToMap(bundle: Bundle?): Map<String, Any> {
     return map
 }
 
+// Intent ID -- this should never change.
+val UNIQ_ACTION_ID = "expo.modules.quickactions.SHORTCUT"
+
 class ExpoQuickActionsModule : Module() {
   private val context: Context
     get() = appContext.reactContext ?: throw Exceptions.ReactContextLost()
@@ -133,7 +136,7 @@ class ExpoQuickActionsModule : Module() {
 
         fun convertShortcutIntent(intent: Intent): ActionObject? {
             // Check if the intent comes from a shortcut action
-            if (intent.action == Intent.ACTION_VIEW) {
+            if (intent.action == UNIQ_ACTION_ID) {
                 // Extract information from the intent to identify the shortcut action
 
                 val actionBundle = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -155,7 +158,7 @@ class ExpoQuickActionsModule : Module() {
 
         fun handleShortcutIntent(intent: Intent) {
             // Check if the intent comes from a shortcut action
-            if (intent.action == Intent.ACTION_VIEW) {
+            if (intent.action == UNIQ_ACTION_ID) {
                 // Extract information from the intent to identify the shortcut action
 
                 val actionBundle = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -227,7 +230,7 @@ class ExpoQuickActionsModule : Module() {
 
         val shortcuts = items.mapNotNull {
             val intent = Intent(context, currentActivity!!::class.java)
-            intent.action = Intent.ACTION_VIEW
+            intent.action = UNIQ_ACTION_ID
             intent.putExtra("shortcut_data", it.toBundle());
             val builder = ShortcutInfo.Builder(context, it.id)
                     .setShortLabel(it.title)

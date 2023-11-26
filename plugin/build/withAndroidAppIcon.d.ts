@@ -1,6 +1,6 @@
 import { ConfigPlugin } from "@expo/config-plugins";
 export type AdaptiveIcon = {
-    foregroundImage?: string;
+    foregroundImage: string;
     backgroundColor?: string;
     backgroundImage?: string;
     monochromeImage?: string;

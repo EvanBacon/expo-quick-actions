@@ -1,17 +1,26 @@
 {
   "name": "expo-quick-actions",
-  "version": "0.1.0",
+  "version": "0.2.3",
   "description": "use native quick actions",
   "main": "build/ExpoQuickActions.js",
   "types": "build/ExpoQuickActions.d.ts",
   "scripts": {
     "build": "expo-module build",
-    "lint": "eslint ."
+    "clean": "expo-module clean",
+    "lint": "expo-module lint",
+    "test": "expo-module test",
+    "prepare": "expo-module prepare",
+    "prepublishOnly": "expo-module prepublishOnly",
+    "expo-module": "expo-module"
   },
   "files": [
     "app.plugin.js",
     "plugin/build",
-    "build"
+    "build",
+    "expo-module.config.json",
+    "ios",
+    "android",
+    "!android/build/"
   ],
   "keywords": [
     "react-native",
@@ -21,13 +30,14 @@
   ],
   "repository": "",
   "bugs": {
-    "url": "/issues"
+    "url": "https://github.com/evanbacon/expo-quick-actions/issues"
   },
-  "author": "evanbacon",
+  "author": "Evan Bacon",
   "license": "MIT",
-  "homepage": "#readme",
+  "homepage": "https://github.com/evanbacon/expo-quick-actions/",
   "dependencies": {
-    "@expo/image-utils": "^0.3.23"
+    "@expo/image-utils": "^0.3.23",
+    "schema-utils": "^4.2.0"
   },
   "devDependencies": {
     "expo-module-scripts": "^3.1.0",

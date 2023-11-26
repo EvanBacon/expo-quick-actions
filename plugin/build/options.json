@@ -1,0 +1,94 @@
+{
+    "title": "expo-quick-actions options",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$ref": "#/definitions/Props",
+    "definitions": {
+        "Props": {
+            "type": "object",
+            "properties": {
+                "androidIcons": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "oneOf": [
+                            { "type": "string" },
+                            { "$ref": "#/definitions/AdaptiveIcon" }
+                        ]
+                    }
+                },
+                "iosIcons": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "oneOf": [
+                            { "type": "string" },
+                            {
+                                "type": "object",
+                                "properties": {
+                                    "1x": { "type": "string" },
+                                    "2x": { "type": "string" },
+                                    "3x": { "type": "string" }
+                                },
+                                "additionalProperties": false
+                            }
+                        ]
+                    }
+                },
+                "iosActions": {
+                    "type": "array",
+                    "items": { "$ref": "#/definitions/Action" }
+                }
+            },
+            "additionalProperties": false
+        },
+        "AdaptiveIcon": {
+            "type": "object",
+            "properties": {
+                "foregroundImage": {
+                    "type": "string"
+                },
+                "backgroundColor": {
+                    "type": "string"
+                },
+                "backgroundImage": {
+                    "type": "string"
+                },
+                "monochromeImage": {
+                    "type": "string"
+                }
+            },
+            "required": ["foregroundImage"],
+            "additionalProperties": false
+        },
+        "Action": {
+            "type": "object",
+            "properties": {
+                "title": {
+                    "type": "string"
+                },
+                "icon": {
+                    "type": "string"
+                },
+                "subtitle": {
+                    "description": "iOS-only subtitle for the action",
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string",
+                    "description": "A unique string that the system passes to your app"
+                },
+                "params": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "oneOf": [
+                            { "type": "string" },
+                            { "type": "number" },
+                            { "type": "boolean" }
+                        ]
+                    },
+                    "description": "An optional, app-defined dictionary. One use for this dictionary is to provide app version information, as described in the 'App Launch and App Update Considerations for Quick Actions' section of the overview in UIApplicationShortcutItem Class Reference."
+                }
+            },
+            "required": ["title", "id"],
+            "additionalProperties": false
+        }
+    }
+}

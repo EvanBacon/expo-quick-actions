@@ -25,7 +25,7 @@ const ANDROID_RES_PATH = "android/app/src/main/res/";
 const MIPMAP_ANYDPI_V26 = "mipmap-anydpi-v26";
 
 export type AdaptiveIcon = {
-  foregroundImage?: string;
+  foregroundImage: string;
   backgroundColor?: string;
   backgroundImage?: string;
   monochromeImage?: string;
