@@ -28,6 +28,20 @@ A static property that returns the initial quick action item that was used to op
 const initialAction = QuickActions.initial;
 ```
 
+### `maxCount`
+
+> `number | null`
+
+A static property that returns the maximum number of quick action items that can be set.
+
+- On iOS, this is hardcoded to 4.
+- On Android, this is dynamically collected on start-up.
+
+```tsx
+// e.g. 15 on Pixel 6, null on iOS.
+const maxCount = QuickActions.maxCount;
+```
+
 ### `setItems`
 
 > `(items: Action[]) => Promise<void>`

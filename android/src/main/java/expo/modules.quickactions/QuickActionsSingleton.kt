@@ -10,4 +10,6 @@ object QuickActionsSingleton : SingletonModule {
 
     // member to store the initial launch intent
     var launchAction: ActionObject? = null
+    var maxCount: Number? = null
+
 }

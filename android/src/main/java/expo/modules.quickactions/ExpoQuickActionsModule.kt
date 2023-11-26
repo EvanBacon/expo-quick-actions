@@ -184,7 +184,9 @@ class ExpoQuickActionsModule : Module() {
         }
 
         Constants {
-            return@Constants mapOf("initial" to QuickActionsSingleton.launchAction?.let {
+            return@Constants mapOf(
+                    "maxCount" to QuickActionsSingleton.maxCount,
+                    "initial" to QuickActionsSingleton.launchAction?.let {
                 mapOf("id" to it.id, "title" to it.title, "subtitle" to it.subtitle, "icon" to it.icon, "params" to it.params)
             })
         }

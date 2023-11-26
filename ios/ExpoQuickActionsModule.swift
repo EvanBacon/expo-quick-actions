@@ -79,6 +79,8 @@ public class ExpoQuickActionsModule: Module {
         Name("ExpoQuickActions")
         
         Constants([
+            // https://developer.apple.com/design/human-interface-guidelines/home-screen-quick-actions
+            "maxCount": 4,
             "initial": toActionObject(item: initialAction)?.toDictionary()
         ])
                 

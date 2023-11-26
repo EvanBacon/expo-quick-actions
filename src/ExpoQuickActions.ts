@@ -11,6 +11,8 @@ const ExpoQuickActions = requireNativeModule(
   initial?: Action;
   setItems(data?: Action[]): Promise<void>;
   isSupported(): Promise<boolean>;
+  /** Android-only. The maximum number of shortcuts allowed. */
+  maxCount?: number;
 };
 
 export type Action = {
@@ -22,7 +24,7 @@ export type Action = {
   params?: Record<string, number | string | boolean | null | undefined> | null;
 };
 
-export const { initial, setItems, isSupported } = ExpoQuickActions;
+export const { initial, maxCount, setItems, isSupported } = ExpoQuickActions;
 
 const emitter = new EventEmitter(ExpoQuickActions);
 
