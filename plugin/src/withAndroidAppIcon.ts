@@ -53,12 +53,20 @@ export const withAndroidAppIcon: ConfigPlugin<{
   const monochromeImage =
     typeof props.icon === "string" ? null : props.icon.monochromeImage ?? null;
 
+  const isAdaptive = typeof props.icon !== "string";
   // Apply colors.xml changes
   withAndroidColors(config, (config) => {
-    config.modResults = Colors.assignColorValue(config.modResults, {
-      value: backgroundColor ?? "#FFFFFF",
-      name: backgroundColorName,
-    });
+    if (isAdaptive) {
+      config.modResults = Colors.assignColorValue(config.modResults, {
+        value: backgroundColor ?? "#FFFFFF",
+        name: backgroundColorName,
+      });
+    } else {
+      config.modResults = Colors.removeColorItem(
+        backgroundColorName,
+        config.modResults
+      );
+    }
 
     return config;
   });
@@ -71,7 +79,7 @@ export const withAndroidAppIcon: ConfigPlugin<{
         backgroundColor,
         backgroundImage,
         monochromeImage,
-        isAdaptive: !!config.android?.adaptiveIcon,
+        isAdaptive,
         name,
         colorName: backgroundColorName,
         baselineSize: props.baseSize ?? BASELINE_PIXEL_SIZE,
@@ -120,17 +128,20 @@ async function setIconAsync(
     name,
     baselineSize
   );
+  const roundName = `${name}_round.png`;
   if (isAdaptive) {
-    await generateRoundIconAsync(
-      projectRoot,
+    await generateMultiLayerImageAsync(projectRoot, {
       icon,
+      baselineSize,
+      borderRadiusRatio: 0.5,
+      outputImageFileName: roundName,
       backgroundImage,
       backgroundColor,
-      name,
-      baselineSize
-    );
+      imageCacheFolder: name + "-android-standard-circle",
+      backgroundImageCacheFolder: name + "-android-standard-round-background",
+    });
   } else {
-    await deleteIconNamedAsync(projectRoot, `${name}_round.png`);
+    await deleteIconNamedAsync(projectRoot, roundName);
   }
   await configureAdaptiveIconAsync(
     projectRoot,
@@ -167,29 +178,9 @@ async function configureLegacyIconAsync(
     backgroundImage,
     backgroundColor,
     outputImageFileName: `${name}.png`,
-    imageCacheFolder: "android-standard-square",
-    backgroundImageCacheFolder: "android-standard-square-background",
+    imageCacheFolder: name + "-android-standard-square",
+    backgroundImageCacheFolder: name + "-android-standard-square-background",
     baselineSize,
-  });
-}
-
-async function generateRoundIconAsync(
-  projectRoot: string,
-  icon: string,
-  backgroundImage: string | null,
-  backgroundColor: string | null,
-  name: string,
-  baselineSize: number
-) {
-  return generateMultiLayerImageAsync(projectRoot, {
-    icon,
-    baselineSize,
-    borderRadiusRatio: 0.5,
-    outputImageFileName: `${name}_round.png`,
-    backgroundImage,
-    backgroundColor,
-    imageCacheFolder: "android-standard-circle",
-    backgroundImageCacheFolder: "android-standard-round-background",
   });
 }
 
@@ -214,7 +205,7 @@ async function configureAdaptiveIconAsync(
   if (monochromeImage) {
     await generateMonochromeImageAsync(projectRoot, {
       icon: monochromeImage,
-      imageCacheFolder: "android-adaptive-monochrome",
+      imageCacheFolder: name + "-android-adaptive-monochrome",
       outputImageFileName: `${name}_monochrome.png`,
       baselineSize,
     });
@@ -223,10 +214,10 @@ async function configureAdaptiveIconAsync(
     baselineSize,
     backgroundColor: "transparent",
     backgroundImage,
-    backgroundImageCacheFolder: "android-adaptive-background",
+    backgroundImageCacheFolder: name + "-android-adaptive-background",
     outputImageFileName: `${name}_foreground.png`,
     icon: foregroundImage,
-    imageCacheFolder: "android-adaptive-foreground",
+    imageCacheFolder: name + "-android-adaptive-foreground",
     backgroundImageFileName: `${name}_background.png`,
   });
 
@@ -308,11 +299,7 @@ async function createAdaptiveIconXmlFiles(
   } else {
     // Remove the xml if the icon switches from adaptive to standard.
     await Promise.all(
-      [launcherPath, launcherRoundPath].map(async (path) => {
-        if (fs.existsSync(path)) {
-          return fs.promises.unlink(path);
-        }
-      })
+      [launcherPath, launcherRoundPath].map((path) => remove(path))
     );
   }
 }
@@ -443,8 +430,14 @@ function iterateDpiValues(
 
 async function deleteIconNamedAsync(projectRoot: string, name: string) {
   return iterateDpiValues(projectRoot, ({ dpiFolder }) => {
-    return fs.promises.unlink(path.resolve(dpiFolder, name));
+    return remove(path.resolve(dpiFolder, name));
   });
+}
+
+async function remove(p: string) {
+  if (fs.existsSync(p)) {
+    return fs.promises.unlink(p);
+  }
 }
 
 async function generateIconAsync(

@@ -30,12 +30,18 @@ const withAndroidAppIcon = (config, props) => {
     const backgroundColor = typeof props.icon === "string" ? null : props.icon.backgroundColor ?? null;
     const backgroundImage = typeof props.icon === "string" ? null : props.icon.backgroundImage ?? null;
     const monochromeImage = typeof props.icon === "string" ? null : props.icon.monochromeImage ?? null;
+    const isAdaptive = typeof props.icon !== "string";
     // Apply colors.xml changes
     (0, config_plugins_1.withAndroidColors)(config, (config) => {
-        config.modResults = Colors.assignColorValue(config.modResults, {
-            value: backgroundColor ?? "#FFFFFF",
-            name: backgroundColorName,
-        });
+        if (isAdaptive) {
+            config.modResults = Colors.assignColorValue(config.modResults, {
+                value: backgroundColor ?? "#FFFFFF",
+                name: backgroundColorName,
+            });
+        }
+        else {
+            config.modResults = Colors.removeColorItem(backgroundColorName, config.modResults);
+        }
         return config;
     });
     return (0, config_plugins_1.withDangerousMod)(config, [
@@ -46,7 +52,7 @@ const withAndroidAppIcon = (config, props) => {
                 backgroundColor,
                 backgroundImage,
                 monochromeImage,
-                isAdaptive: !!config.android?.adaptiveIcon,
+                isAdaptive,
                 name,
                 colorName: backgroundColorName,
                 baselineSize: props.baseSize ?? BASELINE_PIXEL_SIZE,
@@ -66,11 +72,21 @@ async function setIconAsync(projectRoot, { icon, backgroundColor, backgroundImag
         return null;
     }
     await configureLegacyIconAsync(projectRoot, icon, backgroundImage, backgroundColor, name, baselineSize);
+    const roundName = `${name}_round.png`;
     if (isAdaptive) {
-        await generateRoundIconAsync(projectRoot, icon, backgroundImage, backgroundColor, name, baselineSize);
+        await generateMultiLayerImageAsync(projectRoot, {
+            icon,
+            baselineSize,
+            borderRadiusRatio: 0.5,
+            outputImageFileName: roundName,
+            backgroundImage,
+            backgroundColor,
+            imageCacheFolder: name + "-android-standard-circle",
+            backgroundImageCacheFolder: name + "-android-standard-round-background",
+        });
     }
     else {
-        await deleteIconNamedAsync(projectRoot, `${name}_round.png`);
+        await deleteIconNamedAsync(projectRoot, roundName);
     }
     await configureAdaptiveIconAsync(projectRoot, icon, backgroundImage, monochromeImage, isAdaptive, {
         name,
@@ -91,21 +107,9 @@ async function configureLegacyIconAsync(projectRoot, icon, backgroundImage, back
         backgroundImage,
         backgroundColor,
         outputImageFileName: `${name}.png`,
-        imageCacheFolder: "android-standard-square",
-        backgroundImageCacheFolder: "android-standard-square-background",
+        imageCacheFolder: name + "-android-standard-square",
+        backgroundImageCacheFolder: name + "-android-standard-square-background",
         baselineSize,
-    });
-}
-async function generateRoundIconAsync(projectRoot, icon, backgroundImage, backgroundColor, name, baselineSize) {
-    return generateMultiLayerImageAsync(projectRoot, {
-        icon,
-        baselineSize,
-        borderRadiusRatio: 0.5,
-        outputImageFileName: `${name}_round.png`,
-        backgroundImage,
-        backgroundColor,
-        imageCacheFolder: "android-standard-circle",
-        backgroundImageCacheFolder: "android-standard-round-background",
     });
 }
 /**
@@ -118,7 +122,7 @@ async function configureAdaptiveIconAsync(projectRoot, foregroundImage, backgrou
     if (monochromeImage) {
         await generateMonochromeImageAsync(projectRoot, {
             icon: monochromeImage,
-            imageCacheFolder: "android-adaptive-monochrome",
+            imageCacheFolder: name + "-android-adaptive-monochrome",
             outputImageFileName: `${name}_monochrome.png`,
             baselineSize,
         });
@@ -127,10 +131,10 @@ async function configureAdaptiveIconAsync(projectRoot, foregroundImage, backgrou
         baselineSize,
         backgroundColor: "transparent",
         backgroundImage,
-        backgroundImageCacheFolder: "android-adaptive-background",
+        backgroundImageCacheFolder: name + "-android-adaptive-background",
         outputImageFileName: `${name}_foreground.png`,
         icon: foregroundImage,
-        imageCacheFolder: "android-adaptive-foreground",
+        imageCacheFolder: name + "-android-adaptive-foreground",
         backgroundImageFileName: `${name}_background.png`,
     });
     // create ic_launcher.xml and ic_launcher_round.xml
@@ -174,11 +178,7 @@ async function createAdaptiveIconXmlFiles(projectRoot, icLauncherXmlString, name
     }
     else {
         // Remove the xml if the icon switches from adaptive to standard.
-        await Promise.all([launcherPath, launcherRoundPath].map(async (path) => {
-            if (fs_1.default.existsSync(path)) {
-                return fs_1.default.promises.unlink(path);
-            }
-        }));
+        await Promise.all([launcherPath, launcherRoundPath].map((path) => remove(path)));
     }
 }
 async function generateMultiLayerImageAsync(projectRoot, { icon, backgroundColor, backgroundImage, imageCacheFolder, backgroundImageCacheFolder, borderRadiusRatio, outputImageFileName, backgroundImageFileName, baselineSize, }) {
@@ -242,8 +242,13 @@ function iterateDpiValues(projectRoot, callback) {
 }
 async function deleteIconNamedAsync(projectRoot, name) {
     return iterateDpiValues(projectRoot, ({ dpiFolder }) => {
-        return fs_1.default.promises.unlink(path_1.default.resolve(dpiFolder, name));
+        return remove(path_1.default.resolve(dpiFolder, name));
     });
+}
+async function remove(p) {
+    if (fs_1.default.existsSync(p)) {
+        return fs_1.default.promises.unlink(p);
+    }
 }
 async function generateIconAsync(projectRoot, { cacheType, src, scale, backgroundColor, borderRadiusRatio, baseSize, }) {
     const iconSizePx = baseSize * scale;

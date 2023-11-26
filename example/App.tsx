@@ -65,6 +65,16 @@ export default function App() {
         icon: "ic_launcher",
         id: "alpha",
       },
+      {
+        title: "Do Two",
+        icon: "shortcut_one",
+        id: "2",
+      },
+      {
+        title: "Do Two",
+        icon: "shortcut_two",
+        id: "3",
+      },
       // {
       //   title: "Shuffle",
       //   subtitle: "Subtitle!",

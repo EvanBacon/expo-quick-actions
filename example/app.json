@@ -37,6 +37,18 @@
                 "foregroundImage": "./assets/adaptive-icon.png",
                 "backgroundColor": "#282A35"
               }
+            },
+            {
+              "name": "shortcut_two",
+              "icon": {
+                "foregroundImage": "./assets/adaptive-star.png",
+                "backgroundColor": "#ff0000"
+              }
+            },
+            {
+              "name": "shortcut_three",
+              "baseSize": 48,
+              "icon": "https://cdn0.iconfinder.com/data/icons/ui-16px-perfect-megapack-line/16/82_Add-512.png"
             }
           ]
         }
