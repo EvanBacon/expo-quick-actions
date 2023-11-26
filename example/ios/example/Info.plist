@@ -48,6 +48,24 @@
         </dict>
       </dict>
     </dict>
+    <key>UIApplicationShortcutItems</key>
+    <array>
+      <dict>
+        <key>UIApplicationShortcutItemTitle</key>
+        <string>Shortcut One</string>
+        <key>UIApplicationShortcutItemSubtitle</key>
+        <string>Subtitle One</string>
+        <key>UIApplicationShortcutItemType</key>
+        <string>1</string>
+        <key>UIApplicationShortcutItemUserInfo</key>
+        <dict>
+          <key>url</key>
+          <string>https://baconbrix.com</string>
+        </dict>
+        <key>UIApplicationShortcutItemIconSymbolName</key>
+        <string>shortcut_one</string>
+      </dict>
+    </array>
     <key>UILaunchStoryboardName</key>
     <string>SplashScreen</string>
     <key>UIRequiredDeviceCapabilities</key>

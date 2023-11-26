@@ -30,7 +30,7 @@
       [
         "expo-quick-actions",
         {
-          "androidImages": {
+          "androidIcons": {
             "shortcut_one": {
               "foregroundImage": "./assets/adaptive-icon.png",
               "backgroundColor": "#282A35"
@@ -41,9 +41,20 @@
             },
             "shortcut_three": "https://cdn0.iconfinder.com/data/icons/ui-16px-perfect-megapack-line/16/82_Add-512.png"
           },
-          "iosImages": {
+          "iosIcons": {
             "shortcut_one": "./assets/adaptive-icon.png"
-          }
+          },
+          "iosActions": [
+            {
+              "id": "1",
+              "title": "Shortcut One",
+              "subtitle": "Subtitle One",
+              "icon": "shortcut_one",
+              "params": {
+                "url": "https://baconbrix.com"
+              }
+            }
+          ]
         }
       ]
     ],
