@@ -5,8 +5,8 @@ export type AdaptiveIcon = {
     backgroundImage?: string;
     monochromeImage?: string;
 };
-export declare const withAndroidAppIcon: ConfigPlugin<{
+export type AndroidImageProps = {
     name: string;
-    baseSize?: number;
-    icon: string | AdaptiveIcon;
-}>;
+    src: string | AdaptiveIcon;
+};
+export declare const withAndroidAppIcon: ConfigPlugin<AndroidImageProps>;

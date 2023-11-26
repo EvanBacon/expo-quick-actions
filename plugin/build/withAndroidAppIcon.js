@@ -20,17 +20,17 @@ const BASELINE_PIXEL_SIZE = 108;
 const ANDROID_RES_PATH = "android/app/src/main/res/";
 const MIPMAP_ANYDPI_V26 = "mipmap-anydpi-v26";
 const withAndroidAppIcon = (config, props) => {
-    const icon = typeof props.icon === "string" ? props.icon : props.icon.foregroundImage;
+    const icon = typeof props.src === "string" ? props.src : props.src.foregroundImage;
     if (!icon) {
         return config;
     }
     const name = props.name; // ?? "ic_launcher";
     // NOTE: This is normally `iconBackground`
     const backgroundColorName = `${name}_background_color`;
-    const backgroundColor = typeof props.icon === "string" ? null : props.icon.backgroundColor ?? null;
-    const backgroundImage = typeof props.icon === "string" ? null : props.icon.backgroundImage ?? null;
-    const monochromeImage = typeof props.icon === "string" ? null : props.icon.monochromeImage ?? null;
-    const isAdaptive = typeof props.icon !== "string";
+    const backgroundColor = typeof props.src === "string" ? null : props.src.backgroundColor ?? null;
+    const backgroundImage = typeof props.src === "string" ? null : props.src.backgroundImage ?? null;
+    const monochromeImage = typeof props.src === "string" ? null : props.src.monochromeImage ?? null;
+    const isAdaptive = typeof props.src !== "string";
     // Apply colors.xml changes
     (0, config_plugins_1.withAndroidColors)(config, (config) => {
         if (isAdaptive) {
@@ -55,7 +55,7 @@ const withAndroidAppIcon = (config, props) => {
                 isAdaptive,
                 name,
                 colorName: backgroundColorName,
-                baselineSize: props.baseSize ?? BASELINE_PIXEL_SIZE,
+                baselineSize: BASELINE_PIXEL_SIZE,
             });
             return config;
         },

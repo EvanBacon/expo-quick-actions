@@ -31,13 +31,17 @@ export type AdaptiveIcon = {
   monochromeImage?: string;
 };
 
-export const withAndroidAppIcon: ConfigPlugin<{
+export type AndroidImageProps = {
   name: string;
-  baseSize?: number;
-  icon: string | AdaptiveIcon;
-}> = (config, props) => {
+  src: string | AdaptiveIcon;
+};
+
+export const withAndroidAppIcon: ConfigPlugin<AndroidImageProps> = (
+  config,
+  props
+) => {
   const icon =
-    typeof props.icon === "string" ? props.icon : props.icon.foregroundImage;
+    typeof props.src === "string" ? props.src : props.src.foregroundImage;
 
   if (!icon) {
     return config;
@@ -47,13 +51,13 @@ export const withAndroidAppIcon: ConfigPlugin<{
   // NOTE: This is normally `iconBackground`
   const backgroundColorName = `${name}_background_color`;
   const backgroundColor =
-    typeof props.icon === "string" ? null : props.icon.backgroundColor ?? null;
+    typeof props.src === "string" ? null : props.src.backgroundColor ?? null;
   const backgroundImage =
-    typeof props.icon === "string" ? null : props.icon.backgroundImage ?? null;
+    typeof props.src === "string" ? null : props.src.backgroundImage ?? null;
   const monochromeImage =
-    typeof props.icon === "string" ? null : props.icon.monochromeImage ?? null;
+    typeof props.src === "string" ? null : props.src.monochromeImage ?? null;
 
-  const isAdaptive = typeof props.icon !== "string";
+  const isAdaptive = typeof props.src !== "string";
   // Apply colors.xml changes
   withAndroidColors(config, (config) => {
     if (isAdaptive) {
@@ -82,7 +86,7 @@ export const withAndroidAppIcon: ConfigPlugin<{
         isAdaptive,
         name,
         colorName: backgroundColorName,
-        baselineSize: props.baseSize ?? BASELINE_PIXEL_SIZE,
+        baselineSize: BASELINE_PIXEL_SIZE,
       });
       return config;
     },

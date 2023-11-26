@@ -1,18 +1,27 @@
-import { withAndroidAppIcon } from "./withAndroidAppIcon";
+import { AndroidImageProps, withAndroidAppIcon } from "./withAndroidAppIcon";
 import { withIosImageAsset, IosImageProps } from "./withIosImageAssets";
 import { ConfigPlugin } from "@expo/config-plugins";
 
 const withQuickActions: ConfigPlugin<{
-  androidIcons: any[];
-  iosImages?: IosImageProps[];
+  androidImages?: Record<string, AndroidImageProps["src"]>;
+  iosImages?: Record<string, IosImageProps["src"]>;
 }> = (config, props) => {
-  props.androidIcons?.forEach((icon) => {
-    config = withAndroidAppIcon(config, icon);
-  });
-
-  props.iosImages?.forEach((image) => {
-    config = withIosImageAsset(config, image);
-  });
+  if (props.androidImages) {
+    Object.entries(props.androidImages).forEach(([name, image]) => {
+      config = withAndroidAppIcon(config, {
+        name,
+        src: image,
+      });
+    });
+  }
+  if (props.iosImages) {
+    Object.entries(props.iosImages).forEach(([name, image]) => {
+      config = withIosImageAsset(config, {
+        name,
+        src: image,
+      });
+    });
+  }
 
   return config;
 };
