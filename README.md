@@ -230,16 +230,48 @@ There's an optional config plugin that you can use to add images and static iOS 
 
 ## iOS Best Practice
 
-**Use 4 actions**. Apple supports up-to 4, but most good apps use all 4.
+### Use 4 Actions
 
-**Use SF Symbols**. While you can have custom icons on iOS (and I made it really easy via the Config Plugin), opt-to use SF Symbols instead. This is because Apple injects their own actions and the icons will look out of place.
+Apple recommends using all four spots, utility-based apps like calculators will use less. If you can't think of four spots, then just make the actions deep link to a specific screen in your app.
+
+![four-actions](https://github.com/EvanBacon/expo-quick-actions/assets/9664363/35f371ab-e9ad-414a-8b8b-4ebea827236f)
+
+### Avoid branded icons
+
+**Use SF Symbols**. While you can have custom icons on iOS (and I made it really easy via the Expo Config Plugin), opt towards using SF Symbols instead. This is because Apple injects their own actions ("Edit Home Screen", "Share App", "Remove App") and the icons will look out of place next to them––see the example below. If you absolute must use branded icons, then try to match the stroke-weight of the default icons.
 
 If you want to use a custom icon, prefer outline icons to filled icons on iOS.
 
+![brand-icons](https://github.com/EvanBacon/expo-quick-actions/assets/9664363/9b33f519-9dae-41ea-8e99-8d39ce53092f)
+
+### Search action
+
 iOS apps often **have a "Search" shortcut** that opens the app and focuses the search bar. This is a good default shortcut to have. Make it the last item in the list. E.g. Whatsapp, Twitter, Apple Mail, Amazon, Slack.
+
+![search-actions](https://github.com/EvanBacon/expo-quick-actions/assets/9664363/7ebeba53-4124-4f18-81f4-9b2f1d9c9518)
+
+Here's the object you can use to add a basic "Search" action:
+
+```js
+{
+  "id": "search,
+  "title": "Search",
+  // Built-in icon for search
+  "icon": "search",
+  // SF Symbol equivalent
+  // "icon": "symbol:magnifyingglass",
+  "params": {
+    // Optional deep link to a search page (must be handled manually with something like Expo Router).
+    "href": "/search"
+  }
+}
+```
 
 ## Android Best Practice
 
 **Use 4 actions** (Android sometimes supports more, Apple only supports 4).
 
-Android shortcuts can be saved to the screen, iOS shortcuts cannot. This means that Android shortcuts should be thought of as alternative entry points to your app. The icon and name should reflect that.
+Android shortcuts can be saved to the screen, iOS shortcuts cannot. This means that Android shortcuts should be thought of as alternative entry points to your app. The icon and name should reflect that. Because of this, I've made the Expo Config Plugin capable of generating full responsive app icons (as well as simple icons).
+
+
+
