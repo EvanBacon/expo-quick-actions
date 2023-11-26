@@ -62,31 +62,31 @@ export default function App() {
       {
         title: "Play Song",
         // subtitle: "NDA - Billie Eilish",
-        icon: "symbol:gauge.open.with.lines.needle.84percent.exclamation",
+        icon: "ic_launcher",
         id: "alpha",
       },
-      {
-        title: "Shuffle",
-        subtitle: "Subtitle!",
-        params: {
-          href: "/foo",
-        },
-        icon: "custom",
-        id: "2",
-      },
-      {
-        title: "3",
-        subtitle: "3",
-        id: "3",
-      },
-      {
-        title: "4",
-        id: "4",
-      },
-      {
-        title: "5",
-        id: "5",
-      },
+      // {
+      //   title: "Shuffle",
+      //   subtitle: "Subtitle!",
+      //   params: {
+      //     href: "/foo",
+      //   },
+      //   icon: "custom",
+      //   id: "2",
+      // },
+      // {
+      //   title: "3",
+      //   subtitle: "3",
+      //   id: "3",
+      // },
+      // {
+      //   title: "4",
+      //   id: "4",
+      // },
+      // {
+      //   title: "5",
+      //   id: "5",
+      // },
       // {
       //   title: "Like Song",
       //   icon: "Love",

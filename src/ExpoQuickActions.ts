@@ -19,6 +19,7 @@ export type Action = {
   id: string;
   title: string;
   icon?: string | null;
+  /** iOS-only. Subtitle for the action. */
   subtitle?: string | null;
   /** Additional serial parameters for the action.  */
   params?: Record<string, number | string | boolean | null | undefined> | null;

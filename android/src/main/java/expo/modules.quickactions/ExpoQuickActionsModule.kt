@@ -5,15 +5,16 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.ShortcutInfo
 import android.content.pm.ShortcutManager
+import android.content.res.Resources
 import android.graphics.drawable.Icon
 import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
 import android.os.PersistableBundle
 import androidx.annotation.RequiresApi
+import expo.modules.kotlin.exception.Exceptions
 import expo.modules.kotlin.modules.Module
 import expo.modules.kotlin.modules.ModuleDefinition
-import expo.modules.kotlin.exception.Exceptions
 import expo.modules.kotlin.records.Field
 import expo.modules.kotlin.records.Record
 
@@ -228,21 +229,33 @@ class ExpoQuickActionsModule : Module() {
             val intent = Intent(context, currentActivity!!::class.java)
             intent.action = Intent.ACTION_VIEW
             intent.putExtra("shortcut_data", it.toBundle());
-            ShortcutInfo.Builder(context, it.id)
+            val builder = ShortcutInfo.Builder(context, it.id)
                     .setShortLabel(it.title)
-                    .setLongLabel(it.subtitle ?: it.title)
-                .setIcon(Icon.createWithResource(context, getResourceIdForIcon(it.icon)))
-                .setIntent(intent)
+                    .setLongLabel(it.title)
+
+            val iconRes = loadIconRes(it.icon)
+            if (iconRes > 0) {
+                builder.setIcon(Icon.createWithResource(context, iconRes))
+            }
+
+            builder.setIntent(intent)
                 .build()
         }
         shortcutManager.dynamicShortcuts = shortcuts
     }
 
-    private fun getResourceIdForIcon(iconName: String?): Int {
-        iconName?.let {
-            return context.resources.getIdentifier(it, "drawable", context.packageName)
+    private fun loadIconRes(icon: String?): Int {
+        if (icon == null) {
+            return 0
         }
-        return 0 // Default icon resource ID
+        val packageName = context.packageName
+        val res: Resources = context.resources
+        val resourceId: Int = res.getIdentifier(icon, "drawable", packageName)
+        return if (resourceId == 0) {
+            res.getIdentifier(icon, "mipmap", packageName)
+        } else {
+            resourceId
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.N_MR1)

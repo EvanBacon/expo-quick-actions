@@ -14,7 +14,7 @@ The `Action` type is an object with the following properties:
 
 - `id: string`: A unique identifier for the action.
 - `title: string`: The title of the action.
-- `subtitle?: string | null`: The subtitle of the action.
+- `subtitle?: string | null`: The subtitle of the action, iOS-only.
 - `icon?: string | null`: Asset reference to use for the icon.
 - `params?: Record<string, number | string | boolean | null | undefined> | null`: Additional serial parameters for the action.
 
@@ -83,6 +83,8 @@ const subscription = QuickActions.addListener((action) => {
 ```
 
 ## Icons
+
+> Read the [Android design docs for shortcut icons](https://commondatastorage.googleapis.com/androiddevelopers/shareables/design/app-shortcuts-design-guidelines.pdf).
 
 On iOS, there are three types of images you may want to use: default icons, SF Symbols, and custom template images. The `icon` property supports magic prefixes to access all the built-in icons:
 

@@ -5,10 +5,12 @@
   "main": "build/ExpoQuickActions.js",
   "types": "build/ExpoQuickActions.d.ts",
   "scripts": {
-    "build": "tsc",
+    "build": "expo-module build",
     "lint": "eslint ."
   },
   "files": [
+    "app.plugin.js",
+    "plugin/build",
     "build"
   ],
   "keywords": [
