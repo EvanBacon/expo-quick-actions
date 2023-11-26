@@ -227,3 +227,19 @@ There's an optional config plugin that you can use to add images and static iOS 
   ]
 }
 ```
+
+## iOS Best Practice
+
+**Use 4 actions**. Apple supports up-to 4, but most good apps use all 4.
+
+**Use SF Symbols**. While you can have custom icons on iOS (and I made it really easy via the Config Plugin), opt-to use SF Symbols instead. This is because Apple injects their own actions and the icons will look out of place.
+
+If you want to use a custom icon, prefer outline icons to filled icons on iOS.
+
+iOS apps often **have a "Search" shortcut** that opens the app and focuses the search bar. This is a good default shortcut to have. Make it the last item in the list. E.g. Whatsapp, Twitter, Apple Mail, Amazon, Slack.
+
+## Android Best Practice
+
+**Use 4 actions** (Android sometimes supports more, Apple only supports 4).
+
+Android shortcuts can be saved to the screen, iOS shortcuts cannot. This means that Android shortcuts should be thought of as alternative entry points to your app. The icon and name should reflect that.
