@@ -68,7 +68,7 @@ export default function App() {
       {
         title: "Shuffle",
         subtitle: "Subtitle!",
-        userInfo: {
+        params: {
           href: "/foo",
         },
         icon: "custom",

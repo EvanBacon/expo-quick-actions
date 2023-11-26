@@ -17,7 +17,7 @@ import expo.modules.kotlin.exception.Exceptions
 import expo.modules.kotlin.records.Field
 import expo.modules.kotlin.records.Record
 
-class ActionObject(id: String, title: String, subtitle: String?, icon: String?, userInfo: Map<String, Any>?) : Record {
+class ActionObject(id: String, title: String, subtitle: String?, icon: String?, params: Map<String, Any>?) : Record {
     @Field
     val id: String = id
     @Field
@@ -30,7 +30,7 @@ class ActionObject(id: String, title: String, subtitle: String?, icon: String?, 
     val icon: String? = icon
 
     @Field
-    val userInfo: Map<String, Any>? = userInfo
+    val params: Map<String, Any>? = params
 
     companion object {
         fun fromBundle(bundle: Bundle): ActionObject {
@@ -38,10 +38,10 @@ class ActionObject(id: String, title: String, subtitle: String?, icon: String?, 
             val title = bundle.getString("title", "")
             val subtitle = bundle.getString("subtitle")
             val icon = bundle.getString("icon")
-            val userInfoBundle = bundle.getBundle("userInfo")
-            val userInfo = userInfoBundle?.let { bundleToMap(it) }
+            val paramsBundle = bundle.getBundle("params")
+            val params = paramsBundle?.let { bundleToMap(it) }
 
-            return ActionObject(id, title, subtitle, icon, userInfo)
+            return ActionObject(id, title, subtitle, icon, params)
         }
 
         fun fromPersistableBundle(bundle: PersistableBundle): ActionObject {
@@ -49,24 +49,24 @@ class ActionObject(id: String, title: String, subtitle: String?, icon: String?, 
             val title = bundle.getString("title", "")
             val subtitle = bundle.getString("subtitle")
             val icon = bundle.getString("icon")
-            // For PersistableBundle, userInfo might need to be handled differently
+            // For PersistableBundle, params might need to be handled differently
             // as it does not support all types that Bundle does.
-            val userInfoBundle = bundle.getPersistableBundle("userInfo")
-            val userInfo = userInfoBundle?.let { extractUserInfoFromPersistableBundle(it) }
+            val paramsBundle = bundle.getPersistableBundle("params")
+            val params = paramsBundle?.let { extractUserInfoFromPersistableBundle(it) }
 
-            return ActionObject(id, title, subtitle, icon, userInfo)
+            return ActionObject(id, title, subtitle, icon, params)
         }
 
          private fun extractUserInfoFromPersistableBundle(bundle: PersistableBundle): Map<String, Any>? {
-            val userInfoMap = mutableMapOf<String, Any>()
+            val paramsMap = mutableMapOf<String, Any>()
             bundle.keySet().forEach { key ->
                 when (val value = bundle.get(key)) {
-                    is Int, is Long, is Double, is String, is Boolean -> userInfoMap[key] = value
+                    is Int, is Long, is Double, is String, is Boolean -> paramsMap[key] = value
                     // Add other types as needed, e.g., arrays of basic types
                     // Note: PersistableBundle does not support all types that Bundle does
                 }
             }
-            return if (userInfoMap.isNotEmpty()) userInfoMap else null
+            return if (paramsMap.isNotEmpty()) paramsMap else null
         }
     
     }
@@ -77,9 +77,9 @@ class ActionObject(id: String, title: String, subtitle: String?, icon: String?, 
         bundle.putString("title", title)
         bundle.putString("subtitle", subtitle)
         bundle.putString("icon", icon)
-        userInfo?.let { userInfoMap ->
-            val userInfoBundle = mapToBundle(userInfoMap)
-            bundle.putBundle("userInfo", userInfoBundle)
+        params?.let { paramsMap ->
+            val paramsBundle = mapToBundle(paramsMap)
+            bundle.putBundle("params", paramsBundle)
         }
         return bundle
     }
@@ -127,7 +127,7 @@ class ExpoQuickActionsModule : Module() {
 
         private fun notifyShortcutAction(action: ActionObject) {
             // Send an event with the shortcutId or relevant information
-            instance?.sendEvent("onQuickAction", mapOf("id" to action.id, "title" to action.title, "subtitle" to action.subtitle, "icon" to action.icon, "userInfo" to action.userInfo))
+            instance?.sendEvent("onQuickAction", mapOf("id" to action.id, "title" to action.title, "subtitle" to action.subtitle, "icon" to action.icon, "params" to action.params))
         }
 
         fun convertShortcutIntent(intent: Intent): ActionObject? {
@@ -185,7 +185,7 @@ class ExpoQuickActionsModule : Module() {
 
         Constants {
             return@Constants mapOf("initial" to QuickActionsSingleton.launchAction?.let {
-                mapOf("id" to it.id, "title" to it.title, "subtitle" to it.subtitle, "icon" to it.icon, "userInfo" to it.userInfo)
+                mapOf("id" to it.id, "title" to it.title, "subtitle" to it.subtitle, "icon" to it.icon, "params" to it.params)
             })
         }
 

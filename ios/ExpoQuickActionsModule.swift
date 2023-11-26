@@ -40,7 +40,7 @@ struct ActionObject: Record {
     @Field var title: String? = nil
     @Field var subtitle: String? = nil
     @Field var icon: String? = nil
-    @Field var userInfo: [String: NSSecureCoding]? = nil
+    @Field var params: [String: NSSecureCoding]? = nil
 }
 
 func createShortcutIcon(from typeName: String?) -> UIApplicationShortcutIcon? {
@@ -67,7 +67,7 @@ func toActionObject(item: UIApplicationShortcutItem?) -> ActionObject? {
         id: item.type,
         title: item.localizedTitle,
         subtitle: item.localizedSubtitle,
-        userInfo: item.userInfo
+        params: item.userInfo
     )
 }
 
@@ -89,7 +89,7 @@ public class ExpoQuickActionsModule: Module {
                     localizedTitle: item.title ?? "title",
                     localizedSubtitle: item.subtitle,
                     icon: createShortcutIcon(from: item.icon),
-                    userInfo: item.userInfo
+                    userInfo: item.params
                 )
             }
         }.runOnQueue(.main)

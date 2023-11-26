@@ -10,7 +10,6 @@ const ExpoQuickActions = requireNativeModule(
 ) as PrivateNativeModule & {
   initial?: Action;
   setItems(data?: Action[]): Promise<void>;
-  getInitial(): Promise<Action>;
   isSupported(): Promise<boolean>;
 };
 
@@ -19,10 +18,11 @@ export type Action = {
   title: string;
   icon?: string | null;
   subtitle?: string | null;
-  userInfo?: Record<string, any> | null;
+  /** Additional serial parameters for the action.  */
+  params?: Record<string, number | string | boolean | null | undefined> | null;
 };
 
-export const { initial, setItems, isSupported, getInitial } = ExpoQuickActions;
+export const { initial, setItems, isSupported } = ExpoQuickActions;
 
 const emitter = new EventEmitter(ExpoQuickActions);
 
