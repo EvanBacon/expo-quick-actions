@@ -105,6 +105,16 @@ fun mapToBundle(map: Map<String, Any>?): Bundle {
     return bundle
 }
 
+fun bundleToMap(bundle: Bundle?): Map<String, Any> {
+    val map = mutableMapOf<String, Any>()
+    bundle?.keySet()?.forEach { key ->
+        bundle.get(key)?.let { value ->
+            map[key] = value
+        }
+    }
+    return map
+}
+
 class ExpoQuickActionsModule : Module() {
   private val context: Context
     get() = appContext.reactContext ?: throw Exceptions.ReactContextLost()
@@ -115,9 +125,54 @@ class ExpoQuickActionsModule : Module() {
     companion object {
         private var instance: ExpoQuickActionsModule? = null
 
-        fun notifyShortcutAction(action: ActionObject) {
+        private fun notifyShortcutAction(action: ActionObject) {
             // Send an event with the shortcutId or relevant information
             instance?.sendEvent("onQuickAction", mapOf("id" to action.id, "title" to action.title, "subtitle" to action.subtitle, "icon" to action.icon, "userInfo" to action.userInfo))
+        }
+
+        fun convertShortcutIntent(intent: Intent): ActionObject? {
+            // Check if the intent comes from a shortcut action
+            if (intent.action == Intent.ACTION_VIEW) {
+                // Extract information from the intent to identify the shortcut action
+
+                val actionBundle = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    intent.getParcelableExtra("shortcut_data")
+                } else {
+                    intent.getBundleExtra("shortcut_data") as PersistableBundle?
+                }
+
+                if (actionBundle != null) {
+                    val actionObject = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && actionBundle is PersistableBundle) {
+                        return ActionObject.fromPersistableBundle(actionBundle)
+                    } else {
+                        return ActionObject.fromBundle(actionBundle as Bundle)
+                    }
+                }
+            }
+            return null;
+        }
+
+        fun handleShortcutIntent(intent: Intent) {
+            // Check if the intent comes from a shortcut action
+            if (intent.action == Intent.ACTION_VIEW) {
+                // Extract information from the intent to identify the shortcut action
+
+                val actionBundle = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    intent.getParcelableExtra("shortcut_data")
+                } else {
+                    intent.getBundleExtra("shortcut_data") as PersistableBundle?
+                }
+
+                actionBundle?.let {
+                    val actionObject = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && it is PersistableBundle) {
+                        ActionObject.fromPersistableBundle(it)
+                    } else {
+                        ActionObject.fromBundle(it as Bundle)
+                    }
+                    notifyShortcutAction(actionObject)
+
+                }
+            }
         }
     }
 
@@ -128,12 +183,22 @@ class ExpoQuickActionsModule : Module() {
           setItems(items)
         }
 
+        Constants {
+            return@Constants mapOf("initial" to QuickActionsSingleton.launchAction?.let {
+                mapOf("id" to it.id, "title" to it.title, "subtitle" to it.subtitle, "icon" to it.icon, "userInfo" to it.userInfo)
+            })
+        }
+
         AsyncFunction("isSupported") {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
                 isSupported(context)
             } else {
                 false
             }
+        }
+
+        OnNewIntent {
+            handleShortcutIntent(it)
         }
 
         OnCreate {
@@ -160,16 +225,7 @@ class ExpoQuickActionsModule : Module() {
         val shortcuts = items.mapNotNull {
             val intent = Intent(context, currentActivity!!::class.java)
             intent.action = Intent.ACTION_VIEW
-
             intent.putExtra("shortcut_data", it.toBundle());
-
-            // Pass the shortcut information to the intent
-//            intent.putExtra("shortcut_user_info", mapToBundle(it.userInfo))
-//            intent.putExtra("shortcut_icon", it.icon)
-//            intent.putExtra("shortcut_subtitle", it.subtitle)
-//            intent.putExtra("shortcut_title", it.title)
-//            intent.putExtra("shortcut_id", it.id)
-            
             ShortcutInfo.Builder(context, it.id)
                     .setShortLabel(it.title)
                     .setLongLabel(it.subtitle ?: it.title)
