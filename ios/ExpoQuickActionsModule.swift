@@ -45,7 +45,7 @@ struct ActionObject: Record {
 
 func createShortcutIcon(from typeName: String?) -> UIApplicationShortcutIcon? {
     guard let typeName = typeName else { return nil }
-    
+
     let prefixToIconType: [(String, (String) -> UIApplicationShortcutIcon)] = [
         ("symbol:", UIApplicationShortcutIcon.init(systemImageName:)),
         ("asset:", UIApplicationShortcutIcon.init(templateImageName:))
@@ -58,7 +58,7 @@ func createShortcutIcon(from typeName: String?) -> UIApplicationShortcutIcon? {
     }
     
     return iconTypeMap[typeName].map(UIApplicationShortcutIcon.init(type:)) ??
-    UIApplicationShortcutIcon(systemImageName: typeName)
+    UIApplicationShortcutIcon(templateImageName: typeName)
 }
 
 func toActionObject(item: UIApplicationShortcutItem?) -> ActionObject? {

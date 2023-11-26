@@ -51,32 +51,26 @@ export const withIosImageAsset: ConfigPlugin<IosImageProps> = (
       const projectRoot = config.modRequest.projectRoot;
 
       const cwd = config.modRequest.projectName!;
-      const iosNamedProjectRoot = join(projectRoot, cwd);
+      const iosNamedProjectRoot = join(
+        config.modRequest.platformProjectRoot,
+        config.modRequest.projectName!
+      );
 
-      const imgPath = `Assets.xcassets/${name}.imageset`;
+      const imgPath = `Images.xcassets/${name}.imageset`;
       // Ensure the Images.xcassets/AppIcon.appiconset path exists
       await fs.promises.mkdir(join(iosNamedProjectRoot, imgPath), {
         recursive: true,
       });
 
-      const userDefinedIcon =
-        typeof image === "string"
-          ? { "1x": image, "2x": undefined, "3x": undefined }
-          : image;
-
       // Finally, write the Config.json
       await writeContentsJsonAsync(join(iosNamedProjectRoot, imgPath), {
         images: await generateResizedImageAsync(
-          Object.fromEntries(
-            Object.entries(userDefinedIcon).map(([key, value]) => [
-              key,
-              value?.match(/^[./]/) ? path.join(cwd, value) : value,
-            ])
-          ),
+          image,
           name,
           projectRoot,
           iosNamedProjectRoot,
-          path.join(cwd, "gen-image", name)
+          path.join(cwd, "gen-image", name),
+          true
         ),
       });
 
@@ -92,16 +86,23 @@ async function generateResizedImageAsync(
   name: string,
   projectRoot: string,
   iosNamedProjectRoot: string,
-  cacheComponent: string
+  cacheComponent: string,
+  downscaleMissing?: boolean
 ) {
   // Store the image JSON data for assigning via the Contents.json
   const imagesJson: ContentsJsonImage[] = [];
 
   // If the user provided a single image, then assume it's the 3x image and generate the 1x and 2x images.
-  //   const shouldResize = typeof icon === "string";
+  const shouldResize = downscaleMissing && typeof icon === "string";
   const userDefinedIcon =
     typeof icon === "string"
-      ? { "1x": icon, "2x": undefined, "3x": undefined }
+      ? {
+          "1x": icon,
+          "2x": undefined,
+          "3x": undefined,
+          //   "2x": shouldResize ? icon : undefined,
+          //   "3x": shouldResize ? icon : undefined,
+        }
       : icon;
 
   for (const icon of Object.entries(userDefinedIcon)) {
@@ -128,7 +129,7 @@ async function generateResizedImageAsync(
       // Write image buffer to the file system.
       const assetPath = join(
         iosNamedProjectRoot,
-        `Assets.xcassets/${name}.imageset`,
+        `Images.xcassets/${name}.imageset`,
         filename
       );
       await fs.promises.writeFile(assetPath, source);
@@ -138,6 +139,15 @@ async function generateResizedImageAsync(
     }
 
     imagesJson.push(imgEntry);
+  }
+
+  if (shouldResize) {
+    let largestImage = imagesJson.find((image) => image.filename);
+    imagesJson.map((image) => {
+      if (!image.filename) {
+        image.filename = largestImage?.filename;
+      }
+    });
   }
 
   return imagesJson;

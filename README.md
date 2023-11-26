@@ -100,7 +100,7 @@ Icons prefixed with `symbol:` are passed to `UIApplicationShortcutIcon(systemIma
 
 Icons matching one of the following will use a built-in icon: "compose", "play", "pause", "add", "location", "search", "share", "prohibit", "contact", "home", "markLocation", "favorite", "love", "cloud", "invitation", "confirmation", "mail", "message", "date", "time", "capturePhoto", "captureVideo", "task", "taskCompleted", "alarm", "bookmark", "shuffle", "audio", "update".
 
-If no built-in icon is found, the icon will default to using an SF Symbol with the same name, e.g. `heart` will use `UIApplicationShortcutIcon(systemImageName: "heart")`.
+If no built-in icon is found, the icon will default to using a custom image with the same name, e.g. `heart` will use `UIApplicationShortcutIcon(templateImageName: "heart")`.
 
 ### Custom Images
 

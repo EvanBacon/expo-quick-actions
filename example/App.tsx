@@ -59,22 +59,22 @@ export default function App() {
 
   React.useEffect(() => {
     QuickActions.setItems([
-      {
-        title: "Play Song",
-        // subtitle: "NDA - Billie Eilish",
-        icon: "ic_launcher",
-        id: "alpha",
-      },
+      // {
+      //   title: "Play Song",
+      //   // subtitle: "NDA - Billie Eilish",
+      //   icon: "ic_launcher",
+      //   id: "alpha",
+      // },
       {
         title: "Do Two",
-        icon: "shortcut_one",
+        icon: "asset:shortcut_one",
         id: "2",
       },
-      {
-        title: "Do Two",
-        icon: "shortcut_two",
-        id: "3",
-      },
+      // {
+      //   title: "3",
+      //   icon: "shortcut_two",
+      //   id: "3",
+      // },
       // {
       //   title: "Shuffle",
       //   subtitle: "Subtitle!",
