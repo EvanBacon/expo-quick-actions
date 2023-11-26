@@ -15,10 +15,10 @@ const ExpoQuickActions = requireNativeModule(
 };
 
 export type Action = {
-  icon?: string | null;
   id: string;
-  subtitle?: string | null;
   title: string;
+  icon?: string | null;
+  subtitle?: string | null;
   userInfo?: Record<string, any> | null;
 };
 

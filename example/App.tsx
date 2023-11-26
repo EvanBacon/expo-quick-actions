@@ -65,11 +65,15 @@ export default function App() {
         icon: "symbol:gauge.open.with.lines.needle.84percent.exclamation",
         id: "alpha",
       },
-      // {
-      //   title: "Shuffle",
-      //   icon: "Shuffle",
-      //   type: "beta",
-      // },
+      {
+        title: "Shuffle",
+        subtitle: "Subtitle!",
+        userInfo: {
+          href: "/foo",
+        },
+        icon: "custom",
+        id: "2",
+      },
       // {
       //   title: "Like Song",
       //   icon: "Love",
