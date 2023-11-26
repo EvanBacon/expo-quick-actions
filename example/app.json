@@ -14,9 +14,7 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.bacon.example"
@@ -28,6 +26,22 @@
       },
       "package": "com.bacon.example"
     },
+    "plugins": [
+      [
+        "expo-quick-actions",
+        {
+          "androidIcons": [
+            {
+              "name": "shortcut_one",
+              "icon": {
+                "foregroundImage": "./assets/adaptive-icon.png",
+                "backgroundColor": "#282A35"
+              }
+            }
+          ]
+        }
+      ]
+    ],
     "web": {
       "favicon": "./assets/favicon.png"
     }
