@@ -1,6 +1,6 @@
 # expo-quick-actions
 
-> This is not (currently) an official Expo SDK package. Subject to breaking changes.
+> This is not an official Expo SDK package.
 
 A comprehensive React Native library for home screen quick actions.
 
