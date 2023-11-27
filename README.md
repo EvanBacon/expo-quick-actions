@@ -188,6 +188,8 @@ There's an optional config plugin that you can use to add images and static iOS 
 - `iosIcons`: An object of iOS icons. The key is the `icon` property of the action. The value can be a string or an object with `1x`, `2x`, and `3x` properties.
 - `iosActions`: An array of iOS actions. These are static actions that will be available unless you clear them with the dynamic API. The `icon` property resolves the same as in the dynamic API, using `symbol:` and `asset:` prefixes.
 
+**app.json**
+
 ```json
 {
   "plugins": [
@@ -269,9 +271,52 @@ Here's the object you can use to add a basic "Search" action:
 
 ## Android Best Practice
 
-**Use 4 actions** (Android sometimes supports more, Apple only supports 4).
+**Use 4 actions** Android sometimes supports more, but I read somewhere in the Google docs that 4 is recommended.
+
+### Use Adaptive Icons
 
 Android shortcuts can be saved to the screen, iOS shortcuts cannot. This means that Android shortcuts should be thought of as alternative entry points to your app. The icon and name should reflect that. Because of this, I've made the Expo Config Plugin capable of generating full responsive app icons (as well as simple icons).
+
+For example, if we want a "Compose" action like the one found in Gmail, that can be implemented as follows:
+
+First, we'll add the icon and background color in the `app.json`:
+
+```json
+{
+  "plugins": [
+    [
+      "expo-quick-actions",
+      {
+        "androidIcons": {
+          "shortcut_compose": {
+            "foregroundImage": "./assets/adaptive-compose.png",
+            "backgroundColor": "#C84031"
+          }
+        }
+      }
+    ]
+  ]
+}
+```
+
+Second, we'll add an image to our project at `./assets/adaptive-compose.png`. This will be the Material design "create" icon with about 30% padding on all sides.
+
+Now if we run `npx expo prebuild -p android`, rebuild `npx expo run:android`, we can use the icon from source:
+
+```js
+// Add the compose action
+QuickActions.setItems([
+  {
+    id: "compose",
+    icon: "shortcut_compose",
+    title: "Compose"
+  }
+])
+```
+
+You can see the results below, it even has the signature "wiggle" when you move the icon around.
+
+https://github.com/EvanBacon/expo-quick-actions/assets/9664363/b3fe7608-1700-4247-8687-0c9dc7c6025e
 
 
 
