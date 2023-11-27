@@ -319,4 +319,65 @@ You can see the results below, it even has the signature "wiggle" when you move 
 https://github.com/EvanBacon/expo-quick-actions/assets/9664363/b3fe7608-1700-4247-8687-0c9dc7c6025e
 
 
+## Usage with Expo Router
+
+The philosophy in Expo Router is to treat opening the app from the home screen as linking to "/" (index route). In the future, I'd like to account for launching from native APIs like Share Sheet invocations, Siri, Quick Actions, Notifications, etc and linking to a well-known URL convention. This isn't the case today, but I did design around it.
+
+Pass `params: { href: "..." }` and use a hook in the Layout Route to handle the invocation.
+
+For example, using the hooks above:
+
+```js
+// app/_layout.tsx
+import { Slot, router } from "expo-router";
+
+export default function Layout() {
+  useQuickActionCallback((action) => {
+    if (action.params?.href) {
+      router.push(action.params?.href);
+    }
+  });
+
+  return <Slot />
+}
+```
+
+Now you can configure your quick actions to link places (including externally):
+
+```js
+[
+  {
+    "title": "New Chat",
+    "icon": "compose",
+    "id": "0",
+    "params": { "href": "/compose" },
+  },
+  {
+    "title": "Reply to Lydia",
+    "subtitle": "Explain React Server Components plz",
+    "icon": "contact",
+    "id": "1",
+    "params": { "href": "/messages/theavocoder" },
+  },
+  {
+    "title": "Search",
+    "icon": "search",
+    "id": "3",
+    "params": { "href": "/search" },
+  },
+  {
+    "title": "Leave Feedback",
+    "subtitle": "Please provide feedback before deleting the app",
+    "icon": "symbol:envelope",
+    "id": "4",
+    "params": { "href": "mailto:support@myapp.dev" },
+  }
+]
+```
+
+## Troubleshooting
+
+### The icon is a small circle on iOS
+
+This can happen if the `icon` property is invalid. See how icons are resolved to learn more. If you're using a custom asset then you need to ensure all three scales are added to the asset catalog (default if only a string is passed in the Config Plugin).
 
