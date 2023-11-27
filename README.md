@@ -331,12 +331,17 @@ For example, using the hooks above:
 // app/_layout.tsx
 import { Slot, router } from "expo-router";
 
-export default function Layout() {
+function useRouterQuickActions() {
   useQuickActionCallback((action) => {
-    if (action.params?.href) {
-      router.push(action.params?.href);
+    if (typeof action.params?.href === "string") {
+      router.push(action.params.href);
     }
   });
+}
+
+
+export default function Layout() {
+  useRouterQuickActions();
 
   return <Slot />
 }
@@ -362,14 +367,14 @@ Now you can configure your quick actions to link places (including externally):
   {
     "title": "Search",
     "icon": "search",
-    "id": "3",
+    "id": "2",
     "params": { "href": "/search" },
   },
   {
     "title": "Leave Feedback",
     "subtitle": "Please provide feedback before deleting the app",
     "icon": "symbol:envelope",
-    "id": "4",
+    "id": "3",
     "params": { "href": "mailto:support@myapp.dev" },
   }
 ]
