@@ -256,7 +256,7 @@ Here's the object you can use to add a basic "Search" action:
 
 ```js
 {
-  "id": "search,
+  "id": "search",
   "title": "Search",
   // Built-in icon for search
   "icon": "search",
