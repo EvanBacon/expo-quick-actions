@@ -66,10 +66,15 @@ export default function App() {
       //   id: "alpha",
       // },
       {
-        title: "Do Two",
-        icon: "asset:shortcut_one",
-        id: "2",
+        title: "Compose",
+        icon: "shortcut_compose",
+        id: "compose",
       },
+      // {
+      //   title: "Do Two",
+      //   icon: "asset:shortcut_one",
+      //   id: "2",
+      // },
       // {
       //   title: "3",
       //   icon: "shortcut_two",

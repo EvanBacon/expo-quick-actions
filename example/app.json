@@ -31,6 +31,10 @@
         "expo-quick-actions",
         {
           "androidIcons": {
+            "shortcut_compose": {
+              "foregroundImage": "./assets/adaptive-compose.png",
+              "backgroundColor": "#EA3323"
+            },
             "shortcut_one": {
               "foregroundImage": "./assets/adaptive-icon.png",
               "backgroundColor": "#282A35"
