@@ -1,9 +1,9 @@
 {
   "name": "expo-quick-actions",
-  "version": "0.2.3",
+  "version": "0.2.5",
   "description": "use native quick actions",
-  "main": "build/ExpoQuickActions.js",
-  "types": "build/ExpoQuickActions.d.ts",
+  "main": "build/index",
+  "types": "build/index.d.ts",
   "scripts": {
     "build": "expo-module build",
     "clean": "expo-module clean",
@@ -17,6 +17,8 @@
     "app.plugin.js",
     "plugin/build",
     "build",
+    "hooks",
+    "router",
     "expo-module.config.json",
     "ios",
     "android",
@@ -41,7 +43,8 @@
   },
   "devDependencies": {
     "expo-module-scripts": "^3.1.0",
-    "expo-modules-core": "^1.5.12"
+    "expo-modules-core": "^1.5.12",
+    "expo-router": "^2.0.14"
   },
   "peerDependencies": {
     "expo": "*"

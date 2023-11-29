@@ -9,7 +9,7 @@ const ExpoQuickActions = requireNativeModule(
   "ExpoQuickActions"
 ) as PrivateNativeModule & {
   initial?: Action;
-  setItems(data?: Action[]): Promise<void>;
+  setItems<TAction extends Action = Action>(data?: TAction[]): Promise<void>;
   isSupported(): Promise<boolean>;
   /** Android-only. The maximum number of shortcuts allowed. */
   maxCount?: number;
@@ -29,6 +29,8 @@ export const { initial, maxCount, setItems, isSupported } = ExpoQuickActions;
 
 const emitter = new EventEmitter(ExpoQuickActions);
 
-export function addListener(listener: (action: Action) => void) {
-  return emitter.addListener<Action>("onQuickAction", listener);
+export function addListener<TAction extends Action = Action>(
+  listener: (action: TAction) => void
+) {
+  return emitter.addListener<TAction>("onQuickAction", listener);
 }

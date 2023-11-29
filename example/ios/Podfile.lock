@@ -19,7 +19,7 @@ PODS:
     - React-NativeModulesApple
     - React-RCTAppDelegate
     - ReactCommon/turbomodule/core
-  - ExpoQuickActions (0.1.0):
+  - ExpoQuickActions (0.2.3):
     - ExpoModulesCore
   - EXSplashScreen (0.20.5):
     - ExpoModulesCore
@@ -619,7 +619,7 @@ SPEC CHECKSUMS:
   Expo: 61a8e1aa94311557c137c0a4dfd4fe78281cfbb4
   ExpoKeepAwake: be4cbd52d9b177cde0fd66daa1913afa3161fc1d
   ExpoModulesCore: c480fd4e3c7c8e81f0a6ba3a7c56869f25fe016d
-  ExpoQuickActions: dcb32dbf1fecc776369d8b404a7b9a73549802ca
+  ExpoQuickActions: 7012794a4234caec06ab53183143bcefa94a1eb5
   EXSplashScreen: c0e7f2d4a640f3b875808ed0b88575538daf6d82
   FBLazyVector: 748c0ef74f2bf4b36cfcccf37916806940a64c32
   FBReactNativeSpec: 966f29e4e697de53a3b366355e8f57375c856ad9

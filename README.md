@@ -114,71 +114,104 @@ Icons prefixed with `asset:` are passed to `UIApplicationShortcutIcon(templateIm
 
 ## Hooks
 
-I work on bundling at Expo so I mostly try to keep the JS small (and haven't found a good way to ignore unused code without increasing bundle time in development). If you want to use hooks, you can use the following:
+Convenience hooks are exposed with the nested import `expo-quick-actions/hooks`.
+
+```ts
+import {
+  useQuickActionCallback,
+  useQuickAction,
+} from "expo-quick-actions/hooks";
+```
+
+### useQuickActionCallback
+
+> `(callback: (action: Action) => void) => void`
+
+A hook that registers a callback that will fire when a quick action is triggered. This is useful for global updates like navigating or analytics.
+
+```tsx
+import { useQuickActionCallback } from "expo-quick-actions/hooks";
+
+function Route() {
+  useQuickActionCallback((action) => {
+    // Do something with the action without explicitly re-rendering the component. This is useful for global updates like navigating or analytics.
+    console.log(">", action);
+  });
+}
+```
+
+### useQuickAction
+
+> `() => Action | null`
+
+A hook that returns the current quick action. This is useful for updating the UI.
+
+```tsx
+import { useQuickAction } from "expo-quick-actions/hooks";
+
+function Route() {
+  // Re-renders the component when the action changes. This is useful for updating the UI.
+  const action = useQuickAction();
+}
+```
+
+## Expo Router
+
+The philosophy in Expo Router is to treat opening the app from the home screen as linking to "/" (index route). In the future, I'd like to account for launching from native APIs like Share Sheet invocations, Siri, Quick Actions, Notifications, etc and linking to a well-known URL convention. This isn't the case today, but I did design around it.
+
+Pass `params: { href: "..." }` and use a hook in the Layout Route to handle the invocation.
+
+For example, using the hooks above:
+
+```js
+// app/(root)/_layout.tsx
+import { Slot } from "expo-router";
+import { useQuickActionRouting } from "expo-quick-actions/router";
+
+export default function Layout() {
+  useQuickActionRouting();
+
+  return <Slot />;
+}
+```
+
+Now you can configure your quick actions to link places (including externally):
 
 ```ts
 import * as QuickActions from "expo-quick-actions";
-import React from "react";
+import { RouterAction } from "expo-quick-actions/router";
 
-function useQuickActionCallback(
-  callback?: (data: QuickActions.Action) => void | Promise<void>
-) {
-  React.useEffect(() => {
-    let isMounted = true;
-
-    if (QuickActions.initial) {
-      callback?.(QuickActions.initial);
-    }
-
-    const sub = QuickActions.addListener((event) => {
-      if (isMounted) {
-        callback?.(event);
-      }
-    });
-    return () => {
-      isMounted = false;
-      sub.remove();
-    };
-  }, [QuickActions.initial, callback]);
-}
-
-function useQuickAction() {
-  const [action, setAction] = React.useState<QuickActions.Action | null>(
-    QuickActions.initial ?? null
-  );
-
-  React.useEffect(() => {
-    let isMounted = true;
-    const sub = QuickActions.addListener((event) => {
-      if (isMounted) {
-        setAction(event);
-      }
-    });
-    return () => {
-      isMounted = false;
-      sub.remove();
-    };
-  }, []);
-
-  return action;
-}
-
-// Later ...
-
-import { router } from "expo-router";
-
-useQuickActionCallback((action) => {
-  router.push(action.params?.href);
-});
-
-// Or...
-
-const action = useQuickAction();
-
-if (action) {
-  router.push(action.params?.href);
-}
+QuickActions.setItems<RouterAction>([
+  {
+    title: "New Chat",
+    icon: "compose",
+    id: "0",
+    params: { href: "/compose" },
+  },
+  {
+    title: "Reply to Lydia",
+    subtitle: "Explain React Server Components plz",
+    icon: "contact",
+    id: "1",
+    params: { href: "/messages/theavocoder" },
+  },
+  {
+    title: "Search",
+    icon: "search",
+    id: "2",
+    params: { href: "/search" },
+  },
+  {
+    title: "Leave Feedback",
+    subtitle: "Please provide feedback before deleting the app",
+    icon: "symbol:envelope",
+    id: "3",
+    params: { href: "mailto:support@myapp.dev" },
+  },
+]);
 ```
+
+This can be used with Typed Routes to ensure the `params.href` can only be linked to a valid route within your project.
 
 ## Config Plugin
 
@@ -309,80 +342,17 @@ QuickActions.setItems([
   {
     id: "compose",
     icon: "shortcut_compose",
-    title: "Compose"
-  }
-])
+    title: "Compose",
+  },
+]);
 ```
 
 You can see the results below, it even has the signature "wiggle" when you move the icon around.
 
 https://github.com/EvanBacon/expo-quick-actions/assets/9664363/b3fe7608-1700-4247-8687-0c9dc7c6025e
 
-
-## Usage with Expo Router
-
-The philosophy in Expo Router is to treat opening the app from the home screen as linking to "/" (index route). In the future, I'd like to account for launching from native APIs like Share Sheet invocations, Siri, Quick Actions, Notifications, etc and linking to a well-known URL convention. This isn't the case today, but I did design around it.
-
-Pass `params: { href: "..." }` and use a hook in the Layout Route to handle the invocation.
-
-For example, using the hooks above:
-
-```js
-// app/_layout.tsx
-import { Slot, router } from "expo-router";
-
-function useRouterQuickActions() {
-  useQuickActionCallback((action) => {
-    if (typeof action.params?.href === "string") {
-      router.push(action.params.href);
-    }
-  });
-}
-
-
-export default function Layout() {
-  useRouterQuickActions();
-
-  return <Slot />
-}
-```
-
-Now you can configure your quick actions to link places (including externally):
-
-```js
-[
-  {
-    "title": "New Chat",
-    "icon": "compose",
-    "id": "0",
-    "params": { "href": "/compose" },
-  },
-  {
-    "title": "Reply to Lydia",
-    "subtitle": "Explain React Server Components plz",
-    "icon": "contact",
-    "id": "1",
-    "params": { "href": "/messages/theavocoder" },
-  },
-  {
-    "title": "Search",
-    "icon": "search",
-    "id": "2",
-    "params": { "href": "/search" },
-  },
-  {
-    "title": "Leave Feedback",
-    "subtitle": "Please provide feedback before deleting the app",
-    "icon": "symbol:envelope",
-    "id": "3",
-    "params": { "href": "mailto:support@myapp.dev" },
-  }
-]
-```
-
 ## Troubleshooting
 
 ### The icon is a small circle on iOS
 
 This can happen if the `icon` property is invalid. See how icons are resolved to learn more. If you're using a custom asset then you need to ensure all three scales are added to the asset catalog (default if only a string is passed in the Config Plugin).
-

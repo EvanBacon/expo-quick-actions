@@ -5,4 +5,4 @@ const emitter = new EventEmitter(ExpoQuickActions);
 export function addListener(listener) {
     return emitter.addListener("onQuickAction", listener);
 }
-//# sourceMappingURL=ExpoQuickActions.js.map
+//# sourceMappingURL=index.js.map
