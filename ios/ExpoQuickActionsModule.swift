@@ -97,8 +97,12 @@ public class ExpoQuickActionsModule: Module {
         }.runOnQueue(.main)
         
         AsyncFunction("isSupported") { () -> Bool in
-            UIApplication.shared.delegate?.window??
-                .rootViewController?.traitCollection.forceTouchCapability == .available
+            if #available (iOS 13.0, *) {
+                return true
+            } else {
+                return UIApplication.shared.delegate?.window??
+                    .rootViewController?.traitCollection.forceTouchCapability == .available
+            }
         }.runOnQueue(.main)
         
         Events(onQuickAction)
