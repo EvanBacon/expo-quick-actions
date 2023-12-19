@@ -1,8 +1,6 @@
-import { Href } from "expo-router/build/link/href";
 import * as QuickActions from "./index";
-import { router } from "expo-router";
-type TypedHref = Parameters<typeof router.push>[0];
-export type RouterAction<THref extends Href = TypedHref> = Omit<QuickActions.Action, "params"> & {
+type Href = any;
+export type RouterAction<THref extends Href = Href> = Omit<QuickActions.Action, "params"> & {
     id: string;
     title: string;
     icon?: string | null;
@@ -15,6 +13,7 @@ export type RouterAction<THref extends Href = TypedHref> = Omit<QuickActions.Act
     } & QuickActions.Action["params"];
 };
 export declare function isRouterAction(action: QuickActions.Action): action is RouterAction;
+type OptionalPromise<T> = T | Promise<T>;
 /**
  * Handle quick actions with `params.href`.
  *
@@ -22,6 +21,6 @@ export declare function isRouterAction(action: QuickActions.Action): action is R
  *
  * @param callback optional callback to handle the action. If the callback returns true, the router will **not** handle the action.
  */
-export declare function useQuickActionRouting(callback?: (data: QuickActions.Action) => boolean | Promise<boolean>): void;
+export declare function useQuickActionRouting(callback?: (data: QuickActions.Action) => OptionalPromise<boolean | undefined | void>): void;
 export {};
 //# sourceMappingURL=router.d.ts.map

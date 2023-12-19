@@ -1,11 +1,12 @@
 import React from "react";
-import { Href } from "expo-router/build/link/href";
 import * as QuickActions from "./index";
-import { router, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 
-type TypedHref = Parameters<typeof router.push>[0];
+type Href = any;
 
-export type RouterAction<THref extends Href = TypedHref> = Omit<
+// type TypedHref = Parameters<typeof router.push>[0];
+
+export type RouterAction<THref extends Href = Href> = Omit<
   QuickActions.Action,
   "params"
 > & {
@@ -36,6 +37,8 @@ function isHref(href: any): href is Href {
   );
 }
 
+type OptionalPromise<T> = T | Promise<T>;
+
 /**
  * Handle quick actions with `params.href`.
  *
@@ -44,7 +47,9 @@ function isHref(href: any): href is Href {
  * @param callback optional callback to handle the action. If the callback returns true, the router will **not** handle the action.
  */
 export function useQuickActionRouting(
-  callback?: (data: QuickActions.Action) => boolean | Promise<boolean>
+  callback?: (
+    data: QuickActions.Action
+  ) => OptionalPromise<boolean | undefined | void>
 ) {
   const router = useRouter();
 
@@ -55,7 +60,12 @@ export function useQuickActionRouting(
       if (isMounted) {
         if (!callback?.(data) && isRouterAction(data)) {
           setTimeout(() => {
-            router.push(data.params.href);
+            if ("navigate" in router) {
+              // @ts-expect-error: v3 and greater
+              router.navigate(data.params.href);
+            } else {
+              router.push(data.params.href);
+            }
           });
         }
       }
