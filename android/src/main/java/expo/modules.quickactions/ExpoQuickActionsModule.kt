@@ -251,6 +251,13 @@ class ExpoQuickActionsModule : Module() {
         if (icon == null) {
             return 0
         }
+        // If the icon starts with `asset:` remove the prefix.
+        val assetPrefix = "asset:"
+        if (icon.startsWith(assetPrefix)) {
+            val assetName = icon.substring(assetPrefix.length)
+            // Recurse
+            return loadIconRes(assetName)
+        }
         val packageName = context.packageName
         val res: Resources = context.resources
         val resourceId: Int = res.getIdentifier(icon, "drawable", packageName)

@@ -39,7 +39,8 @@
   "homepage": "https://github.com/evanbacon/expo-quick-actions/",
   "dependencies": {
     "@expo/image-utils": "^0.4.1",
-    "schema-utils": "^4.2.0"
+    "schema-utils": "^4.2.0",
+    "sf-symbols-typescript": "^1.0.0"
   },
   "devDependencies": {
     "expo-module-scripts": "^3.4.1",
