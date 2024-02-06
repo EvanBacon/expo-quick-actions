@@ -4,6 +4,8 @@
 
 A comprehensive React Native library for home screen quick actions.
 
+## Versioning
+
 ## API documentation
 
 ```ts

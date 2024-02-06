@@ -25,13 +25,7 @@ export function useQuickActionRouting(callback) {
             if (isMounted) {
                 if (!callback?.(data) && isRouterAction(data)) {
                     setTimeout(() => {
-                        if ("navigate" in router) {
-                            // @ts-expect-error: v3 and greater
-                            router.navigate(data.params.href);
-                        }
-                        else {
-                            router.push(data.params.href);
-                        }
+                        router.navigate(data.params.href);
                     });
                 }
             }

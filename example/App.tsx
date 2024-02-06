@@ -1,7 +1,7 @@
 import * as QuickActions from "expo-quick-actions";
 import { useQuickAction } from "expo-quick-actions/hooks";
 import React from "react";
-import { Text, View } from "react-native";
+import { Platform, Text, View } from "react-native";
 
 export default function App() {
   const action = useQuickAction();
@@ -12,7 +12,10 @@ export default function App() {
     QuickActions.setItems([
       {
         title: "Compose",
-        icon: "shortcut_compose",
+        icon: Platform.select({
+          ios: "symbol:heart",
+          android: "shortcut_compose",
+        }),
         id: "compose",
         params: {
           href: "/compose",
