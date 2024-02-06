@@ -1,7 +1,11 @@
+import type { SFSymbol } from "sf-symbols-typescript";
+type AppleBuiltInIcons = "compose" | "play" | "pause" | "add" | "location" | "search" | "share" | "prohibit" | "contact" | "home" | "markLocation" | "favorite" | "love" | "cloud" | "invitation" | "confirmation" | "mail" | "message" | "date" | "time" | "capturePhoto" | "captureVideo" | "task" | "taskCompleted" | "alarm" | "bookmark" | "shuffle" | "audio" | "update";
+type AppleSymbolId = `symbol:${SFSymbol}`;
+type LocalAssetId = `asset:${string}`;
 export type Action = {
     id: string;
     title: string;
-    icon?: string | null;
+    icon?: AppleBuiltInIcons | AppleSymbolId | LocalAssetId | (string & {}) | null;
     /** iOS-only. Subtitle for the action. */
     subtitle?: string | null;
     /** Additional serial parameters for the action.  */
@@ -9,4 +13,5 @@ export type Action = {
 };
 export declare const initial: Action | undefined, maxCount: number | undefined, setItems: <TAction extends Action = Action>(data?: TAction[] | undefined) => Promise<void>, isSupported: () => Promise<boolean>;
 export declare function addListener<TAction extends Action = Action>(listener: (action: TAction) => void): import("expo-modules-core").Subscription;
+export {};
 //# sourceMappingURL=index.d.ts.map

@@ -1,6 +1,6 @@
 import React from "react";
 import * as QuickActions from "./index";
-import { useRouter } from "expo-router";
+import { useRouter } from "expo-router/build/hooks";
 
 type Href = any;
 
@@ -60,12 +60,7 @@ export function useQuickActionRouting(
       if (isMounted) {
         if (!callback?.(data) && isRouterAction(data)) {
           setTimeout(() => {
-            if ("navigate" in router) {
-              // @ts-expect-error: v3 and greater
-              router.navigate(data.params.href);
-            } else {
-              router.push(data.params.href);
-            }
+            router.navigate(data.params.href);
           });
         }
       }

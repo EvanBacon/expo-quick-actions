@@ -8,13 +8,13 @@
     "web": "expo start --web"
   },
   "dependencies": {
-    "expo": "^49.0.21",
+    "expo": "^50.0.6",
     "expo-quick-actions": "*",
-    "expo-splash-screen": "~0.20.5",
-    "expo-status-bar": "~1.6.0",
+    "expo-splash-screen": "~0.26.4",
+    "expo-status-bar": "~1.11.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-native": "0.72.6",
+    "react-native": "0.73.2",
     "react-native-web": "~0.19.6"
   },
   "devDependencies": {
