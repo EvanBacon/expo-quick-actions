@@ -6,6 +6,13 @@ A comprehensive React Native library for home screen quick actions.
 
 ## Versioning
 
+Ensure you use versions that work together!
+
+| `expo` | `expo-quick-actions` |
+| ------ | -------------------- |
+| 50.0.0 | 1.0.0                |
+| 49.0.0 | 0.0.0                |
+
 ## API documentation
 
 ```ts
