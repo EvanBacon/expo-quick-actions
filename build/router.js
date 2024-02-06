@@ -1,6 +1,6 @@
 import React from "react";
 import * as QuickActions from "./index";
-import { useRouter } from "expo-router";
+import { useRouter } from "expo-router/build/hooks";
 export function isRouterAction(action) {
     return !!action.params && isHref(action.params.href);
 }

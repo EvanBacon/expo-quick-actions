@@ -1,7 +1,28 @@
 import * as QuickActions from "expo-quick-actions";
 import { useQuickAction } from "expo-quick-actions/hooks";
+
 import React from "react";
 import { Platform, Text, View } from "react-native";
+
+// import { RouterAction, useQuickActionRouting } from "expo-quick-actions/router";
+// function TypeTest() {
+//   useQuickActionRouting();
+//   React.useEffect(() => {
+//     QuickActions.setItems<RouterAction<"/compose" | "/other">>([
+//       {
+//         title: "Compose",
+//         icon: Platform.select({
+//           ios: "symbol:heart",
+//           android: "shortcut_compose",
+//         }),
+//         id: "compose",
+//         params: {
+//           href: "/compose",
+//         },
+//       },
+//     ]);
+//   }, []);
+// }
 
 export default function App() {
   const action = useQuickAction();
