@@ -17,6 +17,11 @@ const withQuickActions: ConfigPlugin<{
   iosIcons?: Record<string, IosImageProps["src"]>;
   iosActions?: IosStaticQuickActionProps[];
 }> = (config, props) => {
+  // Support for `npx expo install` adding the plugin without any props.
+  if (!props) {
+    return config;
+  }
+
   validate(schema as any, props);
 
   if (props.androidIcons) {

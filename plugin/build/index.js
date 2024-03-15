@@ -11,6 +11,10 @@ const withIosStaticActions_1 = require("./withIosStaticActions");
 const schema_utils_1 = require("schema-utils");
 const options_json_1 = __importDefault(require("./options.json"));
 const withQuickActions = (config, props) => {
+    // Support for `npx expo install` adding the plugin without any props.
+    if (!props) {
+        return config;
+    }
     (0, schema_utils_1.validate)(options_json_1.default, props);
     if (props.androidIcons) {
         Object.entries(props.androidIcons).forEach(([name, image]) => {

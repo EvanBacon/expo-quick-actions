@@ -172,52 +172,44 @@ Pass `params: { href: "..." }` and use a hook in the Layout Route to handle the 
 
 For example, using the hooks above:
 
-```js
+```tsx
 // app/(root)/_layout.tsx
+import { useEffect } from "react";
 import { Slot } from "expo-router";
-import { useQuickActionRouting } from "expo-quick-actions/router";
+import { useQuickActionRouting, RouterAction } from "expo-quick-actions/router";
+import * as QuickActions from "expo-quick-actions";
 
 export default function Layout() {
+  // Enable linking to the `href` param when a quick action is used.
   useQuickActionRouting();
+
+  useEffect(() => {
+    // Now you can configure your quick actions to link places (including externally):
+    QuickActions.setItems<RouterAction>([
+      {
+        title: "New Chat",
+        icon: "compose",
+        id: "0",
+        params: { href: "/compose" },
+      },
+      {
+        title: "Search",
+        icon: "search",
+        id: "1",
+        params: { href: "/search" },
+      },
+      {
+        title: "Leave Feedback",
+        subtitle: "Please provide feedback before deleting the app",
+        icon: "symbol:envelope",
+        id: "2",
+        params: { href: "mailto:support@myapp.dev" },
+      },
+    ]);
+  }, []);
 
   return <Slot />;
 }
-```
-
-Now you can configure your quick actions to link places (including externally):
-
-```ts
-import * as QuickActions from "expo-quick-actions";
-import { RouterAction } from "expo-quick-actions/router";
-
-QuickActions.setItems<RouterAction>([
-  {
-    title: "New Chat",
-    icon: "compose",
-    id: "0",
-    params: { href: "/compose" },
-  },
-  {
-    title: "Reply to Lydia",
-    subtitle: "Explain React Server Components plz",
-    icon: "contact",
-    id: "1",
-    params: { href: "/messages/theavocoder" },
-  },
-  {
-    title: "Search",
-    icon: "search",
-    id: "2",
-    params: { href: "/search" },
-  },
-  {
-    title: "Leave Feedback",
-    subtitle: "Please provide feedback before deleting the app",
-    icon: "symbol:envelope",
-    id: "3",
-    params: { href: "mailto:support@myapp.dev" },
-  },
-]);
 ```
 
 This can be used with Typed Routes to ensure the `params.href` can only be linked to a valid route within your project.
@@ -262,7 +254,7 @@ There's an optional config plugin that you can use to add images and static iOS 
             "subtitle": "Subtitle One",
             "icon": "shortcut_one",
             "params": {
-              "url": "https://baconbrix.com"
+              "href": "https://evanbacon.dev"
             }
           }
         ]
