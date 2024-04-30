@@ -1,6 +1,6 @@
 {
   "name": "expo-quick-actions",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "description": "use native quick actions",
   "main": "build/index",
   "types": "build/index.d.ts",
@@ -38,7 +38,7 @@
   "license": "MIT",
   "homepage": "https://github.com/evanbacon/expo-quick-actions/",
   "dependencies": {
-    "@expo/image-utils": "^0.4.1",
+    "@expo/image-utils": "~0.4.2",
     "schema-utils": "^4.2.0",
     "sf-symbols-typescript": "^1.0.0"
   },
