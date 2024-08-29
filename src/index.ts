@@ -1,4 +1,4 @@
-import { EventEmitter } from "expo-modules-core";
+import { EventEmitter, requireNativeModule } from "expo-modules-core";
 import type { SFSymbol } from "sf-symbols-typescript";
 
 type ConstructorParametersType<T extends abstract new (...args: any) => any> =
@@ -6,14 +6,7 @@ type ConstructorParametersType<T extends abstract new (...args: any) => any> =
 
 type PrivateNativeModule = ConstructorParametersType<typeof EventEmitter>[0];
 
-const ExpoQuickActions = globalThis.expo?.modules
-  ?.ExpoQuickActions as PrivateNativeModule & {
-  initial?: Action;
-  setItems<TAction extends Action = Action>(data?: TAction[]): Promise<void>;
-  isSupported(): Promise<boolean>;
-  /** Android-only. The maximum number of shortcuts allowed. */
-  maxCount?: number;
-};
+const ExpoQuickActions = requireNativeModule('ExpoQuickActions') as PrivateNativeModule;
 
 type AppleBuiltInIcons =
   | "compose"
