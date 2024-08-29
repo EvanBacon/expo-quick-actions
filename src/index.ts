@@ -6,7 +6,13 @@ type ConstructorParametersType<T extends abstract new (...args: any) => any> =
 
 type PrivateNativeModule = ConstructorParametersType<typeof EventEmitter>[0];
 
-const ExpoQuickActions = requireNativeModule('ExpoQuickActions') as PrivateNativeModule;
+const ExpoQuickActions = requireNativeModule('ExpoQuickActions') as PrivateNativeModule & {
+  initial?: Action;
+  setItems<TAction extends Action = Action>(data?: TAction[]): Promise<void>;
+  isSupported(): Promise<boolean>;
+  /** Android-only. The maximum number of shortcuts allowed. */
+  maxCount?: number;
+};
 
 type AppleBuiltInIcons =
   | "compose"
