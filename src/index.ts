@@ -1,13 +1,8 @@
 import { EventEmitter } from "expo-modules-core";
 import type { SFSymbol } from "sf-symbols-typescript";
 
-type ConstructorParametersType<T extends abstract new (...args: any) => any> =
-  T extends abstract new (...args: infer P) => any ? P : never;
-
-type PrivateNativeModule = ConstructorParametersType<typeof EventEmitter>[0];
-
 const ExpoQuickActions = globalThis.expo?.modules
-  ?.ExpoQuickActions as PrivateNativeModule & {
+  ?.ExpoQuickActions as InstanceType<typeof EventEmitter> & {
   initial?: Action;
   setItems<TAction extends Action = Action>(data?: TAction[]): Promise<void>;
   isSupported(): Promise<boolean>;
@@ -67,10 +62,8 @@ export type Action = {
 
 export const { initial, maxCount, setItems, isSupported } = ExpoQuickActions;
 
-const emitter = new EventEmitter(ExpoQuickActions);
-
 export function addListener<TAction extends Action = Action>(
   listener: (action: TAction) => void
 ) {
-  return emitter.addListener<TAction>("onQuickAction", listener);
+  return ExpoQuickActions.addListener("onQuickAction", listener);
 }
