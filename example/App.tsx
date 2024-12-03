@@ -33,7 +33,6 @@ export default function App() {
     QuickActions.setItems([
       {
         title: "Compose",
-
         icon: Platform.select({
           ios: "symbol:heart",
           android: "asset:shortcut_compose",
@@ -45,7 +44,10 @@ export default function App() {
       },
       {
         title: "Demo",
-        icon: "shortcut_three",
+        icon: Platform.select({
+          ios: "shortcut_two",
+          default: "shortcut_three",
+        }),
         id: "three",
       },
     ]);
