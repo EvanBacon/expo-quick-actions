@@ -11,7 +11,10 @@ export type Action = {
     /** Additional serial parameters for the action.  */
     params?: Record<string, number | string | boolean | null | undefined> | null;
 };
-export declare const initial: Action | undefined, maxCount: number | undefined, setItems: <TAction extends Action = Action>(data?: TAction[] | undefined) => Promise<void>, isSupported: () => Promise<boolean>;
+export declare const initial: Action | undefined;
+export declare const maxCount: number | undefined;
+export declare const setItems: <TAction extends Action = Action>(data?: TAction[] | undefined) => Promise<void>;
+export declare const isSupported: () => Promise<boolean>;
 export declare function addListener<TAction extends Action = Action>(listener: (action: TAction) => void): import("expo-modules-core").EventSubscription;
 export {};
 //# sourceMappingURL=index.d.ts.map
