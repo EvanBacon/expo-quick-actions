@@ -60,10 +60,14 @@ export type Action = {
   params?: Record<string, number | string | boolean | null | undefined> | null;
 };
 
-export const { initial, maxCount, setItems, isSupported } = ExpoQuickActions;
+export const initial: Action | undefined = ExpoQuickActions?.initial;
+export const maxCount: number | undefined = ExpoQuickActions?.maxCount;
+export const setItems = ExpoQuickActions?.setItems ?? (() => Promise.resolve());
+export const isSupported =
+  ExpoQuickActions?.isSupported ?? (() => Promise.resolve(false));
 
 export function addListener<TAction extends Action = Action>(
   listener: (action: TAction) => void
 ) {
-  return ExpoQuickActions.addListener("onQuickAction", listener);
+  return ExpoQuickActions?.addListener?.("onQuickAction", listener);
 }
