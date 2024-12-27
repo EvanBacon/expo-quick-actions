@@ -1,10 +1,10 @@
 {
   "platforms": ["ios", "android"],
-  "ios": {
-    "modules": ["ExpoQuickActionsModule"],
+  "apple": {
+    "modules": ["ExpoQuickActionsModule", "ExpoAppIconModule"],
     "appDelegateSubscribers": ["AppDelegate"]
   },
   "android": {
-    "modules": ["expo.modules.quickactions.ExpoQuickActionsModule"]
+    "modules": ["expo.modules.quickactions.ExpoQuickActionsModule", "expo.modules.quickactions.ExpoDynamicAppIconModule"]
   }
 }

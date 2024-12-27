@@ -24,6 +24,14 @@
     },
     "plugins": [
       [
+        "expo-quick-actions/plugin/build/withAppIcon",
+        [
+          "https://github.com/evanbacon.png",
+          "https://github.com/expo.png",
+          "https://github.com/lydiahallie.png"
+        ]
+      ],
+      [
         "expo-quick-actions",
         {
           "androidIcons": {
