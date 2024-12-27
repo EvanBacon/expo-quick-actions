@@ -24,7 +24,7 @@
     },
     "plugins": [
       [
-        "expo-quick-actions/plugin/build/withAppIcon",
+        "../plugin/build/withAppIcon",
         [
           "https://github.com/evanbacon.png",
           "https://github.com/expo.png",

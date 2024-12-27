@@ -17,6 +17,6 @@ declare class ExpoAppIconType extends NativeModule {
      */
     getIcon(): Promise<string | null>;
 }
-export declare const ExpoAppIcon: ExpoAppIconType;
+export declare const ExpoAppIcon: ExpoAppIconType | null;
 export {};
 //# sourceMappingURL=icon.d.ts.map

@@ -1,6 +1,6 @@
 import ExpoModulesCore
 
-public class ExpoAppIcon: Module {
+public class ExpoAppIconModule: Module {
   public func definition() -> ModuleDefinition {
     
     Name("ExpoAppIcon")

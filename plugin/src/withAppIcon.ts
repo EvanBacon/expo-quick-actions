@@ -93,15 +93,6 @@ const withIconXcodeProject: ConfigPlugin<Props> = (
         return _group.name === group.name;
       }
     );
-    if (!project.hash.project.objects["PBXVariantGroup"]) {
-      project.hash.project.objects["PBXVariantGroup"] = {};
-    }
-    const variantGroupId = Object.keys(
-      project.hash.project.objects["PBXVariantGroup"]
-    ).find((id) => {
-      const _group = project.hash.project.objects["PBXVariantGroup"][id];
-      return _group.name === group.name;
-    });
 
     const children = [...(group.children || [])];
 
@@ -117,8 +108,6 @@ const withIconXcodeProject: ConfigPlugin<Props> = (
       if (group) {
         if (groupId) {
           project.removeFromPbxGroup(file, groupId); //Group other than Resources (i.e. 'splash')
-        } else if (variantGroupId) {
-          project.removeFromPbxVariantGroup(file, variantGroupId); // PBXVariantGroup
         }
       }
       project.removeFromPbxResourcesBuildPhase(file); // PBXResourcesBuildPhase

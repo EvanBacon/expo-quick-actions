@@ -1,0 +1,1 @@
+{"version":3,"file":"icon-hooks.d.ts","sourceRoot":"","sources":["../src/icon-hooks.tsx"],"names":[],"mappings":"AACA,OAAO,KAAK,MAAM,OAAO,CAAC;AAY1B,MAAM,CAAC,OAAO,UAAU,mBAAmB,CAAC,EAC1C,QAAQ,GACT,EAAE;IACD,QAAQ,EAAE,KAAK,CAAC,SAAS,CAAC;CAC3B,qBAQA;AA+BD,wBAAgB,qBAAqB,IAAI,GAAG,GAAG,IAAI,CAOlD;AAED,wBAAgB,UAAU,4DAIzB"}

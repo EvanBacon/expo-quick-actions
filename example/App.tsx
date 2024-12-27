@@ -3,6 +3,7 @@ import { useQuickAction } from "expo-quick-actions/hooks";
 
 import React from "react";
 import { Platform, Text, View } from "react-native";
+import AppIconTest from "./AppIconTest";
 
 // import { RouterAction, useQuickActionRouting } from "expo-quick-actions/router";
 // function TypeTest() {
@@ -54,9 +55,12 @@ export default function App() {
   }, []);
 
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text>Quick Actions</Text>
-      {action && <Text>{JSON.stringify(action, null, 2)}</Text>}
-    </View>
+    <>
+      <AppIconTest />
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <Text>Quick Actions</Text>
+        {action && <Text>{JSON.stringify(action, null, 2)}</Text>}
+      </View>
+    </>
   );
 }

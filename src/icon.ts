@@ -1,4 +1,4 @@
-import { NativeModule, requireNativeModule } from "expo-modules-core";
+import { NativeModule, requireOptionalNativeModule } from "expo-modules-core";
 
 declare class ExpoAppIconType extends NativeModule {
   /** Indicates whether the device supports alternate app icons. */
@@ -21,4 +21,5 @@ declare class ExpoAppIconType extends NativeModule {
   getIcon(): Promise<string | null>;
 }
 
-export const ExpoAppIcon = requireNativeModule<ExpoAppIconType>("ExpoAppIcon");
+export const ExpoAppIcon =
+  requireOptionalNativeModule<ExpoAppIconType>("ExpoAppIcon");
