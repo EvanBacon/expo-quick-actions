@@ -7,18 +7,20 @@ import {
 import { generateImageAsync } from "@expo/image-utils";
 import fs from "fs";
 import path from "path";
+import { withAndroidAppIcon } from "./withAndroidAppIcon";
 
 const { getMainApplicationOrThrow, getMainActivityOrThrow } =
   AndroidConfig.Manifest;
 
 const ANDROID_FOLDER_PATH = ["app", "src", "main", "res"];
-const ANDROID_FOLDER_NAMES = [
+const ANDROID_MIPMAP_NAMES = [
   "mipmap-hdpi",
   "mipmap-mdpi",
   "mipmap-xhdpi",
   "mipmap-xxhdpi",
   "mipmap-xxxhdpi",
 ];
+const ANDROID_DRAWABLE_NAMES = ["drawable-anydpi-v24"];
 const ANDROID_SIZES = [162, 108, 216, 324, 432];
 
 type Props = {
@@ -29,9 +31,16 @@ export const withAndroidDynamicAppIcons: ConfigPlugin<Props> = (
   config,
   { icons }
 ) => {
+  if (icons) {
+    Object.entries(icons).forEach(([name, image]) => {
+      config = withAndroidAppIcon(config, {
+        name,
+        src: image,
+      });
+    });
+  }
   withIconAndroidManifest(config, { icons });
-  withIconAndroidImages(config, { icons });
-
+  //   withIconAndroidImages(config, { icons });
   return config;
 };
 
@@ -62,7 +71,9 @@ const withIconAndroidManifest: ConfigPlugin<Props> = (config, { icons }) => {
                   { $: { "android:name": "android.intent.action.MAIN" } },
                 ],
                 category: [
-                  { $: { "android:name": "android.intent.category.LAUNCHER" } },
+                  {
+                    $: { "android:name": "android.intent.category.LAUNCHER" },
+                  },
                 ],
               },
             ]),
@@ -100,24 +111,26 @@ const withIconAndroidImages: ConfigPlugin<Props> = (config, { icons }) => {
         ...ANDROID_FOLDER_PATH
       );
 
-      const removeIconRes = async () => {
-        for (let i = 0; ANDROID_FOLDER_NAMES.length > i; i += 1) {
-          const folder = path.join(androidResPath, ANDROID_FOLDER_NAMES[i]);
-
+      const removeIconRes = async (folders: string[]) => {
+        for (const folderName of folders) {
+          const folder = path.join(androidResPath, folderName);
           const files = await fs.promises.readdir(folder).catch(() => []);
-          for (let j = 0; files.length > j; j += 1) {
-            if (!files[j].startsWith("ic_launcher")) {
+          for (const file of files) {
+            if (!file.startsWith("ic_launcher")) {
               await fs.promises
-                .rm(path.join(folder, files[j]), { force: true })
+                .rm(path.join(folder, file), { force: true })
                 .catch(() => null);
             }
           }
         }
       };
-      const addIconRes = async () => {
-        for (let i = 0; ANDROID_FOLDER_NAMES.length > i; i += 1) {
+
+      const addIconRes = async (folders: string[], round?: boolean) => {
+        for (let i = 0; i < folders.length; i++) {
           const size = ANDROID_SIZES[i];
-          const outputPath = path.join(androidResPath, ANDROID_FOLDER_NAMES[i]);
+          const outputPath = path.join(androidResPath, folders[i]);
+
+          await fs.promises.mkdir(outputPath, { recursive: true });
 
           // square ones
           for (const [name, image] of Object.entries(icons)) {
@@ -145,37 +158,43 @@ const withIconAndroidImages: ConfigPlugin<Props> = (config, { icons }) => {
             );
           }
 
-          // round ones
-          for (const [name, image] of Object.entries(icons)) {
-            if (!image) continue;
-            const fileName = `${name}_round.png`;
+          if (round) {
+            // round ones
+            for (const [name, image] of Object.entries(icons)) {
+              if (!image) continue;
+              const fileName = `${name}_round.png`;
 
-            const { source } = await generateImageAsync(
-              {
-                projectRoot: config.modRequest.projectRoot,
-                cacheType: `expo-dynamic-app-icon-round-${size}`,
-              },
-              {
-                name: fileName,
-                src: image,
-                removeTransparency: true,
-                backgroundColor: "#ffffff",
-                resizeMode: "cover",
-                width: size,
-                height: size,
-                borderRadius: size / 2,
-              }
-            );
-            await fs.promises.writeFile(
-              path.join(outputPath, fileName),
-              source
-            );
+              const { source } = await generateImageAsync(
+                {
+                  projectRoot: config.modRequest.projectRoot,
+                  cacheType: `expo-dynamic-app-icon-round-${size}`,
+                },
+                {
+                  name: fileName,
+                  src: image,
+                  removeTransparency: true,
+                  backgroundColor: "#ffffff",
+                  resizeMode: "cover",
+                  width: size,
+                  height: size,
+                  borderRadius: size / 2,
+                }
+              );
+              await fs.promises.writeFile(
+                path.join(outputPath, fileName),
+                source
+              );
+            }
           }
         }
       };
 
-      await removeIconRes();
-      await addIconRes();
+      // Remove and add icons for mipmap folders
+      await removeIconRes(ANDROID_MIPMAP_NAMES);
+      await addIconRes(ANDROID_MIPMAP_NAMES, true);
+
+      // Also remove and add icons for drawable folders
+      await addIconRes(ANDROID_DRAWABLE_NAMES, false);
 
       return config;
     },

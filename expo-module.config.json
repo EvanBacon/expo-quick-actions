@@ -5,6 +5,6 @@
     "appDelegateSubscribers": ["AppDelegate"]
   },
   "android": {
-    "modules": ["expo.modules.quickactions.ExpoQuickActionsModule", "expo.modules.quickactions.ExpoDynamicAppIconModule"]
+    "modules": ["expo.modules.quickactions.ExpoQuickActionsModule", "expo.modules.quickactions.ExpoAppIconModule"]
   }
 }

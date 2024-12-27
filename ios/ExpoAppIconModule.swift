@@ -33,6 +33,5 @@ public class ExpoAppIconModule: Module {
             promise.resolve(nil)
             
         }.runOnQueue(.main)
-
   }
 }

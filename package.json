@@ -15,6 +15,7 @@
   },
   "files": [
     "app.plugin.js",
+    "types",
     "plugin/build",
     "build",
     "hooks",

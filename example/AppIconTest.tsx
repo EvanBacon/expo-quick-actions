@@ -3,6 +3,7 @@ import React from "react";
 import { Image, SafeAreaView, Text, View } from "react-native";
 import { ExpoAppIcon } from "expo-quick-actions/build/icon";
 import TouchableBounce from "react-native/Libraries/Components/Touchable/TouchableBounce";
+import { ICONS } from "expo-quick-actions/types/icons";
 
 function useIconName() {
   const [icon, _setIcon] = React.useState(null);
@@ -13,48 +14,20 @@ function useIconName() {
     ExpoAppIcon.getIcon().then((result) => {
       if (isMounted) _setIcon(result);
     });
-    return () => (isMounted = false);
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   const setIcon = React.useCallback(
     (icon) => {
-      ExpoAppIcon.setIcon(icon).then(() => {
-        _setIcon(icon || null);
-      });
+      _setIcon(icon || null);
+      ExpoAppIcon.setIcon(icon);
     },
     [_setIcon]
   );
   return [icon === "default" ? null : icon, setIcon];
 }
-
-// TODO: Auto generate in config plugin
-// TODO: Android versions
-const icons = [
-  {
-    source: {
-      uri: "AppIcon60x60",
-    },
-    id: null,
-  },
-  {
-    source: {
-      uri: "0-Icon-60x60",
-    },
-    id: "0",
-  },
-  {
-    source: {
-      uri: "1-Icon-60x60",
-    },
-    id: "1",
-  },
-  {
-    source: {
-      uri: "2-Icon-60x60",
-    },
-    id: "2",
-  },
-];
 
 export default function AppIconTest() {
   const [_icon, setIcon] = useIconName();
@@ -68,7 +41,7 @@ export default function AppIconTest() {
       }}
     >
       <View style={{ width: "100%" }}>
-        {icons.map((icon, index) => {
+        {ICONS.map((icon, index) => {
           return (
             <Item
               onPress={() => {
@@ -76,7 +49,7 @@ export default function AppIconTest() {
               }}
               isSelected={icon.id === _icon}
               name={"icon"}
-              source={icon.source}
+              source={icon.src}
               key={String(index)}
             />
           );

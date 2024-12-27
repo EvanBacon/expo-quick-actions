@@ -1,6 +1,7 @@
 import { ExpoAppIcon } from "./icon";
 import React from "react";
-import { ICONS } from "./dynamic-app-icons";
+// @ts-ignore
+import { ICONS } from "expo-quick-actions/types/icons";
 const DynamicIconContext = React.createContext({
     iconName: null,
     setIconName: () => { },
