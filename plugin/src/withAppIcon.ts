@@ -84,7 +84,7 @@ const withDynamicIcon: ConfigPlugin<string[] | IconSet | void> = (
       __dirname,
       "../../",
       // path.dirname(require.resolve("expo-quick-actions/package.json")),
-      "types/icons.ts"
+      "icon/types.ts"
     );
     // TODO: Remove
     console.log(typesFile);

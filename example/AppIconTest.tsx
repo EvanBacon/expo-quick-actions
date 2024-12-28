@@ -1,7 +1,7 @@
 import Entypo from "@expo/vector-icons/Entypo";
 import React from "react";
 import { Image, SafeAreaView, Text, View } from "react-native";
-import { ExpoAppIcon } from "expo-quick-actions/build/icon";
+import ExpoAppIcon from "expo-quick-actions/build/icon";
 import TouchableBounce from "react-native/Libraries/Components/Touchable/TouchableBounce";
 import { ICONS } from "expo-quick-actions/types/icons";
 
@@ -41,19 +41,15 @@ export default function AppIconTest() {
       }}
     >
       <View style={{ width: "100%" }}>
-        {ICONS.map((icon, index) => {
-          return (
-            <Item
-              onPress={() => {
-                setIcon(icon.id);
-              }}
-              isSelected={icon.id === _icon}
-              name={"icon"}
-              source={icon.src}
-              key={String(index)}
-            />
-          );
-        })}
+        {ICONS.map((icon, index) => (
+          <Item
+            onPress={() => setIcon(icon.id)}
+            isSelected={icon.id === _icon}
+            name="icon"
+            source={icon.src}
+            key={String(index)}
+          />
+        ))}
       </View>
     </SafeAreaView>
   );

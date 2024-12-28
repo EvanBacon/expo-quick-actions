@@ -48,7 +48,7 @@ const withDynamicIcon = (config, props = {}) => {
         // Generate a TS file to export the icon names
         const typesFile = path_1.default.join(__dirname, "../../", 
         // path.dirname(require.resolve("expo-quick-actions/package.json")),
-        "types/icons.ts");
+        "icon/types.ts");
         // TODO: Remove
         console.log(typesFile);
         const altIcons = Object.keys(icons).map((id) => ({

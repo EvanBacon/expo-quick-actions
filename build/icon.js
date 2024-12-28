@@ -1,3 +1,4 @@
 import { NativeModule, requireOptionalNativeModule } from "expo-modules-core";
-export const ExpoAppIcon = requireOptionalNativeModule("ExpoAppIcon");
+const ExpoAppIcon = requireOptionalNativeModule("ExpoAppIcon");
+export default ExpoAppIcon;
 //# sourceMappingURL=icon.js.map
