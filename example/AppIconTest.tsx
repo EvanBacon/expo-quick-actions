@@ -1,7 +1,7 @@
 import Entypo from "@expo/vector-icons/Entypo";
 import React from "react";
 import { Image, SafeAreaView, Text, View } from "react-native";
-import ExpoAppIcon from "expo-quick-actions/build/icon";
+import * as ExpoAppIcon from "expo-quick-actions/icon";
 import TouchableBounce from "react-native/Libraries/Components/Touchable/TouchableBounce";
 import { ICONS } from "expo-quick-actions/types/icons";
 
@@ -11,7 +11,7 @@ function useIconName() {
   React.useEffect(() => {
     let isMounted = true;
 
-    ExpoAppIcon.getIcon().then((result) => {
+    ExpoAppIcon.getIcon?.().then((result) => {
       if (isMounted) _setIcon(result);
     });
     return () => {
@@ -22,7 +22,7 @@ function useIconName() {
   const setIcon = React.useCallback(
     (icon) => {
       _setIcon(icon || null);
-      ExpoAppIcon.setIcon(icon);
+      ExpoAppIcon.setIcon?.(icon);
     },
     [_setIcon]
   );
@@ -31,6 +31,10 @@ function useIconName() {
 
 export default function AppIconTest() {
   const [_icon, setIcon] = useIconName();
+
+  if (!ExpoAppIcon.isSupported) {
+    return null;
+  }
 
   return (
     <SafeAreaView

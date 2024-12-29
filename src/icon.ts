@@ -21,4 +21,8 @@ declare class ExpoAppIconType extends NativeModule {
 
 const ExpoAppIcon = requireOptionalNativeModule<ExpoAppIconType>("ExpoAppIcon");
 
-export default ExpoAppIcon;
+export const isSupported = ExpoAppIcon ? ExpoAppIcon.isSupported : false;
+
+export const setIcon = ExpoAppIcon?.setIcon;
+
+export const getIcon = ExpoAppIcon?.getIcon;

@@ -367,12 +367,12 @@ This can happen if the `icon` property is invalid. See how icons are resolved to
 This package experimentally has support for switching the app icon to align with how quick actions work on Android.
 
 ```ts
-import AppIcon from "expo-quick-actions/icon";
+import * as AppIcon from "expo-quick-actions/icon";
 ```
 
 - `AppIcon.isSupported` a boolean that indicates whether the device supports changing the app icon.
-- `AppIcon.getIcon()` returns a Promise that resolves to the current icon name.
-- `AppIcon.setIcon(iconName)` set the app icon to the given name.
+- `AppIcon.getIcon()` returns a Promise that resolves to the current icon name. This is undefined when the function is not supported in the given runtime (Expo Go, web)
+- `AppIcon.setIcon(iconName)` set the app icon to the given name. This is undefined when the function is not supported in the given runtime (Expo Go, web)
 
 You can add icons to change using the config plugin:
 
@@ -392,29 +392,12 @@ These icons will be available as `"0"` and `"1"` respectively. Alternatively, yo
   "plugins": [
     "expo-quick-actions/icon/plugin",
     {
-      "iconName": "./path/to/image.png"
+      "myIcon": "./path/to/image.png"
     }
   ]
 }
 ```
 
-This will be available as `"iconName"`.
+This will be available as `"myIcon"`.
 
 > On Android, changing the icon will close the app.
-
-Experimentally, you can access the dynamic app icons from your app using `expo-quick-actions/icon/types`:
-
-```tsx
-import { Image } from 'react-native';
-import { ICONS } from "expo-quick-actions/icon/types";
-
-export default function App() {
-  return (
-    <>
-      {ICONS.map((icon, index) => <Image key={icon.id} source={icon.src}/>}
-    </>
-  )
-}
-```
-
-> I haven't figured out how to reasonably implement the default icon on Android yet since it can be a dynamic layered image (like an adaptive icon) or a simple image. I'm open to suggestions.
