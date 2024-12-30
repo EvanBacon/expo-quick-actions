@@ -1,8 +1,9 @@
 import {
+  AndroidConfig,
   ConfigPlugin,
   withAndroidManifest,
-  AndroidConfig,
 } from "@expo/config-plugins";
+
 import { IosStaticQuickActionProps } from "./withIosStaticActions";
 import { ShortcutItemXML, withShortcutsXml } from "./withShortcutsXML";
 

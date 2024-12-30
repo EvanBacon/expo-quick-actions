@@ -18,6 +18,7 @@
     "plugin/build",
     "build",
     "hooks",
+    "icon",
     "router",
     "expo-module.config.json",
     "ios",

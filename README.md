@@ -359,3 +359,64 @@ https://github.com/EvanBacon/expo-quick-actions/assets/9664363/b3fe7608-1700-424
 ### The icon is a small circle on iOS
 
 This can happen if the `icon` property is invalid. See how icons are resolved to learn more. If you're using a custom asset then you need to ensure all three scales are added to the asset catalog (default if only a string is passed in the Config Plugin).
+
+---
+
+# App Icon
+
+This package experimentally has support for switching the app icon to align with how quick actions work on Android.
+
+```ts
+import * as AppIcon from "expo-quick-actions/icon";
+```
+
+- `AppIcon.isSupported` a boolean that indicates whether the device supports changing the app icon.
+- `AppIcon.getIcon()` returns a Promise that resolves to the current icon name. This is undefined when the function is not supported in the given runtime (Expo Go, web)
+- `AppIcon.setIcon(iconName)` set the app icon to the given name. This is undefined when the function is not supported in the given runtime (Expo Go, web)
+
+> On Android, changing the icon will close the app.
+
+## App Icon Config Plugin
+
+You can add icons to change using the config plugin:
+
+```json
+{
+  "plugins": [
+    "expo-quick-actions/icon/plugin",
+    ["./path/to/image.png", "https://example.com/image.png"]
+  ]
+}
+```
+
+These icons will be available as `"0"` and `"1"` respectively. Alternatively, you can specify the icon name by passing an object:
+
+```json
+{
+  "plugins": [
+    "expo-quick-actions/icon/plugin",
+    {
+      "myIcon": "./path/to/image.png"
+    }
+  ]
+}
+```
+
+This will be available as `"myIcon"`.
+
+This config plugin supports dark mode icons on iOS by using the same config syntax as Expo config:
+
+```json
+{
+  "plugins": [
+    "expo-quick-actions/icon/plugin",
+    [
+      {
+        "light": "./path/to/light.png",
+        "dark": "./path/to/dark.png",
+        "tinted": "./path/to/tinted.png"
+      }
+    ]
+  ]
+}
+```

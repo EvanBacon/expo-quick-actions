@@ -26,7 +26,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.withIosImageAsset = void 0;
+exports.writeContentsJsonAsync = exports.withIosIconImageAsset = exports.withIosImageAsset = void 0;
 const config_plugins_1 = require("@expo/config-plugins");
 const image_utils_1 = require("@expo/image-utils");
 const fs_1 = __importDefault(require("fs"));
@@ -52,6 +52,106 @@ const withIosImageAsset = (config, { name, src: image }) => {
     ]);
 };
 exports.withIosImageAsset = withIosImageAsset;
+const withIosIconImageAsset = (config, { name, icon }) => {
+    return (0, config_plugins_1.withDangerousMod)(config, [
+        "ios",
+        async (config) => {
+            const projectRoot = config.modRequest.projectRoot;
+            const iosNamedProjectRoot = (0, path_1.join)(config.modRequest.platformProjectRoot, config.modRequest.projectName);
+            const imgPath = `Images.xcassets/${name}.appiconset`;
+            // Ensure the Images.xcassets/AppIcon.appiconset path exists
+            await fs_1.default.promises.mkdir((0, path_1.join)(iosNamedProjectRoot, imgPath), {
+                recursive: true,
+            });
+            const imagesJson = [];
+            const baseIconPath = typeof icon === "object"
+                ? icon?.light || icon?.dark || icon?.tinted
+                : icon;
+            // Store the image JSON data for assigning via the Contents.json
+            const baseIcon = await generateUniversalIconAsync(projectRoot, imgPath, {
+                icon: baseIconPath,
+                cacheKey: "universal-icon",
+                iosNamedProjectRoot,
+                platform: "ios",
+            });
+            imagesJson.push(baseIcon);
+            if (typeof icon === "object") {
+                if (icon?.dark) {
+                    const darkIcon = await generateUniversalIconAsync(projectRoot, imgPath, {
+                        icon: icon.dark,
+                        cacheKey: "universal-icon-dark",
+                        iosNamedProjectRoot,
+                        platform: "ios",
+                        appearance: "dark",
+                    });
+                    imagesJson.push(darkIcon);
+                }
+                if (icon?.tinted) {
+                    const tintedIcon = await generateUniversalIconAsync(projectRoot, imgPath, {
+                        icon: icon.tinted,
+                        cacheKey: "universal-icon-tinted",
+                        iosNamedProjectRoot,
+                        platform: "ios",
+                        appearance: "tinted",
+                    });
+                    imagesJson.push(tintedIcon);
+                }
+            }
+            // Finally, write the Contents.json
+            await writeContentsJsonAsync((0, path_1.join)(iosNamedProjectRoot, imgPath), {
+                images: imagesJson,
+            });
+            return config;
+        },
+    ]);
+};
+exports.withIosIconImageAsset = withIosIconImageAsset;
+function getAppleIconName(size, scale, appearance) {
+    let name = "App-Icon";
+    if (appearance) {
+        name = `${name}-${appearance}`;
+    }
+    name = `${name}-${size}x${size}@${scale}x.png`;
+    return name;
+}
+async function generateUniversalIconAsync(projectRoot, imagesetPath, { icon, cacheKey, iosNamedProjectRoot, platform, appearance, }) {
+    const size = 1024;
+    const filename = getAppleIconName(size, 1, appearance);
+    let source;
+    if (icon) {
+        // Using this method will cache the images in `.expo` based on the properties used to generate them.
+        // this method also supports remote URLs and using the global sharp instance.
+        source = (await (0, image_utils_1.generateImageAsync)({ projectRoot, cacheType: IMAGE_CACHE_NAME + cacheKey }, {
+            src: icon,
+            name: filename,
+            width: size,
+            height: size,
+            // Transparency needs to be preserved in dark variant, but can safely be removed in "light" and "tinted" variants.
+            removeTransparency: appearance !== "dark",
+            // The icon should be square, but if it's not then it will be cropped.
+            resizeMode: "cover",
+            // Force the background color to solid white to prevent any transparency. (for "any" and "tinted" variants)
+            // TODO: Maybe use a more adaptive option based on the icon color?
+            backgroundColor: appearance !== "dark" ? "#ffffff" : undefined,
+        })).source;
+    }
+    else {
+        // Create a white square image if no icon exists to mitigate the chance of a submission failure to the app store.
+        source = await (0, image_utils_1.createSquareAsync)({ size });
+    }
+    // Write image buffer to the file system.
+    const assetPath = (0, path_1.join)(iosNamedProjectRoot, imagesetPath, filename);
+    await fs_1.default.promises.writeFile(assetPath, source);
+    return {
+        filename,
+        idiom: "universal",
+        platform,
+        size: `${size}x${size}`,
+        ...(appearance
+            ? { appearances: [{ appearance: "luminosity", value: appearance }] }
+            : {}),
+    };
+}
 const IMAGE_CACHE_NAME = "quick-action-icons-";
 async function generateResizedImageAsync(icon, name, projectRoot, iosNamedProjectRoot, cacheComponent, downscaleMissing) {
     // Store the image JSON data for assigning via the Contents.json
@@ -120,3 +220,4 @@ async function writeContentsJsonAsync(directory, { images }) {
         },
     }, null, 2));
 }
+exports.writeContentsJsonAsync = writeContentsJsonAsync;

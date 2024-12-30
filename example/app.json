@@ -24,6 +24,17 @@
     },
     "plugins": [
       [
+        "expo-quick-actions/icon/plugin",
+        [
+          "https://github.com/evanbacon.png",
+          "https://github.com/expo.png",
+          {
+            "light": "https://github.com/facebook.png",
+            "dark": "https://github.com/apple.png"
+          }
+        ]
+      ],
+      [
         "expo-quick-actions",
         {
           "androidIcons": {
