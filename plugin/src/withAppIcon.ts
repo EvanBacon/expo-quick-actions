@@ -5,27 +5,13 @@ import {
 } from "@expo/config-plugins";
 
 import { withAndroidDynamicAppIcons } from "./withAndroidDynamicAppIcon";
-import { withIosIconImageAsset } from "./withIosImageAssets";
-
-type IconDimensions = {
-  /** The scale of the icon itself, affets file name and width/height when omitted. */
-  scale: number;
-  /** Both width and height of the icon, affects file name only. */
-  size: number;
-  /** The width, in pixels, of the icon. Generated from `size` + `scale` when omitted */
-  width?: number;
-  /** The height, in pixels, of the icon. Generated from `size` + `scale` when omitted */
-  height?: number;
-  /** Special target of the icon dimension, if any */
-  target?: null | "ipad";
-};
+import { IOSIcons, withIosIconImageAsset } from "./withIosImageAssets";
 
 type IconSet = Record<string, IconSetProps>;
-type IconSetProps = { image: string; prerendered?: boolean };
+type IconSetProps = { image: string | IOSIcons };
 
 type Props = {
-  icons: Record<string, { image: string; prerendered?: boolean }>;
-  dimensions: Required<IconDimensions>[];
+  icons: IconSet;
 };
 
 const withDynamicIcon: ConfigPlugin<string[] | IconSet | void> = (
@@ -40,7 +26,7 @@ const withDynamicIcon: ConfigPlugin<string[] | IconSet | void> = (
       Object.entries(icons).map(([key, value]) => [
         // Must start with letter on Android.
         `expo_ic_${key}`,
-        value.image,
+        typeof value.image === "string" ? value.image : value.image.light!,
       ])
     ),
   });
@@ -102,14 +88,6 @@ function resolveIcons(props: string[] | IconSet | void): Props["icons"] {
   }
 
   return icons;
-}
-
-/** Get the icon name, used to refer to the icon from within the plist */
-function getIconName(
-  name: string,
-  dimension: Pick<Props["dimensions"][0], "size">
-) {
-  return `${name}-Icon-${dimension.size}x${dimension.size}`;
 }
 
 export default withDynamicIcon;

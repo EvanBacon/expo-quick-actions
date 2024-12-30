@@ -10,7 +10,7 @@ const withDynamicIcon = (config, props = {}) => {
         icons: Object.fromEntries(Object.entries(icons).map(([key, value]) => [
             // Must start with letter on Android.
             `expo_ic_${key}`,
-            value.image,
+            typeof value.image === "string" ? value.image : value.image.light,
         ])),
     });
     for (const [key, value] of Object.entries(icons)) {
@@ -50,9 +50,5 @@ function resolveIcons(props) {
         icons = props;
     }
     return icons;
-}
-/** Get the icon name, used to refer to the icon from within the plist */
-function getIconName(name, dimension) {
-    return `${name}-Icon-${dimension.size}x${dimension.size}`;
 }
 exports.default = withDynamicIcon;

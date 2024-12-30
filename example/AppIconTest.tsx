@@ -24,7 +24,7 @@ export const ICONS = [
   {
     id: "2",
     src: {
-      uri: "https://github.com/lydiahallie.png",
+      uri: "https://github.com/facebook.png",
     },
   },
 ] as const;

@@ -28,7 +28,10 @@
         [
           "https://github.com/evanbacon.png",
           "https://github.com/expo.png",
-          "https://github.com/lydiahallie.png"
+          {
+            "light": "https://github.com/facebook.png",
+            "dark": "https://github.com/apple.png"
+          }
         ]
       ],
       [
