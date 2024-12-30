@@ -3,7 +3,6 @@ import React from "react";
 import { Image, SafeAreaView, Text, View } from "react-native";
 import * as ExpoAppIcon from "expo-quick-actions/icon";
 import TouchableBounce from "react-native/Libraries/Components/Touchable/TouchableBounce";
-// import { ICONS } from "expo-quick-actions/types/icons";
 
 export const ICONS = [
   {
@@ -11,8 +10,22 @@ export const ICONS = [
     src: { uri: "AppIcon60x60" },
   },
   {
-    id: "Galaxy",
-    src: { uri: "Galaxy60x60" },
+    id: "0",
+    src: {
+      uri: "https://github.com/evanbacon.png",
+    },
+  },
+  {
+    id: "1",
+    src: {
+      uri: "https://github.com/expo.png",
+    },
+  },
+  {
+    id: "2",
+    src: {
+      uri: "https://github.com/lydiahallie.png",
+    },
   },
 ] as const;
 

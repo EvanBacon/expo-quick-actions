@@ -11,11 +11,15 @@ public class ExpoAppIconModule: Module {
 
      AsyncFunction("setIcon") { (name: String?, promise: Promise) in
             if UIApplication.shared.supportsAlternateIcons {
-                UIApplication.shared.setAlternateIconName(name) { error in
+                UIApplication.shared.setAlternateIconName(name == nil ? nil : "expo_ic_\(name!)") { error in
                     if let error = error {
                         promise.reject(error)
                     } else {
-                        promise.resolve(UIApplication.shared.alternateIconName)
+                        if let iconName = UIApplication.shared.alternateIconName {
+                            promise.resolve(iconName.replacingOccurrences(of: "expo_ic_", with: ""))
+                        } else {
+                            promise.resolve(nil)
+                        }
                     }
                 }
             } else {
@@ -26,7 +30,12 @@ public class ExpoAppIconModule: Module {
       AsyncFunction("getIcon") { (promise: Promise) in
             
             if UIApplication.shared.supportsAlternateIcons {
-                promise.resolve(UIApplication.shared.alternateIconName)
+                 if let iconName = UIApplication.shared.alternateIconName {
+                            promise.resolve(iconName.replacingOccurrences(of: "expo_ic_", with: ""))
+                        } else {
+                            promise.resolve(nil)
+                        }
+
                 return
             }
             
