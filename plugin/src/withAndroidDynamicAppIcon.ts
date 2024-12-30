@@ -8,8 +8,6 @@ import { generateImageAsync } from "@expo/image-utils";
 import fs from "fs";
 import path from "path";
 
-// import { withAndroidAppIcon } from "./withAndroidAppIcon";
-
 const { getMainApplicationOrThrow, getMainActivityOrThrow } =
   AndroidConfig.Manifest;
 
@@ -32,14 +30,6 @@ export const withAndroidDynamicAppIcons: ConfigPlugin<Props> = (
   config,
   { icons }
 ) => {
-  // if (icons) {
-  //   Object.entries(icons).forEach(([name, image]) => {
-  //     config = withAndroidAppIcon(config, {
-  //       name,
-  //       src: image,
-  //     });
-  //   });
-  // }
   withIconAndroidManifest(config, { icons });
   withIconAndroidImages(config, { icons });
   return config;

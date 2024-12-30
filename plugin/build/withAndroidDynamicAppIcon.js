@@ -8,7 +8,6 @@ const config_plugins_1 = require("@expo/config-plugins");
 const image_utils_1 = require("@expo/image-utils");
 const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
-// import { withAndroidAppIcon } from "./withAndroidAppIcon";
 const { getMainApplicationOrThrow, getMainActivityOrThrow } = config_plugins_1.AndroidConfig.Manifest;
 const ANDROID_FOLDER_PATH = ["app", "src", "main", "res"];
 const ANDROID_MIPMAP_NAMES = [
@@ -21,14 +20,6 @@ const ANDROID_MIPMAP_NAMES = [
 const ANDROID_DRAWABLE_NAMES = ["drawable-anydpi-v24"];
 const ANDROID_SIZES = [162, 108, 216, 324, 432];
 const withAndroidDynamicAppIcons = (config, { icons }) => {
-    // if (icons) {
-    //   Object.entries(icons).forEach(([name, image]) => {
-    //     config = withAndroidAppIcon(config, {
-    //       name,
-    //       src: image,
-    //     });
-    //   });
-    // }
     withIconAndroidManifest(config, { icons });
     withIconAndroidImages(config, { icons });
     return config;
