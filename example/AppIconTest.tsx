@@ -3,7 +3,18 @@ import React from "react";
 import { Image, SafeAreaView, Text, View } from "react-native";
 import * as ExpoAppIcon from "expo-quick-actions/icon";
 import TouchableBounce from "react-native/Libraries/Components/Touchable/TouchableBounce";
-import { ICONS } from "expo-quick-actions/types/icons";
+// import { ICONS } from "expo-quick-actions/types/icons";
+
+export const ICONS = [
+  {
+    id: undefined,
+    src: { uri: "AppIcon60x60" },
+  },
+  {
+    id: "Galaxy",
+    src: { uri: "Galaxy60x60" },
+  },
+] as const;
 
 function useIconName() {
   const [icon, _setIcon] = React.useState(null);
@@ -12,6 +23,7 @@ function useIconName() {
     let isMounted = true;
 
     ExpoAppIcon.getIcon?.().then((result) => {
+      console.log(">>", result);
       if (isMounted) _setIcon(result);
     });
     return () => {
