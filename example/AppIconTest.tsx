@@ -36,7 +36,6 @@ function useIconName() {
     let isMounted = true;
 
     ExpoAppIcon.getIcon?.().then((result) => {
-      console.log(">>", result);
       if (isMounted) _setIcon(result);
     });
     return () => {
