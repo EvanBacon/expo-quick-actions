@@ -3,4 +3,7 @@
   <color name="iconBackground">#FFFFFF</color>
   <color name="colorPrimary">#023c69</color>
   <color name="colorPrimaryDark">#ffffff</color>
+  <color name="shortcut_two_background_color">#ff0000</color>
+  <color name="shortcut_one_background_color">#282A35</color>
+  <color name="shortcut_compose_background_color">#EA3323</color>
 </resources>

@@ -8,7 +8,7 @@ import { generateImageAsync } from "@expo/image-utils";
 import fs from "fs";
 import path from "path";
 
-import { withAndroidAppIcon } from "./withAndroidAppIcon";
+// import { withAndroidAppIcon } from "./withAndroidAppIcon";
 
 const { getMainApplicationOrThrow, getMainActivityOrThrow } =
   AndroidConfig.Manifest;
@@ -32,16 +32,16 @@ export const withAndroidDynamicAppIcons: ConfigPlugin<Props> = (
   config,
   { icons }
 ) => {
-  if (icons) {
-    Object.entries(icons).forEach(([name, image]) => {
-      config = withAndroidAppIcon(config, {
-        name,
-        src: image,
-      });
-    });
-  }
+  // if (icons) {
+  //   Object.entries(icons).forEach(([name, image]) => {
+  //     config = withAndroidAppIcon(config, {
+  //       name,
+  //       src: image,
+  //     });
+  //   });
+  // }
   withIconAndroidManifest(config, { icons });
-  //   withIconAndroidImages(config, { icons });
+  withIconAndroidImages(config, { icons });
   return config;
 };
 
@@ -112,20 +112,6 @@ const withIconAndroidImages: ConfigPlugin<Props> = (config, { icons }) => {
         ...ANDROID_FOLDER_PATH
       );
 
-      const removeIconRes = async (folders: string[]) => {
-        for (const folderName of folders) {
-          const folder = path.join(androidResPath, folderName);
-          const files = await fs.promises.readdir(folder).catch(() => []);
-          for (const file of files) {
-            if (!file.startsWith("ic_launcher")) {
-              await fs.promises
-                .rm(path.join(folder, file), { force: true })
-                .catch(() => null);
-            }
-          }
-        }
-      };
-
       const addIconRes = async (folders: string[], round?: boolean) => {
         for (let i = 0; i < folders.length; i++) {
           const size = ANDROID_SIZES[i];
@@ -191,7 +177,6 @@ const withIconAndroidImages: ConfigPlugin<Props> = (config, { icons }) => {
       };
 
       // Remove and add icons for mipmap folders
-      await removeIconRes(ANDROID_MIPMAP_NAMES);
       await addIconRes(ANDROID_MIPMAP_NAMES, true);
 
       // Also remove and add icons for drawable folders

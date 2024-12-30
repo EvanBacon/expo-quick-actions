@@ -57,7 +57,7 @@ export default function AppIconTest() {
   const [_icon, setIcon] = useIconName();
 
   if (!ExpoAppIcon.isSupported) {
-    return null;
+    return <Text>App Icon is not supported</Text>;
   }
 
   return (

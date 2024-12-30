@@ -17,6 +17,10 @@ class ExpoAppIconModule : Module() {
   override fun definition() = ModuleDefinition {
     Name("ExpoAppIcon")
 
+    Constants(
+      "isSupported" to true
+    )
+
     Function("setIcon") { iconName: String? ->
       val mainActivityAlias = context.packageName + MAIN_ACTIVITY_ALIAS
       val currentIcon = if (SharedObject.icon.isNotEmpty()) SharedObject.icon else mainActivityAlias
