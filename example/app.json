@@ -4,8 +4,8 @@
     "slug": "example",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
+    "icon": "https://github.com/expo.png",
+    "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -26,11 +26,11 @@
       [
         "expo-quick-actions/icon/plugin",
         [
-          "https://github.com/evanbacon.png",
-          "https://github.com/expo.png",
+          "./assets/space.png",
+          "./assets/scifi.png",
           {
-            "light": "https://github.com/facebook.png",
-            "dark": "https://github.com/apple.png"
+            "light": "./assets/landscape.png",
+            "dark": "./assets/water.png"
           }
         ]
       ],

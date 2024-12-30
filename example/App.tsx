@@ -55,12 +55,12 @@ export default function App() {
   }, []);
 
   return (
-    <>
+    <View style={{ flex: 1, backgroundColor: "white" }}>
       <AppIconTest />
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
         <Text>Quick Actions</Text>
         {action && <Text>{JSON.stringify(action, null, 2)}</Text>}
       </View>
-    </>
+    </View>
   );
 }

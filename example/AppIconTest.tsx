@@ -1,33 +1,8 @@
 import Entypo from "@expo/vector-icons/Entypo";
 import React from "react";
-import { Image, SafeAreaView, Text, View } from "react-native";
+import { Image, SafeAreaView, Text, useColorScheme, View } from "react-native";
 import * as ExpoAppIcon from "expo-quick-actions/icon";
 import TouchableBounce from "react-native/Libraries/Components/Touchable/TouchableBounce";
-
-export const ICONS = [
-  {
-    id: undefined,
-    src: { uri: "AppIcon60x60" },
-  },
-  {
-    id: "0",
-    src: {
-      uri: "https://github.com/evanbacon.png",
-    },
-  },
-  {
-    id: "1",
-    src: {
-      uri: "https://github.com/expo.png",
-    },
-  },
-  {
-    id: "2",
-    src: {
-      uri: "https://github.com/facebook.png",
-    },
-  },
-] as const;
 
 function useIconName() {
   const [icon, _setIcon] = React.useState(null);
@@ -55,6 +30,28 @@ function useIconName() {
 
 export default function AppIconTest() {
   const [_icon, setIcon] = useIconName();
+
+  const isDark = useColorScheme() === "dark";
+  const ICONS = [
+    {
+      id: undefined,
+      src: { uri: "AppIcon60x60" },
+    },
+    {
+      id: "0",
+      src: require("./assets/space.png"),
+    },
+    {
+      id: "1",
+      src: require("./assets/scifi.png"),
+    },
+    {
+      id: "2",
+      src: isDark
+        ? require("./assets/water.png")
+        : require("./assets/landscape.png"),
+    },
+  ] as const;
 
   if (!ExpoAppIcon.isSupported) {
     return <Text>App Icon is not supported</Text>;
