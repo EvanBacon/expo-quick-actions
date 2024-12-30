@@ -5,6 +5,7 @@ import React from "react";
 import { Platform, Text, View } from "react-native";
 import AppIconTest from "./AppIconTest";
 
+import * as AC from "@bacons/apple-colors";
 // import { RouterAction, useQuickActionRouting } from "expo-quick-actions/router";
 // function TypeTest() {
 //   useQuickActionRouting();
@@ -55,11 +56,15 @@ export default function App() {
   }, []);
 
   return (
-    <View style={{ flex: 1, backgroundColor: "white" }}>
+    <View style={{ flex: 1, backgroundColor: AC.systemBackground }}>
       <AppIconTest />
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <Text>Quick Actions</Text>
-        {action && <Text>{JSON.stringify(action, null, 2)}</Text>}
+        <Text style={{ color: AC.label }}>Quick Actions</Text>
+        {action && (
+          <Text style={{ color: AC.label }}>
+            {JSON.stringify(action, null, 2)}
+          </Text>
+        )}
       </View>
     </View>
   );

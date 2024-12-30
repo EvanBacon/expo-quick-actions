@@ -8,6 +8,7 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@bacons/apple-colors": "^0.0.8",
     "expo": "^52.0.11",
     "expo-quick-actions": "*",
     "expo-splash-screen": "~0.29.13",

@@ -3,6 +3,7 @@ import React from "react";
 import { Image, SafeAreaView, Text, useColorScheme, View } from "react-native";
 import * as ExpoAppIcon from "expo-quick-actions/icon";
 import TouchableBounce from "react-native/Libraries/Components/Touchable/TouchableBounce";
+import * as AC from "@bacons/apple-colors";
 
 function useIconName() {
   const [icon, _setIcon] = React.useState(null);
@@ -34,22 +35,25 @@ export default function AppIconTest() {
   const isDark = useColorScheme() === "dark";
   const ICONS = [
     {
-      id: undefined,
-      src: { uri: "AppIcon60x60" },
+      id: null,
+      src: isDark
+        ? require("./assets/sunrise.png")
+        : require("./assets/mountains.png"),
+      name: "Adventure",
     },
     {
       id: "0",
-      src: require("./assets/space.png"),
+      src: isDark
+        ? require("./assets/space.png")
+        : require("./assets/scifi.png"),
+      name: "Sci-Fi",
     },
     {
       id: "1",
-      src: require("./assets/scifi.png"),
-    },
-    {
-      id: "2",
       src: isDark
         ? require("./assets/water.png")
         : require("./assets/landscape.png"),
+      name: "Natural",
     },
   ] as const;
 
@@ -70,7 +74,7 @@ export default function AppIconTest() {
           <Item
             onPress={() => setIcon(icon.id)}
             isSelected={icon.id === _icon}
-            name="icon"
+            name={icon.name}
             source={icon.src}
             key={String(index)}
           />
@@ -99,7 +103,9 @@ function Item({ ...props }) {
           shadowOpacity: props.isSelected ? 0.35 : 0.2,
           shadowRadius: 8.46,
 
-          backgroundColor: props.isSelected ? "#000" : "#F1F1F1",
+          backgroundColor: props.isSelected
+            ? AC.label
+            : AC.secondarySystemGroupedBackground,
           elevation: 9,
           paddingHorizontal: 12,
           paddingVertical: 12,
@@ -134,7 +140,7 @@ function Item({ ...props }) {
                 marginLeft: 20,
                 fontSize: 18,
                 fontWeight: "700",
-                color: props.isSelected ? "white" : "black",
+                color: props.isSelected ? AC.systemBackground : AC.label,
               }}
             >
               {props.name}
@@ -145,7 +151,7 @@ function Item({ ...props }) {
               style={{ marginRight: 8 }}
               name="check"
               size={20}
-              color="white"
+              color={AC.systemBackground}
             />
           )}
         </View>

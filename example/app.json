@@ -12,6 +12,10 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
+      "icon": {
+        "light": "./assets/mountains.png",
+        "dark": "./assets/sunrise.png"
+      },
       "supportsTablet": true,
       "bundleIdentifier": "com.bacon.example"
     },
@@ -26,8 +30,7 @@
       [
         "expo-quick-actions/icon/plugin",
         [
-          "./assets/space.png",
-          "./assets/scifi.png",
+          { "light": "./assets/scifi.png", "dark": "./assets/space.png" },
           {
             "light": "./assets/landscape.png",
             "dark": "./assets/water.png"

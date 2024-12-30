@@ -807,6 +807,11 @@
     "@babel/helper-string-parser" "^7.25.9"
     "@babel/helper-validator-identifier" "^7.25.9"
 
+"@bacons/apple-colors@^0.0.8":
+  version "0.0.8"
+  resolved "https://registry.yarnpkg.com/@bacons/apple-colors/-/apple-colors-0.0.8.tgz#1d393d5e1774dbedc48f1b461d9cdcafe50e2e2e"
+  integrity sha512-Fd23H9b8ge3hjMn2VQzhSyN5SHKeOP+NyDXRit45q0I7aVkD2OcheiLoGGmpPm2RiH+PW+8vikgDcrL0SCsIow==
+
 "@cspotcode/source-map-support@^0.8.0":
   version "0.8.1"
   resolved "https://registry.yarnpkg.com/@cspotcode/source-map-support/-/source-map-support-0.8.1.tgz#00629c35a688e05a88b1cda684fb9d5e73f000a1"
