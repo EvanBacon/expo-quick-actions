@@ -374,6 +374,10 @@ import * as AppIcon from "expo-quick-actions/icon";
 - `AppIcon.getIcon()` returns a Promise that resolves to the current icon name. This is undefined when the function is not supported in the given runtime (Expo Go, web)
 - `AppIcon.setIcon(iconName)` set the app icon to the given name. This is undefined when the function is not supported in the given runtime (Expo Go, web)
 
+> On Android, changing the icon will close the app.
+
+## App Icon Config Plugin
+
 You can add icons to change using the config plugin:
 
 ```json
@@ -400,4 +404,19 @@ These icons will be available as `"0"` and `"1"` respectively. Alternatively, yo
 
 This will be available as `"myIcon"`.
 
-> On Android, changing the icon will close the app.
+This config plugin supports dark mode icons on iOS by using the same config syntax as Expo config:
+
+```json
+{
+  "plugins": [
+    "expo-quick-actions/icon/plugin",
+    [
+      {
+        "light": "./path/to/light.png",
+        "dark": "./path/to/dark.png",
+        "tinted": "./path/to/tinted.png"
+      }
+    ]
+  ]
+}
+```
