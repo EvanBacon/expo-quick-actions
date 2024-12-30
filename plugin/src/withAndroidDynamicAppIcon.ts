@@ -1,12 +1,13 @@
 import {
-  ConfigPlugin,
-  withDangerousMod,
-  withAndroidManifest,
   AndroidConfig,
+  ConfigPlugin,
+  withAndroidManifest,
+  withDangerousMod,
 } from "@expo/config-plugins";
 import { generateImageAsync } from "@expo/image-utils";
 import fs from "fs";
 import path from "path";
+
 import { withAndroidAppIcon } from "./withAndroidAppIcon";
 
 const { getMainApplicationOrThrow, getMainActivityOrThrow } =

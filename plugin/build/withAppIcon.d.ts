@@ -1,4 +1,4 @@
-import { type ConfigPlugin } from "@expo/config-plugins";
+import { ConfigPlugin } from "@expo/config-plugins";
 import { IOSIcons } from "./withIosImageAssets";
 type IconSet = Record<string, IconSetProps>;
 type IconSetProps = {

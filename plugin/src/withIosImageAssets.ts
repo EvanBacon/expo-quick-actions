@@ -1,5 +1,5 @@
 import { ConfigPlugin, withDangerousMod } from "@expo/config-plugins";
-import { generateImageAsync } from "@expo/image-utils";
+import { createSquareAsync, generateImageAsync } from "@expo/image-utils";
 import fs from "fs";
 import path, { join } from "path";
 
@@ -252,8 +252,6 @@ async function generateUniversalIconAsync(
       : {}),
   };
 }
-
-import { createSquareAsync } from "@expo/image-utils";
 
 const IMAGE_CACHE_NAME = "quick-action-icons-";
 

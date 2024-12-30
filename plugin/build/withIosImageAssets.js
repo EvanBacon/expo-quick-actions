@@ -137,7 +137,7 @@ async function generateUniversalIconAsync(projectRoot, imagesetPath, { icon, cac
     }
     else {
         // Create a white square image if no icon exists to mitigate the chance of a submission failure to the app store.
-        source = await (0, image_utils_2.createSquareAsync)({ size });
+        source = await (0, image_utils_1.createSquareAsync)({ size });
     }
     // Write image buffer to the file system.
     const assetPath = (0, path_1.join)(iosNamedProjectRoot, imagesetPath, filename);
@@ -152,7 +152,6 @@ async function generateUniversalIconAsync(projectRoot, imagesetPath, { icon, cac
             : {}),
     };
 }
-const image_utils_2 = require("@expo/image-utils");
 const IMAGE_CACHE_NAME = "quick-action-icons-";
 async function generateResizedImageAsync(icon, name, projectRoot, iosNamedProjectRoot, cacheComponent, downscaleMissing) {
     // Store the image JSON data for assigning via the Contents.json

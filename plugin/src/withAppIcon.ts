@@ -1,5 +1,5 @@
 import {
-  type ConfigPlugin,
+  ConfigPlugin,
   IOSConfig,
   withXcodeProject,
 } from "@expo/config-plugins";
