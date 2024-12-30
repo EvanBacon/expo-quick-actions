@@ -10,7 +10,7 @@ Ensure you use versions that work together!
 
 | `expo` | `expo-quick-actions` |
 | ------ | -------------------- |
-| 52.0.0 | 3.0.0                |
+| 52.0.0 | +3.0.0               |
 | 51.0.0 | 2.0.0                |
 | 50.0.0 | 1.0.0                |
 | 49.0.0 | 0.0.0                |
@@ -363,6 +363,8 @@ This can happen if the `icon` property is invalid. See how icons are resolved to
 ---
 
 # App Icon
+
+<img width="358" alt="Screenshot 2024-12-30 at 1 20 47 PM" src="https://github.com/user-attachments/assets/e990ad5e-324f-4a2d-8d9a-1de4993f44a6" />
 
 This package experimentally has support for switching the app icon to align with how quick actions work on Android.
 
