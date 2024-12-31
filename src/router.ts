@@ -73,7 +73,7 @@ export function useQuickActionRouting(
     const sub = QuickActions.addListener((event) => validCallback(event));
     return () => {
       isMounted = false;
-      sub.remove();
+      sub?.remove();
     };
   }, [QuickActions.initial, router, callback]);
 }
