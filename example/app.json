@@ -82,7 +82,8 @@
           "backgroundColor": "#ffffff",
           "enableFullScreenImage_legacy": true
         }
-      ]
+      ],
+      ["@bacons/apple-colors"]
     ],
     "web": {
       "favicon": "./assets/favicon.png"
