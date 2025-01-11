@@ -2,7 +2,7 @@
   "platforms": ["ios", "android"],
   "apple": {
     "modules": ["ExpoQuickActionsModule", "ExpoAppIconModule"],
-    "appDelegateSubscribers": ["AppDelegate"]
+    "appDelegateSubscribers": ["ExpoQuickActionsAppDelegate"]
   },
   "android": {
     "modules": ["expo.modules.quickactions.ExpoQuickActionsModule", "expo.modules.quickactions.ExpoAppIconModule"]

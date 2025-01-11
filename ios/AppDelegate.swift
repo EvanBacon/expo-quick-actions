@@ -1,5 +1,5 @@
 //
-//  AppDelegate.swift
+//  ExpoQuickActionsAppDelegate.swift
 //  ExpoQuickActions
 //
 //  Created by Evan Bacon on 6/11/22.
@@ -7,7 +7,7 @@
 
 import ExpoModulesCore
 
-public class AppDelegate: ExpoAppDelegateSubscriber {
+public class ExpoQuickActionsAppDelegate: ExpoAppDelegateSubscriber {
 
   public func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
     if let item = launchOptions?[.shortcutItem] as? UIApplicationShortcutItem {

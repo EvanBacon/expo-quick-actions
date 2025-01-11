@@ -1,6 +1,6 @@
 {
   "name": "expo-quick-actions",
-  "version": "4.0.1",
+  "version": "4.0.2",
   "description": "use native quick actions",
   "main": "build/index",
   "types": "build/index.d.ts",
