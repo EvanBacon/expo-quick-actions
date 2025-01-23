@@ -80,7 +80,7 @@ QuickActions.setItems([
 An async function that returns whether the device supports home screen quick actions.
 
 ```ts
-const isSupported = await QuickActions.isSupportedAsync();
+const isSupported = await QuickActions.isSupported();
 ```
 
 ### `addListener`
