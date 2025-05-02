@@ -24,19 +24,10 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
+      "edgeToEdgeEnabled": true,
       "package": "com.bacon.demo"
     },
     "plugins": [
-      [
-        "expo-quick-actions/icon/plugin",
-        [
-          { "light": "./assets/scifi.png", "dark": "./assets/space.png" },
-          {
-            "light": "./assets/landscape.png",
-            "dark": "./assets/water.png"
-          }
-        ]
-      ],
       [
         "expo-quick-actions",
         {
