@@ -21,5 +21,11 @@
         <category android:name="android.intent.category.LAUNCHER"/>
       </intent-filter>
     </activity>
+    <activity-alias android:name="com.bacon.demo.MainActivityexpo_ic_0" android:enabled="false" android:exported="true" android:icon="@mipmap/expo_ic_0" android:targetActivity=".MainActivity" android:roundIcon="@mipmap/expo_ic_0_round">
+      <intent-filter>
+        <action android:name="android.intent.action.MAIN"/>
+        <category android:name="android.intent.category.LAUNCHER"/>
+      </intent-filter>
+    </activity-alias>
   </application>
 </manifest>

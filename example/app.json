@@ -29,6 +29,16 @@
     },
     "plugins": [
       [
+        "expo-quick-actions/icon/plugin",
+        [
+          { "light": "./assets/scifi.png", "dark": "./assets/space.png" },
+          {
+            "light": "./assets/landscape.png",
+            "dark": "./assets/water.png"
+          }
+        ]
+      ],
+      [
         "expo-quick-actions",
         {
           "androidIcons": {
