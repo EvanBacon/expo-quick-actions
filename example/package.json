@@ -5,23 +5,24 @@
     "start": "expo start --dev-client",
     "android": "expo run:android",
     "ios": "expo run:ios",
-    "web": "expo start --web"
+    "web": "expo start --web",
+    "prepare": "cp -a ../plugin node_modules/expo-quick-actions/ && cp -a ../icon node_modules/expo-quick-actions/ && cp -a ../build node_modules/expo-quick-actions/"
   },
   "dependencies": {
     "@bacons/apple-colors": "^0.0.8",
-    "expo": "^52.0.11",
-    "expo-quick-actions": "*",
-    "expo-splash-screen": "~0.29.13",
-    "expo-status-bar": "~2.0.0",
-    "expo-system-ui": "~4.0.4",
-    "react": "18.3.1",
-    "react-dom": "18.3.1",
-    "react-native": "0.76.3",
-    "react-native-web": "~0.19.6"
+    "expo": "^53",
+    "expo-quick-actions": "^4.0.2",
+    "expo-splash-screen": "~0.30.8",
+    "expo-status-bar": "~2.2.3",
+    "expo-system-ui": "~5.0.7",
+    "react": "19.0.0",
+    "react-dom": "19.0.0",
+    "react-native": "0.79.2",
+    "react-native-web": "^0.20.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
-    "@types/react": "~18.3.12",
+    "@types/react": "~19.0.10",
     "ts-node": "^10.8.2"
   },
   "private": true

@@ -1,4 +1,4 @@
-package com.bacon.example
+package com.bacon.demo
 import expo.modules.splashscreen.SplashScreenManager
 
 import android.os.Build

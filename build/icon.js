@@ -1,4 +1,4 @@
-import { NativeModule, requireOptionalNativeModule } from "expo-modules-core";
+import { requireOptionalNativeModule } from "expo-modules-core";
 const ExpoAppIcon = requireOptionalNativeModule("ExpoAppIcon");
 /** Indicates whether the device supports alternate app icons. */
 export const isSupported = ExpoAppIcon ? ExpoAppIcon.isSupported : false;

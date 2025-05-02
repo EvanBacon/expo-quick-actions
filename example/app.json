@@ -24,7 +24,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.bacon.example"
+      "package": "com.bacon.demo"
     },
     "plugins": [
       [

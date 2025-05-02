@@ -13,8 +13,8 @@ export type Action = {
 };
 export declare const initial: Action | undefined;
 export declare const maxCount: number | undefined;
-export declare const setItems: <TAction extends Action = Action>(data?: TAction[] | undefined) => Promise<void>;
+export declare const setItems: <TAction extends Action = Action>(data?: TAction[]) => Promise<void>;
 export declare const isSupported: () => Promise<boolean>;
-export declare function addListener<TAction extends Action = Action>(listener: (action: TAction) => void): import("expo-modules-core").EventSubscription;
+export declare function addListener<TAction extends Action = Action>(listener: (action: TAction) => void): import("expo-modules-core/build/ts-declarations/EventEmitter").EventSubscription;
 export {};
 //# sourceMappingURL=index.d.ts.map
