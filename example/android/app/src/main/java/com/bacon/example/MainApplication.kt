@@ -1,4 +1,4 @@
-package com.bacon.demo
+package com.bacon.example
 
 import android.app.Application
 import android.content.res.Configuration

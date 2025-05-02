@@ -25,7 +25,7 @@
         "backgroundColor": "#FFFFFF"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.bacon.demo"
+      "package": "com.bacon.example"
     },
     "plugins": [
       [

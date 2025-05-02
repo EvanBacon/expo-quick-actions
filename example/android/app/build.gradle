@@ -87,9 +87,9 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-    namespace 'com.bacon.demo'
+    namespace 'com.bacon.example'
     defaultConfig {
-        applicationId 'com.bacon.demo'
+        applicationId 'com.bacon.example'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
