@@ -20,47 +20,17 @@
         <action android:name="android.intent.action.MAIN"/>
         <category android:name="android.intent.category.LAUNCHER"/>
       </intent-filter>
-      <intent-filter>
-        <action android:name="android.intent.action.VIEW"/>
-        <category android:name="android.intent.category.DEFAULT"/>
-        <category android:name="android.intent.category.BROWSABLE"/>
-        <data android:scheme="com.bacon.example"/>
-      </intent-filter>
     </activity>
     <activity-alias android:name="com.bacon.example.MainActivityexpo_ic_0" android:enabled="false" android:exported="true" android:icon="@mipmap/expo_ic_0" android:targetActivity=".MainActivity" android:roundIcon="@mipmap/expo_ic_0_round">
       <intent-filter>
         <action android:name="android.intent.action.MAIN"/>
         <category android:name="android.intent.category.LAUNCHER"/>
       </intent-filter>
-      <intent-filter>
-        <action android:name="android.intent.action.VIEW"/>
-        <category android:name="android.intent.category.DEFAULT"/>
-        <category android:name="android.intent.category.BROWSABLE"/>
-        <data android:scheme="com.bacon.example"/>
-      </intent-filter>
     </activity-alias>
     <activity-alias android:name="com.bacon.example.MainActivityexpo_ic_1" android:enabled="false" android:exported="true" android:icon="@mipmap/expo_ic_1" android:targetActivity=".MainActivity" android:roundIcon="@mipmap/expo_ic_1_round">
       <intent-filter>
         <action android:name="android.intent.action.MAIN"/>
         <category android:name="android.intent.category.LAUNCHER"/>
-      </intent-filter>
-      <intent-filter>
-        <action android:name="android.intent.action.VIEW"/>
-        <category android:name="android.intent.category.DEFAULT"/>
-        <category android:name="android.intent.category.BROWSABLE"/>
-        <data android:scheme="com.bacon.example"/>
-      </intent-filter>
-    </activity-alias>
-    <activity-alias android:name="com.bacon.example.MainActivityexpo_ic_2" android:enabled="false" android:exported="true" android:icon="@mipmap/expo_ic_2" android:targetActivity=".MainActivity" android:roundIcon="@mipmap/expo_ic_2_round">
-      <intent-filter>
-        <action android:name="android.intent.action.MAIN"/>
-        <category android:name="android.intent.category.LAUNCHER"/>
-      </intent-filter>
-      <intent-filter>
-        <action android:name="android.intent.action.VIEW"/>
-        <category android:name="android.intent.category.DEFAULT"/>
-        <category android:name="android.intent.category.BROWSABLE"/>
-        <data android:scheme="com.bacon.example"/>
       </intent-filter>
     </activity-alias>
   </application>

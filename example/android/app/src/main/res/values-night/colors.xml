@@ -1,1 +1,40 @@
-<resources/>
+<resources>
+  <color name="systemBlue">#ff0a84ff</color>
+  <color name="systemBrown">#ffac8e68</color>
+  <color name="systemCyan">#ff64d2ff</color>
+  <color name="systemGreen">#ff30d159</color>
+  <color name="systemIndigo">#ff5e5ce6</color>
+  <color name="systemMint">#ff63e6e2</color>
+  <color name="systemOrange">#ffff9f0a</color>
+  <color name="systemPink">#ffff375f</color>
+  <color name="systemPurple">#ffbf5af2</color>
+  <color name="systemRed">#ffff453a</color>
+  <color name="systemTeal">#ff40c8e0</color>
+  <color name="systemYellow">#ffffd60a</color>
+  <color name="systemGray">#ff8e8e93</color>
+  <color name="systemGray2">#ff636366</color>
+  <color name="systemGray3">#ff48484a</color>
+  <color name="systemGray4">#ff3a3a3c</color>
+  <color name="systemGray5">#ff2c2c2e</color>
+  <color name="systemGray6">#ff1c1c1e</color>
+  <color name="label">#ffffffff</color>
+  <color name="secondaryLabel">#99eaeaf4</color>
+  <color name="tertiaryLabel">#4deaeaf4</color>
+  <color name="quaternaryLabel">#29eaeaf4</color>
+  <color name="systemFill">#5c77777f</color>
+  <color name="secondarySystemFill">#5277777f</color>
+  <color name="tertiarySystemFill">#3d75757f</color>
+  <color name="quaternarySystemFill">#2e75757f</color>
+  <color name="placeholderText">#4deaeaf4</color>
+  <color name="systemBackground">#ff000000</color>
+  <color name="secondarySystemBackground">#ff1c1c1e</color>
+  <color name="tertiarySystemBackground">#ff2b2b2e</color>
+  <color name="systemGroupedBackground">#ff000000</color>
+  <color name="secondarySystemGroupedBackground">#ff1c1c1e</color>
+  <color name="tertiarySystemGroupedBackground">#ff2b2b2e</color>
+  <color name="separator">#99545459</color>
+  <color name="opaqueSeparator">#ff38383a</color>
+  <color name="link">#ff0a84ff</color>
+  <color name="darkText">#ff000000</color>
+  <color name="lightText">#99ffffff</color>
+</resources>

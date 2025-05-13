@@ -24,6 +24,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
+      "edgeToEdgeEnabled": true,
       "package": "com.bacon.example"
     },
     "plugins": [
