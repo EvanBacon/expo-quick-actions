@@ -1,6 +1,6 @@
 {
   "name": "expo-quick-actions",
-  "version": "5.0.0",
+  "version": "6.0.0",
   "description": "use native quick actions and custom app icons",
   "main": "build/index",
   "types": "build/index.d.ts",

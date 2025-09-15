@@ -2,7 +2,7 @@
 
 > This is not an official Expo SDK package.
 
-A comprehensive React Native library for home screen quick actions.
+A comprehensive React Native library for home screen quick actions (`expo-quick-actions`) and dynamic app icons (`expo-quick-actions/icon`).
 
 ## Versioning
 
@@ -10,6 +10,7 @@ Ensure you use versions that work together!
 
 | `expo` | `expo-quick-actions` |
 | ------ | -------------------- |
+| 54.0.0 | 6.0.0                |
 | 53.0.0 | 5.0.0                |
 | 52.0.0 | +3.0.0               |
 | 51.0.0 | 2.0.0                |
