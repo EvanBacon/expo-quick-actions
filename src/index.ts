@@ -68,7 +68,7 @@ export const isSupported =
 
 export function addListener<TAction extends Action = Action>(
   listener: (action: TAction) => void
-) {
+): { remove: () => void } {
   if (!ExpoQuickActions?.addListener) {
     return { remove: () => {} };
   }
