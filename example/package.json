@@ -6,7 +6,7 @@
     "android": "expo run:android",
     "ios": "expo run:ios",
     "web": "expo start --web",
-    "prepare": "cp -a ../plugin node_modules/expo-quick-actions/ && cp -a ../icon node_modules/expo-quick-actions/ && cp -a ../build node_modules/expo-quick-actions/"
+    "prepare": "cp -a ../plugin node_modules/expo-quick-actions/ && cp -a ../icon node_modules/expo-quick-actions/ && cp -a ../build node_modules/expo-quick-actions/ && cp ../package.json node_modules/expo-quick-actions/package.json"
   },
   "dependencies": {
     "@bacons/apple-colors": "^0.0.8",

@@ -1,10 +1,32 @@
 {
   "name": "expo-quick-actions",
   "version": "5.0.0",
-  "description": "use native quick actions",
+  "description": "use native quick actions and custom app icons",
   "main": "build/index",
   "types": "build/index.d.ts",
- 
+  "exports": {
+    "./app.plugin": "./app.plugin.js",
+    "./app.plugin.js": "./app.plugin.js",
+    "./icon/plugin": "./plugin/build/withAppIcon.js",
+    "./icon": {
+      "types": "./build/icon.d.ts",
+      "default": "./build/icon.js"
+    },
+    "./hooks": {
+      "types": "./build/hooks.d.ts",
+      "default": "./build/hooks.js"
+    },
+    "./router": {
+      "types": "./build/router.d.ts",
+      "default": "./build/router.js"
+    },
+    "./package.json": "./package.json",
+    ".": {
+      "types": "./build/index.d.ts",
+      "react-native": "./build/index.js",
+      "default": "./build/index.web.js"
+    }
+  },
   "scripts": {
     "build": "expo-module build",
     "clean": "expo-module clean",
@@ -34,7 +56,10 @@
     "app-icon",
     "dynamic-app-icon"
   ],
-  "repository": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/evanbacon/expo-quick-actions.git"
+  },
   "bugs": {
     "url": "https://github.com/evanbacon/expo-quick-actions/issues"
   },

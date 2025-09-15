@@ -2,7 +2,7 @@ import Entypo from "@expo/vector-icons/Entypo";
 import React from "react";
 import { Image, ScrollView, Text, useColorScheme, View } from "react-native";
 import * as ExpoAppIcon from "expo-quick-actions/icon";
-import TouchableBounce from "react-native/Libraries/Components/Touchable/TouchableBounce";
+import TouchableBounce from "./bounce";
 import * as AC from "@bacons/apple-colors";
 
 function useIconName() {
