@@ -1,4 +1,4 @@
-import { EventEmitter } from "expo-modules-core";
+import { EventEmitter } from "expo-modules-core/types";
 import type { SFSymbol } from "sf-symbols-typescript";
 
 const ExpoQuickActions = globalThis.expo?.modules
@@ -68,7 +68,7 @@ export const isSupported =
 
 export function addListener<TAction extends Action = Action>(
   listener: (action: TAction) => void
-) {
+): { remove: () => void } {
   if (!ExpoQuickActions?.addListener) {
     return { remove: () => {} };
   }

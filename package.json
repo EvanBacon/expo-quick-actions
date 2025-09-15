@@ -1,9 +1,32 @@
 {
   "name": "expo-quick-actions",
-  "version": "5.0.0",
-  "description": "use native quick actions",
+  "version": "6.0.0",
+  "description": "use native quick actions and custom app icons",
   "main": "build/index",
   "types": "build/index.d.ts",
+  "exports": {
+    "./app.plugin": "./app.plugin.js",
+    "./app.plugin.js": "./app.plugin.js",
+    "./icon/plugin": "./plugin/build/withAppIcon.js",
+    "./icon": {
+      "types": "./build/icon.d.ts",
+      "default": "./build/icon.js"
+    },
+    "./hooks": {
+      "types": "./build/hooks.d.ts",
+      "default": "./build/hooks.js"
+    },
+    "./router": {
+      "types": "./build/router.d.ts",
+      "default": "./build/router.js"
+    },
+    "./package.json": "./package.json",
+    ".": {
+      "types": "./build/index.d.ts",
+      "react-native": "./build/index.js",
+      "default": "./build/index.web.js"
+    }
+  },
   "scripts": {
     "build": "expo-module build",
     "clean": "expo-module clean",
@@ -29,9 +52,14 @@
     "react-native",
     "expo",
     "expo-quick-actions",
-    "ExpoQuickActions"
+    "ExpoQuickActions",
+    "app-icon",
+    "dynamic-app-icon"
   ],
-  "repository": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/evanbacon/expo-quick-actions.git"
+  },
   "bugs": {
     "url": "https://github.com/evanbacon/expo-quick-actions/issues"
   },
@@ -39,16 +67,16 @@
   "license": "MIT",
   "homepage": "https://github.com/evanbacon/expo-quick-actions/",
   "dependencies": {
-    "@expo/image-utils": "~0.7.4",
-    "schema-utils": "^4.2.0",
+    "@expo/image-utils": "^0.8.7",
+    "schema-utils": "^4.3.2",
     "sf-symbols-typescript": "^2.1.0"
   },
   "devDependencies": {
-    "expo-module-scripts": "^4.1.6",
-    "expo-modules-core": "^2.3.12",
-    "expo-router": "^5",
-    "react": "^19",
-    "@types/react": "~19"
+    "expo-module-scripts": "^5.0.7",
+    "expo-modules-core": "^3.0.15",
+    "expo-router": "^6",
+    "react": "^19.1.0",
+    "@types/react": "~19.1.0"
   },
   "peerDependencies": {
     "expo": "*"

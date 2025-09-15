@@ -1,8 +1,8 @@
 import Entypo from "@expo/vector-icons/Entypo";
 import React from "react";
-import { Image, SafeAreaView, Text, useColorScheme, View } from "react-native";
+import { Image, ScrollView, Text, useColorScheme, View } from "react-native";
 import * as ExpoAppIcon from "expo-quick-actions/icon";
-import TouchableBounce from "react-native/Libraries/Components/Touchable/TouchableBounce";
+import TouchableBounce from "./bounce";
 import * as AC from "@bacons/apple-colors";
 
 function useIconName() {
@@ -62,9 +62,12 @@ export default function AppIconTest() {
   }
 
   return (
-    <SafeAreaView
+    <ScrollView
+      contentInsetAdjustmentBehavior="automatic"
       style={{
         flex: 1,
+      }}
+      contentContainerStyle={{
         justifyContent: "center",
         alignItems: "center",
       }}
@@ -80,7 +83,7 @@ export default function AppIconTest() {
           />
         ))}
       </View>
-    </SafeAreaView>
+    </ScrollView>
   );
 }
 
