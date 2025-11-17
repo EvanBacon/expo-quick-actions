@@ -103,7 +103,6 @@ public class ExpoQuickActionsModule: Module {
         Events(onQuickAction)
         
         OnStartObserving {
-            // Listen for quick action notifications from AppDelegate
             NotificationCenter.default.addObserver(
                 self,
                 selector: #selector(self.quickActionListener),
