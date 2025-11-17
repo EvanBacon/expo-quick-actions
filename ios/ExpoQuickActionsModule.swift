@@ -103,10 +103,11 @@ public class ExpoQuickActionsModule: Module {
         Events(onQuickAction)
         
         OnStartObserving {
+            // Listen for quick action notifications from AppDelegate
             NotificationCenter.default.addObserver(
                 self,
                 selector: #selector(self.quickActionListener),
-                name: Notification.Name(onQuickAction),
+                name: NSNotification.Name("UIApplicationShortcutItemSelected"),
                 object: nil
             )
         }
@@ -114,16 +115,21 @@ public class ExpoQuickActionsModule: Module {
         OnStopObserving {
             NotificationCenter.default.removeObserver(
                 self,
-                name: Notification.Name(onQuickAction),
+                name: NSNotification.Name("UIApplicationShortcutItemSelected"),
                 object: nil
             )
         }
     }
     
     @objc
-    func quickActionListener(notifications: Notification) {
-        guard let item = notifications.object as? UIApplicationShortcutItem,
-              let action = toActionObject(item: item) else { return }
+    func quickActionListener(notification: Notification) {        
+        guard let userInfo = notification.userInfo,
+              let shortcutItem = userInfo["shortcutItem"] as? UIApplicationShortcutItem else {
+            return
+        }
+        guard let action = toActionObject(item: shortcutItem) else {
+            return
+        }
         sendEvent(onQuickAction, action.toDictionary())
     }
 }
