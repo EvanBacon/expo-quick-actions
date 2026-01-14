@@ -60,7 +60,9 @@ export function useQuickActionRouting(
       if (isMounted) {
         if (!callback?.(data) && isRouterAction(data)) {
           setTimeout(() => {
-            router.navigate(data.params.href);
+            router.navigate(data.params.href, {
+              withAnchor: true,
+            });
           });
         }
       }
