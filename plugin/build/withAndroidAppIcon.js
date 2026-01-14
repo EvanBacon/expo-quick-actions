@@ -3,7 +3,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.withAndroidAppIcon = void 0;
+exports.withAndroidAppIcon = exports.BASELINE_PIXEL_SIZE = void 0;
+exports.setIconAsync = setIconAsync;
 const config_plugins_1 = require("@expo/config-plugins");
 const image_utils_1 = require("@expo/image-utils");
 const fs_1 = __importDefault(require("fs"));
@@ -16,7 +17,7 @@ const dpiValues = {
     xxhdpi: { folderName: "mipmap-xxhdpi", scale: 3 },
     xxxhdpi: { folderName: "mipmap-xxxhdpi", scale: 4 },
 };
-const BASELINE_PIXEL_SIZE = 108;
+exports.BASELINE_PIXEL_SIZE = 108;
 const ANDROID_RES_PATH = "android/app/src/main/res/";
 const MIPMAP_ANYDPI_V26 = "mipmap-anydpi-v26";
 const withAndroidAppIcon = (config, props) => {
@@ -27,9 +28,9 @@ const withAndroidAppIcon = (config, props) => {
     const name = props.name; // ?? "ic_launcher";
     // NOTE: This is normally `iconBackground`
     const backgroundColorName = `${name}_background_color`;
-    const backgroundColor = typeof props.src === "string" ? null : props.src.backgroundColor ?? null;
-    const backgroundImage = typeof props.src === "string" ? null : props.src.backgroundImage ?? null;
-    const monochromeImage = typeof props.src === "string" ? null : props.src.monochromeImage ?? null;
+    const backgroundColor = typeof props.src === "string" ? null : (props.src.backgroundColor ?? null);
+    const backgroundImage = typeof props.src === "string" ? null : (props.src.backgroundImage ?? null);
+    const monochromeImage = typeof props.src === "string" ? null : (props.src.monochromeImage ?? null);
     const isAdaptive = typeof props.src !== "string";
     // Apply colors.xml changes
     (0, config_plugins_1.withAndroidColors)(config, (config) => {
@@ -55,7 +56,7 @@ const withAndroidAppIcon = (config, props) => {
                 isAdaptive,
                 name,
                 colorName: backgroundColorName,
-                baselineSize: BASELINE_PIXEL_SIZE,
+                baselineSize: exports.BASELINE_PIXEL_SIZE,
             });
             return config;
         },
@@ -191,7 +192,7 @@ async function generateMultiLayerImageAsync(projectRoot, { icon, backgroundColor
             // backgroundImage overrides backgroundColor
             backgroundColor: backgroundImage
                 ? "transparent"
-                : backgroundColor ?? "transparent",
+                : (backgroundColor ?? "transparent"),
             borderRadiusRatio,
         });
         if (backgroundImage) {

@@ -20,7 +20,7 @@ const dpiValues: dpiMap = {
   xxhdpi: { folderName: "mipmap-xxhdpi", scale: 3 },
   xxxhdpi: { folderName: "mipmap-xxxhdpi", scale: 4 },
 };
-const BASELINE_PIXEL_SIZE = 108;
+export const BASELINE_PIXEL_SIZE = 108;
 const ANDROID_RES_PATH = "android/app/src/main/res/";
 const MIPMAP_ANYDPI_V26 = "mipmap-anydpi-v26";
 
@@ -51,11 +51,11 @@ export const withAndroidAppIcon: ConfigPlugin<AndroidImageProps> = (
   // NOTE: This is normally `iconBackground`
   const backgroundColorName = `${name}_background_color`;
   const backgroundColor =
-    typeof props.src === "string" ? null : props.src.backgroundColor ?? null;
+    typeof props.src === "string" ? null : (props.src.backgroundColor ?? null);
   const backgroundImage =
-    typeof props.src === "string" ? null : props.src.backgroundImage ?? null;
+    typeof props.src === "string" ? null : (props.src.backgroundImage ?? null);
   const monochromeImage =
-    typeof props.src === "string" ? null : props.src.monochromeImage ?? null;
+    typeof props.src === "string" ? null : (props.src.monochromeImage ?? null);
 
   const isAdaptive = typeof props.src !== "string";
   // Apply colors.xml changes
@@ -98,7 +98,7 @@ export const withAndroidAppIcon: ConfigPlugin<AndroidImageProps> = (
  * their respective "mipmap" directories for <= Android 7, and creates a set of adaptive
  * icon files for > Android 7 from the adaptive icon files (if provided).
  */
-async function setIconAsync(
+export async function setIconAsync(
   projectRoot: string,
   {
     icon,
@@ -341,7 +341,7 @@ async function generateMultiLayerImageAsync(
       // backgroundImage overrides backgroundColor
       backgroundColor: backgroundImage
         ? "transparent"
-        : backgroundColor ?? "transparent",
+        : (backgroundColor ?? "transparent"),
       borderRadiusRatio,
     });
 

@@ -6,9 +6,10 @@ import {
 
 import { withAndroidDynamicAppIcons } from "./withAndroidDynamicAppIcon";
 import { IOSIcons, withIosIconImageAsset } from "./withIosImageAssets";
+import { AdaptiveIcon } from "./withAndroidAppIcon";
 
 type IconSet = Record<string, IconSetProps>;
-type IconSetProps = { image: string | IOSIcons };
+type IconSetProps = { image: string | IOSIcons | AdaptiveIcon };
 
 type Props = {
   icons: IconSet;
@@ -23,18 +24,39 @@ const withDynamicIcon: ConfigPlugin<string[] | IconSet | void> = (
   // TODO: More sensible android options and some way to add platform specific icons.
   withAndroidDynamicAppIcons(config, {
     icons: Object.fromEntries(
-      Object.entries(icons).map(([key, value]) => [
+      Object.entries(icons).map(([key, value]) => {
         // Must start with letter on Android.
-        `expo_ic_${key}`,
-        typeof value.image === "string" ? value.image : value.image.light!,
-      ])
+        const iconName = `expo_ic_${key}`;
+        // Pass through AdaptiveIcon if provided, otherwise extract string or IOSIcons
+        if (typeof value.image === "string") {
+          return [iconName, value.image];
+        } else if ("light" in value.image) {
+          // This is IOSIcons, extract light for Android
+          return [iconName, value.image.light!];
+        } else {
+          // This is AdaptiveIcon, pass through
+          return [iconName, value.image];
+        }
+      })
     ),
   });
 
   for (const [key, value] of Object.entries(icons)) {
+    // Handle AdaptiveIcon by extracting foregroundImage for iOS
+    let iosIcon: string | IOSIcons;
+    if (typeof value.image === "string") {
+      iosIcon = value.image;
+    } else if ("light" in value.image) {
+      // This is IOSIcons, pass through
+      iosIcon = value.image;
+    } else {
+      // This is AdaptiveIcon, extract foregroundImage
+      iosIcon = (value.image as AdaptiveIcon).foregroundImage;
+    }
+
     config = withIosIconImageAsset(config, {
       name: `expo_ic_${key}`,
-      icon: value.image,
+      icon: iosIcon,
     });
   }
 

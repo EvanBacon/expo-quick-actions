@@ -28,10 +28,13 @@
   },
   "scripts": {
     "build": "expo-module build",
+    "build:plugin": "tsc -p plugin/tsconfig.json",
+    "build:src": "tsc",
+    "build:tsc": "npm run build:plugin && npm run build:src",
+    "build:watch": "tsc -p plugin/tsconfig.json --watch & tsc --watch",
     "clean": "expo-module clean",
     "lint": "expo-module lint",
     "test": "expo-module test",
-    "prepare": "expo-module prepare",
     "prepublishOnly": "expo-module prepublishOnly",
     "expo-module": "expo-module"
   },
