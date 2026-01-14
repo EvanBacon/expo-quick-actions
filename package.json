@@ -2,15 +2,11 @@
   "name": "expo-quick-actions",
   "version": "6.0.0",
   "description": "use native quick actions and custom app icons",
-  "main": "build/index",
-  "types": "build/index.d.ts",
   "exports": {
-    "./app.plugin": "./app.plugin.js",
-    "./app.plugin.js": "./app.plugin.js",
-    "./icon/plugin": "./plugin/build/withAppIcon.js",
-    "./icon": {
-      "types": "./build/icon.d.ts",
-      "default": "./build/icon.js"
+    ".": {
+      "types": "./build/index.d.ts",
+      "react-native": "./build/index.js",
+      "default": "./build/index.web.js"
     },
     "./hooks": {
       "types": "./build/hooks.d.ts",
@@ -20,12 +16,15 @@
       "types": "./build/router.d.ts",
       "default": "./build/router.js"
     },
-    "./package.json": "./package.json",
-    ".": {
-      "types": "./build/index.d.ts",
-      "react-native": "./build/index.js",
-      "default": "./build/index.web.js"
-    }
+    "./icon": {
+      "types": "./build/icon.d.ts",
+      "default": "./build/icon.js"
+    },
+    "./expo-module.config.json": "./expo-module.config.json",
+    "./icon/plugin": "./plugin/build/withAppIcon.js",
+    "./app.plugin": "./app.plugin.js",
+    "./app.plugin.js": "./app.plugin.js",
+    "./package.json": "./package.json"
   },
   "scripts": {
     "build": "expo-module build",
@@ -37,12 +36,9 @@
     "expo-module": "expo-module"
   },
   "files": [
-    "app.plugin.js",
-    "plugin/build",
     "build",
-    "hooks",
-    "icon",
-    "router",
+    "plugin/build",
+    "app.plugin.js",
     "expo-module.config.json",
     "ios",
     "android",
