@@ -6,7 +6,6 @@
     "orientation": "portrait",
     "icon": "https://github.com/expo.png",
     "userInterfaceStyle": "automatic",
-    "newArchEnabled": true,
     "updates": {
       "fallbackToCacheTimeout": 0
     },
@@ -24,7 +23,6 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "edgeToEdgeEnabled": true,
       "package": "com.bacon.example"
     },
     "plugins": [

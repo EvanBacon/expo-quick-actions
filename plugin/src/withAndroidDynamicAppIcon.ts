@@ -104,8 +104,8 @@ const withIconAndroidImages: ConfigPlugin<Props> = (config, { icons }) => {
 
       const addIconRes = async (folders: string[], round?: boolean) => {
         for (let i = 0; i < folders.length; i++) {
-          const size = ANDROID_SIZES[i];
-          const outputPath = path.join(androidResPath, folders[i]);
+          const size = ANDROID_SIZES[i]!;
+          const outputPath = path.join(androidResPath, folders[i]!);
 
           await fs.promises.mkdir(outputPath, { recursive: true });
 

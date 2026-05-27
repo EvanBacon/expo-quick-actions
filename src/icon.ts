@@ -1,4 +1,7 @@
-import { NativeModule, requireOptionalNativeModule } from "expo-modules-core";
+import {
+  type NativeModule,
+  requireOptionalNativeModule,
+} from "expo-modules-core";
 
 declare class ExpoAppIconType extends NativeModule {
   /** Indicates whether the device supports alternate app icons. */
