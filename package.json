@@ -68,11 +68,13 @@
     "sf-symbols-typescript": "^2.1.0"
   },
   "devDependencies": {
-    "expo-module-scripts": "^5.0.7",
-    "expo-modules-core": "^3.0.15",
-    "expo-router": "^6",
-    "react": "^19.1.0",
-    "@types/react": "~19.1.0"
+    "@expo/config-plugins": "^56.0.8",
+    "expo-module-scripts": "^56.0.2",
+    "expo-modules-core": "^56.0.13",
+    "expo-router": "~56.2.7",
+    "react": "^19.2.3",
+    "@types/react": "~19.2.0",
+    "typescript": "~6.0.3"
   },
   "peerDependencies": {
     "expo": "*"

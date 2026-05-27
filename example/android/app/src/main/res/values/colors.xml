@@ -2,7 +2,6 @@
   <color name="splashscreen_background">#ffffff</color>
   <color name="iconBackground">#FFFFFF</color>
   <color name="colorPrimary">#023c69</color>
-  <color name="colorPrimaryDark">#ffffff</color>
   <color name="systemBlue">#ff007aff</color>
   <color name="systemBrown">#ffa2845e</color>
   <color name="systemCyan">#ff32ade6</color>
