@@ -6,13 +6,13 @@
     "android": "expo run:android",
     "ios": "expo run:ios",
     "web": "expo start --web",
-    "prepare": "cp -a ../plugin node_modules/expo-quick-actions/ && cp -a ../build node_modules/expo-quick-actions/ && cp ../package.json node_modules/expo-quick-actions/package.json"
+    "postinstall": "../scripts/link-local-module.sh"
   },
   "dependencies": {
     "@bacons/apple-colors": "^0.0.8",
     "@expo/vector-icons": "^15.0.2",
     "expo": "^56",
-    "expo-quick-actions": "^4.0.2",
+    "expo-quick-actions": "^6.0.0",
     "expo-splash-screen": "~56.0.10",
     "expo-status-bar": "~56.0.4",
     "expo-system-ui": "~56.0.5",
