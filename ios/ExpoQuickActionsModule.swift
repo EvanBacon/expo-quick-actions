@@ -72,17 +72,24 @@ func toActionObject(item: UIApplicationShortcutItem?) -> ActionObject? {
 }
 
 var initialAction: UIApplicationShortcutItem?
+var didExportInitialAction = false
 
 public class ExpoQuickActionsModule: Module {
     
     public func definition() -> ModuleDefinition {
         Name("ExpoQuickActions")
         
-        Constants([
-            // https://developer.apple.com/design/human-interface-guidelines/home-screen-quick-actions
-            "maxCount": 4,
-            "initial": toActionObject(item: initialAction)?.toDictionary()
-        ])
+        // Evaluated when JS first accesses the module. Marks that `initial` has been exported so a
+        // shortcut forwarded by the scene delegate before that point is treated as the initial
+        // action (see AppDelegate.swift), and any later one as a regular event.
+        Constants {
+            didExportInitialAction = true
+            return [
+                // https://developer.apple.com/design/human-interface-guidelines/home-screen-quick-actions
+                "maxCount": 4,
+                "initial": toActionObject(item: initialAction)?.toDictionary()
+            ]
+        }
                 
         AsyncFunction("setItems") { (items: [ActionObject]?) in
             UIApplication.shared.shortcutItems = items?.map { item in
