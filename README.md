@@ -10,6 +10,7 @@ Ensure you use versions that work together!
 
 | `expo` | `expo-quick-actions` |
 | ------ | -------------------- |
+| 57.0.0 | 6.1.0                |
 | 56.0.0 | 6.0.2                |
 | 54.0.0 | 6.0.0                |
 | 53.0.0 | 5.0.0                |

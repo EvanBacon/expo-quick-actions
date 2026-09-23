@@ -11,19 +11,19 @@
   "dependencies": {
     "@bacons/apple-colors": "^0.0.8",
     "@expo/vector-icons": "^15.0.2",
-    "expo": "^56",
+    "expo": "^57",
     "expo-quick-actions": "^6.0.0",
-    "expo-splash-screen": "~56.0.10",
-    "expo-status-bar": "~56.0.4",
-    "expo-system-ui": "~56.0.5",
+    "expo-splash-screen": "~57.0.9",
+    "expo-status-bar": "~57.0.1",
+    "expo-system-ui": "~57.0.4",
     "react": "19.2.3",
     "react-dom": "19.2.3",
-    "react-native": "0.85.3",
+    "react-native": "0.86.3",
     "react-native-web": "~0.21.0"
   },
   "devDependencies": {
     "@babel/core": "^7.29.0",
-    "@types/react": "~19.2.14",
+    "@types/react": "~19.2.2",
     "ts-node": "^10.8.2"
   },
   "private": true
