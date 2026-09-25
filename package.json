@@ -1,6 +1,6 @@
 {
   "name": "expo-quick-actions",
-  "version": "6.0.2",
+  "version": "6.1.0",
   "description": "use native quick actions and custom app icons",
   "exports": {
     ".": {
@@ -35,6 +35,10 @@
     "prepublishOnly": "expo-module prepublishOnly",
     "expo-module": "expo-module"
   },
+  "jest": {
+    "preset": "expo-module-scripts",
+    "passWithNoTests": true
+  },
   "files": [
     "build",
     "plugin/build",
@@ -63,17 +67,21 @@
   "license": "MIT",
   "homepage": "https://github.com/evanbacon/expo-quick-actions/",
   "dependencies": {
-    "@expo/image-utils": "^0.8.7",
+    "@expo/image-utils": "^0.11.5",
     "schema-utils": "^4.3.2",
     "sf-symbols-typescript": "^2.1.0"
   },
   "devDependencies": {
-    "@expo/config-plugins": "^56.0.8",
-    "expo-module-scripts": "^56.0.2",
-    "expo-modules-core": "^56.0.13",
-    "expo-router": "~56.2.7",
+    "@expo/config-plugins": "^57.0.9",
+    "eslint": "^8.57.1",
+    "expo-module-scripts": "56.0.3",
+    "expo-modules-core": "^57.0.18",
+    "expo-router": "~57.0.22",
+    "jest": "^29.7.0",
+    "prettier": "^3.8.3",
     "react": "^19.2.3",
-    "@types/react": "~19.2.0",
+    "react-native": "0.86.3",
+    "@types/react": "~19.2.2",
     "typescript": "~6.0.3"
   },
   "peerDependencies": {
