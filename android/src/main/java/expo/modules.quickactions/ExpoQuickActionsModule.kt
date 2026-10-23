@@ -9,6 +9,8 @@ import android.content.res.Resources
 import android.graphics.drawable.Icon
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.os.Parcelable
 import android.os.PersistableBundle
 import androidx.annotation.RequiresApi
@@ -130,8 +132,14 @@ class ExpoQuickActionsModule : Module() {
         private var instance: ExpoQuickActionsModule? = null
 
         private fun notifyShortcutAction(action: ActionObject) {
-            // Send an event with the shortcutId or relevant information
-            instance?.sendEvent("onQuickAction", mapOf("id" to action.id, "title" to action.title, "subtitle" to action.subtitle, "icon" to action.icon, "params" to action.params))
+            // JS isn't listening yet (module not created or bundle still loading): keep the latest
+            // action and emit it once observing starts.
+            val module = instance
+            if (module == null || !QuickActionsSingleton.isObserving) {
+                QuickActionsSingleton.pendingAction = action
+                return
+            }
+            module.sendQuickAction(action)
         }
 
         fun convertShortcutIntent(intent: Intent): ActionObject? {
@@ -211,11 +219,31 @@ class ExpoQuickActionsModule : Module() {
             instance = this@ExpoQuickActionsModule
         }
 
+        OnStartObserving {
+            QuickActionsSingleton.isObserving = true
+            // Actions are received on the main thread, so flush there.
+            Handler(Looper.getMainLooper()).post {
+                if (!QuickActionsSingleton.isObserving) return@post
+                QuickActionsSingleton.pendingAction?.let {
+                    QuickActionsSingleton.pendingAction = null
+                    sendQuickAction(it)
+                }
+            }
+        }
+
+        OnStopObserving {
+            QuickActionsSingleton.isObserving = false
+        }
+
         OnDestroy {
             instance = null
         }
 
         Events("onQuickAction")
+    }
+
+    private fun sendQuickAction(action: ActionObject) {
+        sendEvent("onQuickAction", mapOf("id" to action.id, "title" to action.title, "subtitle" to action.subtitle, "icon" to action.icon, "params" to action.params))
     }
 
     private fun setItems(items: List<ActionObject>) {
