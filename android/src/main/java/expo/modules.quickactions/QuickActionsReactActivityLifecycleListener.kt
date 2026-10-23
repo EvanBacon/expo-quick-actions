@@ -2,6 +2,7 @@ package expo.modules.quickactions
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.content.pm.ShortcutManager
 import android.os.Build
 import android.os.Bundle
@@ -24,5 +25,14 @@ class QuickActionsReactActivityLifecycleListener(activityContext: Context) : Rea
                 QuickActionsSingleton.launchAction = ExpoQuickActionsModule.convertShortcutIntent(it)
             }
         }
+    }
+
+    // A shortcut tapped while the app is still starting arrives here before the module exists,
+    // so the module's OnNewIntent never sees it. Once JS observes, the module handles it instead.
+    override fun onNewIntent(intent: Intent): Boolean {
+        if (!QuickActionsSingleton.isObserving) {
+            ExpoQuickActionsModule.handleShortcutIntent(intent)
+        }
+        return false
     }
 }

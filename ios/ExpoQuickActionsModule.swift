@@ -72,6 +72,9 @@ func toActionObject(item: UIApplicationShortcutItem?) -> ActionObject? {
 }
 
 var initialAction: UIApplicationShortcutItem?
+// Latest action received while JS was not observing; emitted once observing starts.
+var pendingAction: UIApplicationShortcutItem?
+var isObservingQuickActions = false
 
 public class ExpoQuickActionsModule: Module {
     
@@ -109,9 +112,19 @@ public class ExpoQuickActionsModule: Module {
                 name: Notification.Name(onQuickAction),
                 object: nil
             )
+            isObservingQuickActions = true
+            // Actions are received on the main thread, so flush there.
+            DispatchQueue.main.async {
+                guard isObservingQuickActions, let item = pendingAction else { return }
+                pendingAction = nil
+                if let action = toActionObject(item: item) {
+                    self.sendEvent(onQuickAction, action.toDictionary())
+                }
+            }
         }
         
         OnStopObserving {
+            isObservingQuickActions = false
             NotificationCenter.default.removeObserver(
                 self,
                 name: Notification.Name(onQuickAction),
