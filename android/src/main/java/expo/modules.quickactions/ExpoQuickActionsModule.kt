@@ -7,6 +7,7 @@ import android.content.pm.ShortcutInfo
 import android.content.pm.ShortcutManager
 import android.content.res.Resources
 import android.graphics.drawable.Icon
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
@@ -134,49 +135,72 @@ class ExpoQuickActionsModule : Module() {
             instance?.sendEvent("onQuickAction", mapOf("id" to action.id, "title" to action.title, "subtitle" to action.subtitle, "icon" to action.icon, "params" to action.params))
         }
 
-        fun convertShortcutIntent(intent: Intent): ActionObject? {
-            // Check if the intent comes from a shortcut action
-            if (intent.action == UNIQ_ACTION_ID) {
-                // Extract information from the intent to identify the shortcut action
+        fun convertShortcutIntent(intent: Intent?): ActionObject? {
+            if (intent == null) {
+                return null
+            }
 
-                val actionBundle = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    intent.getParcelableExtra("shortcut_data")
+            // Check if the intent comes from a shortcut action
+            if (intent.action != UNIQ_ACTION_ID && intent.action != Intent.ACTION_VIEW) {
+                return null
+            }
+
+            val actionBundle = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                intent.getParcelableExtra("shortcut_data", Bundle::class.java)
+            } else {
+                @Suppress("DEPRECATION")
+                intent.getParcelableExtra("shortcut_data")
+            }
+
+            if (actionBundle != null) {
+                val actionObject = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && actionBundle is PersistableBundle) {
+                    ActionObject.fromPersistableBundle(actionBundle)
+                } else if (actionBundle is Bundle) {
+                    ActionObject.fromBundle(actionBundle)
                 } else {
-                    intent.getBundleExtra("shortcut_data") as PersistableBundle?
+                    null
                 }
 
-                if (actionBundle != null) {
-                    val actionObject = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && actionBundle is PersistableBundle) {
-                        return ActionObject.fromPersistableBundle(actionBundle)
+                if (actionObject != null) {
+                    val dataUri = intent.data?.toString()
+                    return if (dataUri != null) {
+                        val params = actionObject.params?.toMutableMap() ?: mutableMapOf()
+                        if (!params.containsKey("href")) {
+                            params["href"] = dataUri
+                        }
+                        ActionObject(
+                            actionObject.id,
+                            actionObject.title,
+                            actionObject.subtitle,
+                            actionObject.icon,
+                            params
+                        )
                     } else {
-                        return ActionObject.fromBundle(actionBundle as Bundle)
+                        actionObject
                     }
                 }
             }
-            return null;
+
+            if (intent.data != null) {
+                val dataUri = intent.data.toString()
+                val id = intent.getStringExtra("id") ?: dataUri
+                val title = intent.getStringExtra("title") ?: dataUri
+                return ActionObject(
+                    id = id,
+                    title = title,
+                    subtitle = intent.getStringExtra("subtitle"),
+                    icon = intent.getStringExtra("icon"),
+                    params = mapOf("href" to dataUri)
+                )
+            }
+
+            return null
         }
 
         fun handleShortcutIntent(intent: Intent) {
-            // Check if the intent comes from a shortcut action
-            if (intent.action == UNIQ_ACTION_ID) {
-                // Extract information from the intent to identify the shortcut action
-
-                val actionBundle = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    intent.getParcelableExtra("shortcut_data")
-                } else {
-                    intent.getBundleExtra("shortcut_data") as PersistableBundle?
-                }
-
-                actionBundle?.let {
-                    val actionObject = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && it is PersistableBundle) {
-                        ActionObject.fromPersistableBundle(it)
-                    } else {
-                        ActionObject.fromBundle(it as Bundle)
-                    }
-                    notifyShortcutAction(actionObject)
-
-                }
-            }
+            val actionObject = convertShortcutIntent(intent) ?: return
+            QuickActionsSingleton.launchAction = actionObject
+            notifyShortcutAction(actionObject)
         }
     }
 
@@ -226,12 +250,30 @@ class ExpoQuickActionsModule : Module() {
 
     @RequiresApi(Build.VERSION_CODES.N_MR1)
     private fun setShortcuts(items: List<ActionObject>) {
-        val shortcutManager = context.getSystemService(Context.SHORTCUT_SERVICE) as ShortcutManager
+        val shortcutManager = context.getSystemService(Context.SHORTCUT_SERVICE) as? ShortcutManager ?: return
+
+        val targetClass = currentActivity?.javaClass
+            ?: context.packageManager.getLaunchIntentForPackage(context.packageName)?.component?.let {
+                try {
+                    Class.forName(it.className)
+                } catch (e: Exception) {
+                    null
+                }
+            }
+            ?: return
 
         val shortcuts = items.mapNotNull {
-            val intent = Intent(context, currentActivity!!::class.java)
-            intent.action = UNIQ_ACTION_ID
-            intent.putExtra("shortcut_data", it.toBundle());
+            val intent = Intent(context, targetClass)
+            intent.action = Intent.ACTION_VIEW
+            intent.addCategory(Intent.CATEGORY_DEFAULT)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+            intent.putExtra("shortcut_data", it.toBundle())
+
+            val href = it.params?.get("href") as? String
+            if (href != null) {
+                intent.data = Uri.parse(href)
+            }
+
             val builder = ShortcutInfo.Builder(context, it.id)
                     .setShortLabel(it.title)
                     .setLongLabel(it.title)
@@ -270,7 +312,7 @@ class ExpoQuickActionsModule : Module() {
 
     @RequiresApi(Build.VERSION_CODES.N_MR1)
     private fun isSupported(context: Context): Boolean {
-        val shortcutManager = context.getSystemService(Context.SHORTCUT_SERVICE) as ShortcutManager
+        val shortcutManager = context.getSystemService(Context.SHORTCUT_SERVICE) as? ShortcutManager ?: return false
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             shortcutManager.isRequestPinShortcutSupported
         } else {
