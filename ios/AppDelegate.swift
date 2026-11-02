@@ -17,6 +17,7 @@ public class ExpoQuickActionsAppDelegate: ExpoAppDelegateSubscriber {
   }
 
   public func application(_ application: UIApplication, performActionFor shortcutItem: UIApplicationShortcutItem, completionHandler: @escaping (Bool) -> Void) {
+    initialAction = shortcutItem
     NotificationCenter.default.post(name: Notification.Name(onQuickAction), object: shortcutItem)
     completionHandler(true)
   }
