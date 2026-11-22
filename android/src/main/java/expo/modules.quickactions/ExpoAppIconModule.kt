@@ -21,7 +21,7 @@ class ExpoAppIconModule : Module() {
       "isSupported" to true
     )
 
-    Function("setIcon") { iconName: String? ->
+    Function<Any?, String?>("setIcon") { iconName: String? ->
       val mainActivityAlias = context.packageName + MAIN_ACTIVITY_ALIAS
       val currentIcon = if (SharedObject.icon.isNotEmpty()) SharedObject.icon else mainActivityAlias
 
